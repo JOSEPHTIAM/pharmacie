@@ -1,0 +1,98 @@
+
+
+
+	<< COMMANDES >>
+__ Pour voir la version du Composer :
+composer -V
+
+__ Pour voir la Version du Php :
+php --version
+
+__ Pour installer LARAVEL :
+composer global required laravel/installer
+
+__ Pour voir la vevrsion du LARAVEL :
+laavel -V
+
+
+	<< LARAVEL >>
+__ Pour installer LARAVEL :
+composer global required laravel/installer
+
+__ Pour créer une application ou projet LARAVEL :
+laravel new nom_du_projet
+
+__ Pour lancer le projet laravel :
+php artisan serve
+
+__ Pou créer le fichier de migration d'une table :
+php artisan make:migration create_nom_table
+ou encore
+php artisan make:migration create_administrateurs_table --create=administrateurs
+
+__ Pour faire la migration simple des tables :
+php artisan migrate
+
+__ Pour faire la migration globale avec mise à jour des tables :
+php artisan migrate:fresh
+
+__ Pour voir
+composer require reliese/laravel --dev
+
+__ Pour faire les migration par defaut :
+php artisan vendor:publish --tag=reliese-models
+
+__ Pour faire la migration des fichier par defaut:
+php artisan migrate:generate
+
+__ Pour mettre au clear :
+php artisan config:clear
+
+__ Pour installer un nouveau composant :
+composer require --dev "kitloong/laravel-migrations-generator"
+
+__ Pour créer un Models
+php artisan make:model Etudiant
+
+__ Pour générer tous les models
+php artisan code:models
+
+
+
+
+<< LARAVEL >>
+
+__ Pour créer un controller avec des ressources
+php artisan make:controller StudentController -r
+
+__ Pour créer un controller sans des ressources
+php artisan make:controller StudentController
+
+__ Pour  bootstrap
+npm i --save bootstrap @popper.js/core
+
+__ Pour faire la redirection juste après le commit
+return redirect()->back();
+
+
+__ Pour faire générer un factory en usine de fabrication
+php artisan make:factory EtudiantFactory --model=Etudiant
+
+-- Pour remplir la base de données en exploitant le fichier seeders
+php artisan migrate --seed
+
+__ Pour faire la charge des elements de la base de données
+php artian db:seed
+
+
+
+__ Pour créer un fichier API :
+php artisan make:controller api/MatiereAPIController --api --model=Matiere
+
+__ Pour créer fichier test :
+php artisan make:test SalleTest
+
+__ Pour vérifier le test :
+php artisan test
+
+
