@@ -30,6 +30,14 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+
+            // Ajoutez le middleware CreateFreshApiToken ici
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+
+            // _______________________________________________________________________________________--
+            // L'original du middleware de l'application gestion des mécaniciens :
+            \App\Http\Middleware\CheckTime::class,
+            // _______________________________________________________________________________________--
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -39,6 +47,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

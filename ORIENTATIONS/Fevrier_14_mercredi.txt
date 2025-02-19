@@ -65,6 +65,7 @@ php artisan code:models
 __ Pour créer un controller avec des ressources
 php artisan make:controller StudentController -r
 
+
 __ Pour créer un controller sans des ressources
 php artisan make:controller StudentController
 
@@ -94,5 +95,8 @@ php artisan make:test SalleTest
 
 __ Pour vérifier le test :
 php artisan test
+
+__ Pour générer les paniers dans l'application, il faudra la commande :
+php artisan tinker
 
 
