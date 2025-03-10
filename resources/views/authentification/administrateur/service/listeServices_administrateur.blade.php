@@ -180,7 +180,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -341,6 +341,17 @@
             color: var(--black2);
             }
 
+            .cardBox .card .iconBx .cart-counter {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: fuchsia;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 10px;
+                font-size: 14px;              
+            }
+
             .cardBox .card_actuellement .iconBx {
             font-size: 3.5rem;
             color: var(--white);
@@ -411,6 +422,15 @@
             .status.actuellement {
             padding: 2px 4px;
             background: green;
+            color: var(--white);
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            }
+
+            .status.actuellement_pink {
+            padding: 2px 4px;
+            background: fuchsia;
             color: var(--white);
             border-radius: 4px;
             font-size: 14px;
@@ -677,7 +697,7 @@ x
                             <span class="icon">
                                 <ion-icon name="chatbubble-outline"></ion-icon>
                             </span>
-                            <span class="title">Electromenagers</span>
+                            <span class="title">Electroniques</span>
                         </a>
                     </li>
 
@@ -748,7 +768,7 @@ x
                     </div>
                     <div class="search">
                          <label for="keyword">
-                            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Rechercher un électromenager">
+                            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Rechercher un électronique">
                             <ion-icon name="search-outline"></ion-icon>                            
                          </label>
                     </div>
@@ -757,7 +777,7 @@ x
                             <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
                         </svg>
                         <strong>
-                            <font size="3">Electromenager</font>
+                            <font size="3">Electronique</font>
                         </strong>
                     </button>
 
@@ -811,6 +831,7 @@ x
                             </div>
                             <div class="iconBx">
                                 <ion-icon name="cart-outline"></ion-icon>
+                                <span id="cart-counter" class="cart-counter">0</span>
                             </div>
                         </div>
                     </a>
@@ -850,7 +871,7 @@ x
                             <form action="/searchService_administrateur" class="form-inline">
                             
                             <a href="/nouveauService_administrateur" class="btn_nouveau">
-                                <i class="bi bi-person-plus"></i> Nouveau service électromenager
+                                <i class="bi bi-person-plus"></i> Nouveau service électronique
                             </a>
                             
                             <a href="/nouveauService1_administrateur" class="btn_nouveau">
@@ -871,7 +892,7 @@ x
                          <table class="table table-striped table-hover">
                               <thead>
                                    <tr>
-                                        <td><font color="#2a2185" size="4">Services électromenagers</font></td>
+                                        <td><font color="#2a2185" size="4">Services électroniques</font></td>
                                         <td>Images</td>
                                         <td>Appareils</td>
                                         <td>Prix unitaires</td>
@@ -890,18 +911,33 @@ x
                                                     <td>{{$service->id_service}}</td>   
                                                     <td>
                                                         @if($service->electromenager->image_electromenager)
-                                                            <img src="{{asset('image/'.$service->image_electromenager)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$service->electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
                                                     </td>                                                  
-                                                    <td>{{$service->electromenager->id_electromenager}}</td>
-                                                    <td>{{$service->prix_service}}</td>
-                                                    <td>{{$service->magasin->id_magasin}}</td>
-                                                    <td>{{$service->total_service}}</td>
+                                                    <td>{{$service->electromenager->nom_electromenager}}</td>
+                                                    <td>{{$service->prix_service}} CFA</td>
+                                                    <td>{{$service->magasin->stock_magasin}}</td>
+                                                    <td>{{$service->total_service}} CFA</td>
                                                     <td>{{$service->description_service}}</td>
-                                                    <td>{{$service->user->nom}} {{$service->user->prenom}}</td>
-                                                    <td>
+                                                    <td>"{{$service->user->role}}" : &nbsp;&nbsp;{{$service->user->nom}} {{$service->user->prenom}}</td>
+                                                    <td>                                                        
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $service->id_service }}" 
+                                                                data-service-name="{{ $service->electromenager->nom_electromenager }}"
+                                                                data-service-unitaire="{{ $service->prix_service }}"
+                                                                data-service-stock="{{ $service->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $service->total_service }}"    
+                                                                data-service-vendeurNom="{{ $service->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $service->user->prenom }}"
+                                                                data-service-role="{{ $service->user->role }}"
+                                                                data-service-localisation="{{ $service->localisation->nom_localisation }}"                                                          
+                                                            >                                                                  
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>       
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
                                                             <a href="{{ url('/OpenService_administrateur/' . $service->id_service) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de ce service électromenager ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
@@ -926,18 +962,33 @@ x
                                                     <td>{{$service->id_service}}</td>
                                                     <td>
                                                         @if($service->electromenager->image_electromenager)
-                                                            <img src="{{asset('image/'.$service->image_electromenager)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$service->electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
                                                     </td>                                                  
-                                                    <td>{{$service->electromenager->id_electromenager}}</td>
-                                                    <td>{{$service->prix_service}}</td>
-                                                    <td>{{$service->magasin->id_magasin}}</td>
-                                                    <td>{{$service->total_service}}</td>
+                                                    <td>{{$service->electromenager->nom_electromenager}}</td>
+                                                    <td>{{$service->prix_service}} CFA</td>
+                                                    <td>{{$service->magasin->stock_magasin}}</td>
+                                                    <td>{{$service->total_service}} CFA</td>
                                                     <td>{{$service->description_service}}</td>
-                                                    <td>{{$service->user->nom}} {{$service->user->prenom}}</td>
+                                                    <td>"{{$service->user->role}}" : &nbsp;&nbsp;{{$service->user->nom}} {{$service->user->prenom}}</td>
                                                     <td>
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $service->id_service }}" 
+                                                                data-service-name="{{ $service->electromenager->nom_electromenager }}"
+                                                                data-service-unitaire="{{ $service->prix_service }}"
+                                                                data-service-stock="{{ $service->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $service->total_service }}"   
+                                                                data-service-vendeurNom="{{ $service->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $service->user->prenom }}"
+                                                                data-service-role="{{ $service->user->role }}"
+                                                                data-service-localisation="{{ $service->localisation->nom_localisation }}"
+                                                            >
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
                                                             <a href="{{ url('/OpenService_administrateur/' . $service->id_service) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de ce service ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
@@ -959,7 +1010,7 @@ x
                                    @endif
                          </table>
 
-
+                        
                         <hr color="#2a2185" size="6">
                          <table class="table table-striped table-hover">
                               <thead>
@@ -983,19 +1034,34 @@ x
                                                     <td>{{$service1->id_service1}}</td>   
                                                     <td>
                                                         @if($service1->ordinateur->image_ordinateur)
-                                                            <img src="{{asset('image/'.$service1->image_ordinateur)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$service1->ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
                                                     </td>
                                                                                                      
                                                     <td>{{$service1->ordinateur->nom_ordinateur}}</td>
-                                                    <td>{{$service1->prix_service}}</td>
-                                                    <td>{{$service1->magasin->id_magasin}}</td>
-                                                    <td>{{$service1->total_service}}</td>
+                                                    <td>{{$service1->prix_service}} CFA</td>
+                                                    <td>{{$service1->magasin->stock_magasin}}</td>
+                                                    <td>{{$service1->total_service}} CFA</td>
                                                     <td>{{$service1->description_service}}</td>
-                                                    <td>{{$service1->user->nom}} {{$service1->user->prenom}}</td>
+                                                    <td>"{{ $service1->user->role }}" : &nbsp;&nbsp;{{$service1->user->nom}} {{$service1->user->prenom}}</td>
                                                     <td>
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $service1->id_service1 }}" 
+                                                                data-service-name="{{ $service1->ordinateur->nom_ordinateur }}"
+                                                                data-service-unitaire="{{ $service1->prix_service }}"
+                                                                data-service-stock="{{ $service1->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $service1->total_service }}"   
+                                                                data-service-vendeurNom="{{ $service1->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $service1->user->prenom }}"
+                                                                data-service-role="{{ $service1->user->role }}"
+                                                                data-service-localisation="{{ $service1->localisation->nom_localisation }}"
+                                                            > 
+                                                            <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>
+                                                        </span> &nbsp;&nbsp;
                                                         <span class="status actuellement">
                                                             <a href="{{ url('/OpenService1_administrateur/' . $service1->id_service1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de ce service ordinateur ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
@@ -1020,18 +1086,33 @@ x
                                                     <td>{{$service1->id_service1}}</td>
                                                     <td>
                                                         @if($service1->ordinateur->image_ordinateur)
-                                                            <img src="{{asset('image/'.$service1->image_ordinateur)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$service1->ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
                                                     </td>                                                                                                        
                                                     <td>{{$service1->ordinateur->nom_ordinateur}}</td>
-                                                    <td>{{$service1->prix_service}}</td>
-                                                    <td>{{$service1->magasin->id_magasin}}</td>
-                                                    <td>{{$service1->total_service}}</td>
+                                                    <td>{{$service1->prix_service}} CFA</td>
+                                                    <td>{{$service1->magasin->stock_magasin}}</td>
+                                                    <td>{{$service1->total_service}} CFA</td>
                                                     <td>{{$service1->description_service}}</td>
-                                                    <td>{{$service1->user->nom}} {{$service1->user->prenom}}</td>
+                                                    <td>"{{ $service1->user->role }}" : &nbsp;&nbsp;{{$service1->user->nom}} {{$service1->user->prenom}}</td>
                                                     <td>
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $service1->id_service1 }}" 
+                                                                data-service-name="{{ $service1->ordinateur->nom_ordinateur }}"
+                                                                data-service-unitaire="{{ $service1->prix_service }}"
+                                                                data-service-stock="{{ $service1->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $service1->total_service }}"  
+                                                                data-service-vendeurNom="{{ $service1->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $service1->user->prenom }}"
+                                                                data-service-role="{{ $service1->user->role }}"
+                                                                data-service-localisation="{{ $service1->localisation->nom_localisation }}"
+                                                            > 
+                                                            <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>
+                                                        </span> &nbsp;&nbsp;
                                                         <span class="status actuellement">
                                                             <a href="{{ url('/OpenService1_administrateur/' . $service1->id_service1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de ce service ordinateur ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
@@ -1074,14 +1155,49 @@ x
 
 
           <!-- JavaScript to change logos -->
-          <script>
+           <script>            
+                document.addEventListener('DOMContentLoaded', function() {
+                    const cartCounter = document.getElementById('cart-counter');
+                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+                    // Load cart count from localStorage
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    cartCounter.textContent = cart.length;
+
+                    addToCartButtons.forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const serviceId = this.getAttribute('data-service-id');
+                            const serviceName = this.getAttribute('data-service-name');
+                            const serviceUnitaire = this.getAttribute('data-service-unitaire');
+                            const serviceStock = this.getAttribute('data-service-stock');
+                            const servicePrice = this.getAttribute('data-service-price');
+
+                            const serviceVendeurNom = this.getAttribute('data-service-vendeurNom');
+                            const serviceVendeurPrenom = this.getAttribute('data-service-vendeurPrenom');
+                            const serviceRole = this.getAttribute('data-service-role');
+                            const serviceLocalisation = this.getAttribute('data-service-localisation');
+                            
+                            // Add service to cart
+                            cart.push({ 
+                                id: serviceId, name: serviceName, stock: serviceStock, price: servicePrice, unitaire: serviceUnitaire, vendeurNom: serviceVendeurNom, vendeurPrenom: serviceVendeurPrenom, role: serviceRole, localisation: serviceLocalisation
+                            });
+                            localStorage.setItem('cart', JSON.stringify(cart));
+
+                            // Update cart counter
+                            cartCounter.textContent = cart.length;
+                        });
+                    });
+                });
+
+
                // Array of logo paths
-               const logos = [
-                    "{{ asset('image/logo_1.jpg') }}",
-                    "{{ asset('image/logo_2.jpg') }}",
-                    "{{ asset('image/logo_3.jpg') }}",
-                    "{{ asset('image/logo_4.jpg') }}"
-               ];
+                const logos = [
+                        "{{ asset('image/logo_1.jpg') }}",
+                        "{{ asset('image/logo_2.jpg') }}",
+                        "{{ asset('image/logo_3.jpg') }}",
+                        "{{ asset('image/logo_4.jpg') }}"
+                ];
 
                // Get the image element
                const logoElement = document.getElementById('dynamic-logo');

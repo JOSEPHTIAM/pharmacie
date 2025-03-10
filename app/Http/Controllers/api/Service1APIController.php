@@ -33,14 +33,9 @@ class Service1APIController extends Controller
             $rules = [
                 'description_service' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_service' => ['required', 'integer', new NoScriptOrCode],
-                'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-                // Clés secondaires obligatoires
                 'id_magasin' => 'required|string|exists:magasin,id_magasin',
                 'matricule' => 'required|string|exists:user,matricule',
                 'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-                // Ordinateur
                 'id_ordinateur' => 'nullable|string|exists:ordinateur,id_ordinateur',                
             ];                       
 
@@ -48,10 +43,20 @@ class Service1APIController extends Controller
             $this->validate($request, $rules);
 
             DB::beginTransaction();
-                                   
-            // Génération du id_service unique
+
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
+            // Calculer le total_service
+            $total_service = $request->prix_service * $stock_magasin;
+            
+            // Génération du id_service1 unique
             $id_service1 = $this->generateUniqueCode();
-            $res = Service1::create(array_merge($request->all(), ['id_service1' => $id_service1]));
+            $res = Service1::create(array_merge($request->all(), [
+                'id_service1' => $id_service1,
+                'total_service' => $total_service
+            ]));
             DB::commit();
 
             //return response()->json([ 'Status' => 200, 'Message' => 'Utilisateur enregistré avec succès !' ], 200);
@@ -78,14 +83,9 @@ class Service1APIController extends Controller
             $rules = [
                 'description_service' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_service' => ['required', 'integer', new NoScriptOrCode],
-                'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-                // Clés secondaires obligatoires
                 'id_magasin' => 'required|string|exists:magasin,id_magasin',
                 'matricule' => 'required|string|exists:user,matricule',
                 'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-                // Ordinateur
                 'id_ordinateur' => 'nullable|string|exists:ordinateur,id_ordinateur',                
             ];                       
 
@@ -93,11 +93,22 @@ class Service1APIController extends Controller
             $this->validate($request, $rules);
 
             DB::beginTransaction();
-                                   
-            // Génération du id_service unique
+
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
+            // Calculer le total_service
+            $total_service = $request->prix_service * $stock_magasin;
+
+            // Génération du id_service1 unique
             $id_service1 = $this->generateUniqueCode();
-            $res = Service1::create(array_merge($request->all(), ['id_service1' => $id_service1]));
+            $res = Service1::create(array_merge($request->all(), [
+                'id_service1' => $id_service1,
+                'total_service' => $total_service
+            ]));
             DB::commit();
+            
 
             //return response()->json([ 'Status' => 200, 'Message' => 'Utilisateur enregistré avec succès !' ], 200);
             return redirect('listeServices_agent')->with('success', 'Service ordinateur enregistré avec succès !')->with('id_service1', $id_service1);
@@ -115,9 +126,6 @@ class Service1APIController extends Controller
             return redirect('error')->with('error', 'Problème de liaison à la base de données !');
         }
     }
-
-
-
 
 
     // Pour la génération des enregistrements des id_service automatiquement des services.
@@ -164,16 +172,18 @@ class Service1APIController extends Controller
         $request->validate([
             'description_service' => ['nullable', 'string', new NoScriptOrCode],
             'prix_service' => ['required', 'integer', new NoScriptOrCode],
-            'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-            // Clés secondaires obligatoires
             'id_magasin' => 'required|string|exists:magasin,id_magasin',
             'matricule' => 'required|string|exists:user,matricule',
             'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-            // Ordinateur
             'id_ordinateur' => 'nullable|string|exists:ordinateur,id_ordinateur',              
         ]);
+
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
+        // Calculer le total_service
+        $total_service = $request->prix_service * $stock_magasin;
 
         $service1->description_service = $request->description_service;
         $service1->prix_service = $request->prix_service;
@@ -195,16 +205,18 @@ class Service1APIController extends Controller
         $request->validate([
             'description_service' => ['nullable', 'string', new NoScriptOrCode],
             'prix_service' => ['required', 'integer', new NoScriptOrCode],
-            'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-            // Clés secondaires obligatoires
             'id_magasin' => 'required|string|exists:magasin,id_magasin',
             'matricule' => 'required|string|exists:user,matricule',
             'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-            // Ordinateur
             'id_ordinateur' => 'nullable|string|exists:ordinateur,id_ordinateur',              
         ]);
+
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
+        // Calculer le total_service
+        $total_service = $request->prix_service * $stock_magasin;
 
         $service1->description_service = $request->description_service;
         $service1->prix_service = $request->prix_service;
@@ -253,34 +265,31 @@ class Service1APIController extends Controller
     // Fonctions de recherche du cote Administrateur
     public function searchService1_administrateur(Request $request)
     {
-        $keyword1 = $request->input('keyword');
-        $services1 = Service1::where("id_service1","like","%$request->keyword%")
-            ->orWhere("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
+        $keyword1 = $request->input('keyword1');
+        $services1 = Service1::where("id_service1","like","%$request->keyword1%")
+            ->orWhere("description_service","like","%$request->keyword1%")
+            ->orWhere("prix_service","like","%$request->keyword1%")
         ->get();
         return view('authentification.administrateur.service.listeServices_administrateur', compact('services1'));
     }
 
     public function searchService1_agent(Request $request)
     {
-        $keyword = $request->input('keyword1');
-        $services1 = Service1::where("id_service1","like","%$request->keyword%")
-            ->orWhere("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
+        $keyword1 = $request->input('keyword1');
+        $services1 = Service1::where("id_service1","like","%$request->keyword1%")
+            ->orWhere("description_service","like","%$request->keyword1%")
+            ->orWhere("prix_service","like","%$request->keyword1%")
         ->get();
         return view('authentification.utilisateur.agent.listes.listeServices_agent', compact('services1'));
     }
 
     public function searchService1_client(Request $request)
     {
-        $keyword1 = $request->input('keyword');
-        $services1 = Service1::where("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
+        $keyword1 = $request->input('keyword1');
+        $services1 = Service1::where("description_service","like","%$request->keyword1%")
+            ->orWhere("prix_service","like","%$request->keyword1%")
         ->get();
-        return view('authentification.utilisateur.client.listeLocalisations_client', compact('services1'));
+        return view('authentification.utilisateur.client.listeServices_client', compact('services1'));
     }
 
 

@@ -13,7 +13,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('{{ asset('image/ordinateur.jpg') }}') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -263,14 +264,6 @@
                          <form action="{{ route('updateOrdinateur_administrateur', $ordinateur->id_ordinateur) }}" method="POST" enctype="multipart/form-data">
                               @csrf
                               @method('POST')
-
-                              <div class="form-group">
-                                   <label for="image_ordinateur">Photo :</label>
-                                   <input type="file" class="form-control" id="image_ordinateur" name="photo">
-                                   @error('image_ordinateur')
-                                   <div class="text-danger">{{ $message }}</div>
-                                   @enderror
-                              </div>
 
                               <div class="form-group">
                                    <label for="nom_ordinateur">Nom de l'appareil :</label>

@@ -2,6 +2,9 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 
 /*
@@ -23,6 +26,25 @@ Route::get('/', function () { return view('welcome'); });
 
 
 
+
+
+//_______________________________________________________________________________-
+// La route pour le Mail
+Route::post('/send-email', function (Request $request) {
+    $data = $request->all();
+
+    Mail::raw($data['text'], function ($message) use ($data) {
+        $message->from('josephtiam8@gmail.com', 'gestion_plateforme_anonces')
+                ->to($data['to'])
+                ->subject($data['subject']);
+    });
+
+    return response()->json(['message' => 'Gmail envoyé avec succès ! Bien vouloir le consulter dans votre boîte de réception !']);
+});
+//_______________________________________________________________________________-
+
+
+// 'Gmail envoyé avec succès ! Bien vouloir le consulter dans votre boîte de réception !']);
 
 
 //_______________________________________________________________________________-
@@ -154,8 +176,22 @@ Route::get("/nouveauMagasin_agent", function(){ return view("authentification.ut
 // Pour la création d'un service
 Route::get("/nouveauService_administrateur", function(){ return view("authentification.administrateur.service.nouveauService_administrateur"); });
 Route::get("/nouveauService_agent", function(){ return view("authentification.utilisateur.agent.creates.nouveauService_agent"); });
+
 Route::get("/nouveauService1_administrateur", function(){ return view("authentification.administrateur.service.nouveauService1_administrateur"); });
 Route::get("/nouveauService1_agent", function(){ return view("authentification.utilisateur.agent.creates.nouveauService1_agent"); });
+//_______________________________________________________________________________-
+
+
+
+
+
+//_______________________________________________________________________________-
+// Pour la création d'une formation
+Route::get("/nouveauFormation_administrateur", function(){ return view("authentification.administrateur.formation.nouveauFormation_administrateur"); });
+Route::get("/nouveauFormation_agent", function(){ return view("authentification.utilisateur.agent.creates.nouveauFormation_agent"); });
+
+Route::get("/nouveauFormation1_administrateur", function(){ return view("authentification.administrateur.formation.nouveauFormation1_administrateur"); });
+Route::get("/nouveauFormation1_agent", function(){ return view("authentification.utilisateur.agent.creates.nouveauFormation1_agent"); });
 //_______________________________________________________________________________-
 
 
@@ -206,8 +242,22 @@ Route::post('/storeMagasin_agent', [\App\Http\Controllers\api\MagasinAPIControll
 // Nouveau service
 Route::post('/storeService_administrateur', [\App\Http\Controllers\api\ServiceAPIController::class, 'storeService_administrateur'])->name('storeService_administrateur');
 Route::post('/storeService_agent', [\App\Http\Controllers\api\ServiceAPIController::class, 'storeService_agent'])->name('storeService_agent');
+
 Route::post('/storeService1_administrateur', [\App\Http\Controllers\api\Service1APIController::class, 'storeService1_administrateur'])->name('storeService1_administrateur');
 Route::post('/storeService1_agent', [\App\Http\Controllers\api\Service1APIController::class, 'storeService1_agent'])->name('storeService1_agent');
+//_______________________________________________________________________________-
+
+
+
+
+
+//_______________________________________________________________________________-
+// Nouvelle formation
+Route::post('/storeFormation_administrateur', [\App\Http\Controllers\api\FormationAPIController::class, 'storeFormation_administrateur'])->name('storeFormation_administrateur');
+Route::post('/storeFormation_agent', [\App\Http\Controllers\api\FormationAPIController::class, 'storeFormation_agent'])->name('storeFormation_agent');
+
+Route::post('/storeFormation1_administrateur', [\App\Http\Controllers\api\Formation1APIController::class, 'storeFormation1_administrateur'])->name('storeFormation1_administrateur');
+Route::post('/storeFormation1_agent', [\App\Http\Controllers\api\Formation1APIController::class, 'storeFormation1_agent'])->name('storeFormation1_agent');
 //_______________________________________________________________________________-
 
 
@@ -480,6 +530,19 @@ Route::get('/deleteServiceElectromenager_agent/{id_service}', [\App\Http\Control
 
 
 //_______________________________________________________________________________-
+// Supprimer la formation "Vidéo ou pdf" 
+Route::get('/deleteFormation_administrateur/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'destroyFormation_administrateur'])->name('deleteFormation_administrateur');
+Route::get('/deleteFormation_agent/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'destroyFormation_agent'])->name('deleteFormation_agent');
+
+Route::get('/deleteFormation1_administrateur/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'destroyFormation1_administrateur'])->name('deleteFormation1_administrateur');
+Route::get('/deleteFormation1_agent/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'destroyFormation1_agent'])->name('deleteFormation1_agent');
+//_______________________________________________________________________________-
+
+
+
+
+
+//_______________________________________________________________________________-
 // Editer (client ou agent ou administrateur)
 Route::get('/editAgent_administrateur/{matricule}', [\App\Http\Controllers\api\UserAPIController::class, 'editAgent_administrateur'])->name('editAgent_administrateur');
 Route::get('/editAdministrateur_administrateur/{matricule}', [\App\Http\Controllers\api\UserAPIController::class, 'editAdministrateur_administrateur'])->name('editAdministrateur_administrateur');
@@ -494,8 +557,22 @@ Route::get('/editClient_administrateur/{matricule}', [\App\Http\Controllers\api\
 // Editer (service et service1)
 Route::get('/editService_administrateur/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'editService_administrateur'])->name('editService_administrateur');
 Route::get('/editService_agent/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'editService_agent'])->name('editService_agent');
+
 Route::get('/editService1_administrateur/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'editService1_administrateur'])->name('editService1_administrateur');
 Route::get('/editService1_agent/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'editService1_agent'])->name('editService1_agent');
+//_______________________________________________________________________________-
+
+
+
+
+
+//_______________________________________________________________________________-
+// Editer (formation et formation1)
+Route::get('/editFormation_administrateur/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'editFormation_administrateur'])->name('editFormation_administrateur');
+Route::get('/editFormation_agent/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'editFormation_agent'])->name('editFormation_agent');
+
+Route::get('/editFormation1_administrateur/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'editFormation1_administrateur'])->name('editFormation1_administrateur');
+Route::get('/editFormation1_agent/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'editFormation1_agent'])->name('editFormation1_agent');
 //_______________________________________________________________________________-
 
 
@@ -568,8 +645,22 @@ Route::post('/updateClient_administrateur/{matricule}', [\App\Http\Controllers\a
 // Mise à jour (service et service1)
 Route::post('/updateService_administrateur/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'updateService_administrateur'])->name('updateService_administrateur');
 Route::post('/updateService_agent/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'updateService_agent'])->name('updateService_agent');
+
 Route::post('/updateService1_administrateur/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'updateService1_administrateur'])->name('updateService1_administrateur');
 Route::post('/updateService1_agent/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'updateService1_agent'])->name('updateService1_agent');
+//_______________________________________________________________________________-
+
+
+
+
+
+//_______________________________________________________________________________-
+// Mise à jour (formation et formation1)
+Route::post('/updateFormation_administrateur/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'updateFormation_administrateur'])->name('updateFormation_administrateur');
+Route::post('/updateFormation_agent/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'updateFormation_agent'])->name('updateFormation_agent');
+
+Route::post('/updateFormation1_administrateur/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'updateFormation1_administrateur'])->name('updateFormation1_administrateur');
+Route::post('/updateFormation1_agent/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'updateFormation1_agent'])->name('updateFormation1_agent');
 //_______________________________________________________________________________-
 
 
@@ -635,5 +726,34 @@ Route::get('/OpenClient_administrateur/{matricule}', [\App\Http\Controllers\api\
 //_______________________________________________________________________________-
 
 
+
+
+
+//_______________________________________________________________________________-
+// Open (electromenager ou ordinateur)
+Route::get('/OpenService_administrateur/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'OpenService_administrateur'])->name('OpenService_administrateur');
+Route::get('/OpenService_agent/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'OpenService_agent'])->name('OpenService_agent');
+Route::get('/OpenService_client/{id_service}', [\App\Http\Controllers\api\ServiceAPIController::class, 'OpenService_client'])->name('OpenService_client');
+
+Route::get('/OpenService1_administrateur/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'OpenService1_administrateur'])->name('OpenService1_administrateur');
+Route::get('/OpenService1_agent/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'OpenService1_agent'])->name('OpenService1_agent');
+Route::get('/OpenService1_client/{id_service1}', [\App\Http\Controllers\api\Service1APIController::class, 'OpenService1_client'])->name('OpenService1_client');
+//_______________________________________________________________________________-
+
+
+
+
+
+
+//_______________________________________________________________________________-
+// Open (video ou pdf)
+Route::get('/OpenFormation_administrateur/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'OpenFormation_administrateur'])->name('OpenFormation_administrateur');
+Route::get('/OpenFormation_agent/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'OpenFormation_agent'])->name('OpenFormation_agent');
+Route::get('/OpenFormation_client/{id_formation}', [\App\Http\Controllers\api\FormationAPIController::class, 'OpenFormation_client'])->name('OpenFormation_client');
+
+Route::get('/OpenFormation1_administrateur/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'OpenFormation1_administrateur'])->name('OpenFormation1_administrateur');
+Route::get('/OpenFormation1_agent/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'OpenFormation1_agent'])->name('OpenFormation1_agent');
+Route::get('/OpenFormation1_client/{id_formation1}', [\App\Http\Controllers\api\Formation1APIController::class, 'OpenFormation1_client'])->name('OpenFormation1_client');
+//_______________________________________________________________________________-
 
 

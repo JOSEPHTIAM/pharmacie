@@ -15,12 +15,12 @@ return new class extends Migration
             $table->string('id_formation', 255)->primary(); // Clé primaire de type string, 255
             
             $table->string('nom_formation', 255)->default('Aucun');
-            $table->text('description_formation')->nullable(); // Par défaut "Bonne qualite"
             
-            // Pour le champ "categorie_service"
-            $table->string('categorie_formation', 255);
+            $table->string('description_formation')->nullable(); // Description
+            $table->unsignedInteger('prix_formation');  // Prix unitaire (positif uniquement)
+            $table->unsignedInteger('niveau_formation');
+            $table->unsignedInteger('total_formation'); // 
 
-            
             // Clé étrangère vers la table 'user'
             $table->string('matricule', 255);
             $table->foreign('matricule')->references('matricule')->on('user')->onDelete('cascade');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('video_formation')->nullable(); // URL ou chemin de la vidéo
             
             // Ceci pour l'option de la categorie_formation = "Pdf" 
-            $table->string('pdf_formation')->nullable(); // URL ou chemin de la pdf
+            //$table->string('pdf_formation')->nullable(); // URL ou chemin de la pdf
             
 
             // Champs created_at et updated_at

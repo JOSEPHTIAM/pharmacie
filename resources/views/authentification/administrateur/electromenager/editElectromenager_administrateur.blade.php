@@ -3,7 +3,7 @@
      <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Page de modification de l'electromenager du coté administrateur</title>
+          <title>Page de modification de l'electronique du coté administrateur</title>
           
           <!-- Bootstrap CSS -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +13,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('{{ asset('image/electromenager.jpg') }}') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -249,7 +250,7 @@
 
                     <div class="form-left">  
                          <h2 align="center">
-                              <font color="#000076"><b><strong>Modification de l'appareil électromenager</strong></b></font>
+                              <font color="#000076"><b><strong>Modification de l'appareil électronique</strong></b></font>
                          </h2>
                          @if(session('error'))
                               <div class="alert alert-danger">{{ session('error') }}</div>
@@ -263,14 +264,6 @@
                          <form action="{{ route('updateElectromenager_administrateur', $electromenager->id_electromenager) }}" method="POST" enctype="multipart/form-data">
                               @csrf
                               @method('POST')
-
-                              <div class="form-group>
-                                   <label for="image_electromenager">Photo :</label>
-                                   <input type="file" class="form-control" id="image_electromenager" name="photo">
-                                   @error('image_electromenager')
-                                   <div class="text-danger">{{ $message }}</div>
-                                   @enderror
-                              </div>
 
                               <div class="form-group">
                                    <label for="nom_electromenager">Nom de l'appareil :</label>

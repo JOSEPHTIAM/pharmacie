@@ -1,4 +1,4 @@
-id_ordinateur<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
      <head>
           <meta charset="utf-8">
@@ -16,7 +16,8 @@ id_ordinateur<!DOCTYPE html>
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('image/ordinateur.jpg') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -300,7 +301,7 @@ id_ordinateur<!DOCTYPE html>
                                              <option value="">Sélectionner un administrateur ou un agent</option>                                             
                                              @foreach(\App\Models\User::where('role', 'Administrateur')->orWhere('role', 'Agent')->paginate(1000) as $user)
                                                   <option value="{{ $user->matricule }}">
-                                                      "" {{ $user->role }} "" : {{ $user->nom }} -- {{ $user->prenom }}
+                                                      "{{ $user->role }}" : &nbsp;&nbsp;{{ $user->nom }} {{ $user->prenom }}
                                                   </option>
                                              @endforeach
                                         </select>
@@ -338,23 +339,24 @@ id_ordinateur<!DOCTYPE html>
                                         </svg>
                                         Description de l'appareil:
                                         </label>
-                                        <input type="text" id="description_service" name="description_service" class="form-control" value="{{ old('description_service') }}" placeholder="Bonne qualité">
+                                        <input type="text" id="description_service" name="description_service" class="form-control" value="{{ old('description_service') }}" placeholder="Meilleure performance">
                                    </div>
                               </div>
 
                               <!-- Prix unitaire -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="prix_service">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                                             <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                                             <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
-                                        </svg>
-                                        Prix unitaire (en FCFA) <font color="red">*</font> :
-                                        </label>
-                                        <input type="number" id="prix_service" name="prix_service" class="form-control" value="{{ old('prix_service') }}" placeholder="Ex: 400" required>
+                                   <label for="prix_service">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                                        <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
+                                   </svg>
+                                   Prix unitaire (en FCFA) <font color="red">*</font> :
+                                   </label>
+                                   <input type="number" id="prix_service" name="prix_service" class="form-control" value="{{ old('prix_service') }}" placeholder="Ex: 400" required min="0" oninput="calculateTotal()">
                                    </div>
                               </div>
+
 
                               <!-- id_magasin -->
                               <div class="form-row">
@@ -366,11 +368,11 @@ id_ordinateur<!DOCTYPE html>
                                         </svg>
                                         Stock en magasin <font color="red">*</font> :
                                         </label>
-                                        <select name="id_magasin" id="id_magasin" class="form-control" required>
+                                        <select name="id_magasin" id="id_magasin" class="form-control" required onchange="calculateTotal()">
                                              <option value="">Sélectionner la quantité</option>
                                              @foreach(\App\Models\Magasin::all() as $magasin)
-                                                  <option value="{{ $magasin->id_magasin }}">
-                                                      "" {{ $magasin->stock_magasin }} ""
+                                                  <option value="{{ $magasin->id_magasin }}" data-stock="{{ $magasin->stock_magasin }}">
+                                                       "" {{ $magasin->stock_magasin }} ""
                                                   </option>
                                              @endforeach
                                         </select>
@@ -387,7 +389,7 @@ id_ordinateur<!DOCTYPE html>
                                         </svg>
                                         Prix total (en FCFA) <font color="red">*</font> :
                                         </label>
-                                        <input type="number" id="total_service" name="total_service" class="form-control" value="{{ old('total_service') }}" placeholder="Ex: 5000" required>
+                                        <input type="number" id="total_service" name="total_service" class="form-control" value="{{ old('total_service') }}" placeholder="Génération automatique du prix total" required min="0" readonly>
                                    </div>
                               </div>
 
@@ -444,6 +446,18 @@ id_ordinateur<!DOCTYPE html>
 
           <!-- Du JS -->
           <script>
+
+               // Pour la gestion de calculs du prix_unitaire*stock_magasin=total_prix
+               function calculateTotal() {
+                    const prixService = document.getElementById('prix_service').value;
+                    const idMagasin = document.getElementById('id_magasin');
+                    const selectedMagasin = idMagasin.options[idMagasin.selectedIndex];
+                    const stockMagasin = selectedMagasin ? selectedMagasin.getAttribute('data-stock') : 0;
+
+                    const totalService = prixService * stockMagasin;
+                    document.getElementById('total_service').value = totalService;
+               }
+
                
                // Pour la gestion du temps
                function startTimer(duration, display) {
@@ -462,9 +476,9 @@ id_ordinateur<!DOCTYPE html>
 
                             if (--timer < 0) {
                             timer = duration;
-                            }
-                        }, 1000);
-                }
+                         }
+                    }, 1000);
+               }
 
                window.onload = function () {
                     const remainingTime = {{ session('remaining_time', time()) - time() }};

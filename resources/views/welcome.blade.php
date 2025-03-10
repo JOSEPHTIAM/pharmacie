@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Page d'accueil</title>
-        
+
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        
-        <!-- Style CSS -->        
+
+        <!-- Style CSS -->
         <style>
             body {
                 margin: 0;
@@ -131,7 +131,7 @@
     </head>
 
     <body>
-        
+
         <!-- Navbar -->
         <nav class="navbar">
             <div class="form-left"></div>
@@ -148,7 +148,7 @@
                     function connexion1() {
                         window.location.href = "{{ url('/') }}";
                     }
-                </script> 
+                </script>
 
                 <button class="login-button" id="button1" onclick="connexion()">
                     <b><strong>Catégories</strong></b>
@@ -157,7 +157,7 @@
                     function connexion() {
                         window.location.href = "{{ url('/connexion') }}";
                     }
-                </script> 
+                </script>
 
                 <button class="login-button" id="button1" onclick="connexion()">
                     <b><strong>Anonces</strong></b>
@@ -166,7 +166,7 @@
                     function connexion() {
                         window.location.href = "{{ url('/connexion') }}";
                     }
-                </script> 
+                </script>
             </div>
             <div>
                 <button class="login-button" id="button1" onclick="connexion()">
@@ -176,7 +176,7 @@
                     function connexion() {
                         window.location.href = "{{ url('/connexion') }}";
                     }
-                </script>               
+                </script>
             </div>
         </nav>
 
@@ -184,7 +184,7 @@
         <!-- Centered logo in the content and fullscreen -->
         <div class="content">
             <div class="center-logo">
-                <img id="dynamic-logo" src="{{ asset('image/logo_6.jpg') }}" alt="Logo plein écran">
+                <img id="dynamic-logo" src="{{ asset('image/logo_principal.jpg') }}" alt="Logo plein écran">
             </div>
         </div>
 
@@ -206,12 +206,14 @@
         <!-- JavaScript to change logos -->
         <script>
             // Array of logo paths
+            /*
             const logos = [
                 "{{ asset('image/logo_1.jpg') }}",
                 "{{ asset('image/logo_2.jpg') }}",
                 "{{ asset('image/logo_3.jpg') }}",
                 "{{ asset('image/logo_4.jpg') }}"
             ];
+            */
 
             // Get the image element
             const logoElement = document.getElementById('dynamic-logo');

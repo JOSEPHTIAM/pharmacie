@@ -31,28 +31,32 @@ class ServiceAPIController extends Controller
             $rules = [
                 'description_service' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_service' => ['required', 'integer', new NoScriptOrCode],
-                'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-                // Clés secondaires obligatoires
                 'id_magasin' => 'required|string|exists:magasin,id_magasin',
                 'matricule' => 'required|string|exists:user,matricule',
-                'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-                // Electromenager
-                'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',                
-            ];                       
+                'id_localisation' => 'required|string|exists:localisation,id_localisation',
+                'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',
+            ];
 
             // Validation du formulaire
             $this->validate($request, $rules);
 
             DB::beginTransaction();
-                                   
+
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
+            // Calculer le total_service
+            $total_service = $request->prix_service * $stock_magasin;
+
             // Génération du id_service unique
             $id_service = $this->generateUniqueCode();
-            $res = Service::create(array_merge($request->all(), ['id_service' => $id_service]));
+            $res = Service::create(array_merge($request->all(), [
+                'id_service' => $id_service,
+                'total_service' => $total_service
+            ]));
             DB::commit();
 
-            //return response()->json([ 'Status' => 200, 'Message' => 'Utilisateur enregistré avec succès !' ], 200);
             return redirect('listeServices_administrateur')->with('success', 'Service électromenager enregistré avec succès !')->with('id_service', $id_service);
 
         } catch (\Throwable $th) {
@@ -60,7 +64,7 @@ class ServiceAPIController extends Controller
             if ($th instanceof \PDOException) {
                 if ($th->errorInfo[1] == 1062) {
                     if (str_contains($th->errorInfo[2], 'user_contact_unique')) {
-                        return redirect('error')->with('error', 'Contact deja existant ! Veuillez entrer un autre contact !');                    
+                        return redirect('error')->with('error', 'Contact deja existant ! Veuillez entrer un autre contact !');
                     }
                 }
                 return redirect('error')->with('error', 'Données uniques des champs !');
@@ -76,28 +80,32 @@ class ServiceAPIController extends Controller
             $rules = [
                 'description_service' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_service' => ['required', 'integer', new NoScriptOrCode],
-                'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-                // Clés secondaires obligatoires
                 'id_magasin' => 'required|string|exists:magasin,id_magasin',
                 'matricule' => 'required|string|exists:user,matricule',
-                'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-                // Electromenager
-                'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',                
-            ];                       
+                'id_localisation' => 'required|string|exists:localisation,id_localisation',
+                'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',
+            ];
 
             // Validation du formulaire
             $this->validate($request, $rules);
 
             DB::beginTransaction();
-                                   
+
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
+            // Calculer le total_service
+            $total_service = $request->prix_service * $stock_magasin;
+
             // Génération du id_service unique
             $id_service = $this->generateUniqueCode();
-            $res = Service::create(array_merge($request->all(), ['id_service' => $id_service]));
+            $res = Service::create(array_merge($request->all(), [
+                'id_service' => $id_service,
+                'total_service' => $total_service
+            ]));
             DB::commit();
 
-            //return response()->json([ 'Status' => 200, 'Message' => 'Utilisateur enregistré avec succès !' ], 200);
             return redirect('listeServices_agent')->with('success', 'Service électromenager enregistré avec succès !')->with('id_service', $id_service);
 
         } catch (\Throwable $th) {
@@ -105,7 +113,7 @@ class ServiceAPIController extends Controller
             if ($th instanceof \PDOException) {
                 if ($th->errorInfo[1] == 1062) {
                     if (str_contains($th->errorInfo[2], 'user_contact_unique')) {
-                        return redirect('error')->with('error', 'Contact deja existant ! Veuillez entrer un autre contact !');                    
+                        return redirect('error')->with('error', 'Contact deja existant ! Veuillez entrer un autre contact !');
                     }
                 }
                 return redirect('error')->with('error', 'Données uniques des champs !');
@@ -113,9 +121,6 @@ class ServiceAPIController extends Controller
             return redirect('error')->with('error', 'Problème de liaison à la base de données !');
         }
     }
-
-
-
 
 
     // Pour la génération des enregistrements des id_service automatiquement des services.
@@ -134,8 +139,6 @@ class ServiceAPIController extends Controller
     }
 
 
-
-
     // Pour accéder à l'ouverture des fichiers de modification
     public function editService_administrateur($id_service)
     {
@@ -150,33 +153,30 @@ class ServiceAPIController extends Controller
         return view('authentification.utilisateur.edits.editService_agent', compact('service'));
     }
 
-
-
-
-
     // Pour confirmer la modification les données dans la base de données
     public function updateService_administrateur(Request $request, $id_service)
     {
-
         $service = Service::where('id_service', $id_service)->first();
 
         $request->validate([
             'description_service' => ['nullable', 'string', new NoScriptOrCode],
             'prix_service' => ['required', 'integer', new NoScriptOrCode],
-            'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-            // Clés secondaires obligatoires
             'id_magasin' => 'required|string|exists:magasin,id_magasin',
             'matricule' => 'required|string|exists:user,matricule',
-            'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-            // Electromenager
-            'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',             
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
+            'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',
         ]);
+
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
+        // Calculer le total_service
+        $total_service = $request->prix_service * $stock_magasin;
 
         $service->description_service = $request->description_service;
         $service->prix_service = $request->prix_service;
-        $service->total_service = $request->total_service;
+        $service->total_service = $total_service;
         $service->id_magasin = $request->id_magasin;
         $service->matricule = $request->matricule;
         $service->id_localisation = $request->id_localisation;
@@ -188,46 +188,44 @@ class ServiceAPIController extends Controller
 
     public function updateService_agent(Request $request, $id_service)
     {
-
         $service = Service::where('id_service', $id_service)->first();
 
         $request->validate([
             'description_service' => ['nullable', 'string', new NoScriptOrCode],
             'prix_service' => ['required', 'integer', new NoScriptOrCode],
-            'total_service' => ['required', 'integer', new NoScriptOrCode],     // 'required|integer|min:0', 
-                
-            // Clés secondaires obligatoires
             'id_magasin' => 'required|string|exists:magasin,id_magasin',
             'matricule' => 'required|string|exists:user,matricule',
-            'id_localisation' => 'required|string|exists:localisation,id_localisation',                
-                                
-            // Electromenager
-            'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',             
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
+            'id_electromenager' => 'nullable|string|exists:electromenager,id_electromenager',
         ]);
+
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
+        // Calculer le total_service
+        $total_service = $request->prix_service * $stock_magasin;
 
         $service->description_service = $request->description_service;
         $service->prix_service = $request->prix_service;
-        $service->total_service = $request->total_service;
+        $service->total_service = $total_service;
         $service->id_magasin = $request->id_magasin;
         $service->matricule = $request->matricule;
         $service->id_localisation = $request->id_localisation;
         $service->id_electromenager = $request->id_electromenager;
-        
+
         $service->save();
         return redirect()->route('listeServices_agent')->with('success', 'Service électromenager modifié avec succès !');
     }
 
-
-
-
     // Pour supprimer les services
     public function destroyService_administrateur($id_service)
     {
-        try{
+        try {
             Service::destroy($id_service); // Supprimer la service
             // Redirection avec un message de succès
             return redirect('listeServices_administrateur')->with('success', 'Suppression du service électromenager réussie !');
-        } catch (\Throwable $th){
+        } catch (\Throwable $th) {
             // Redirection en cas d'erreur avec un message d'erreur
             return redirect('error_administrateur')->with('error', 'Erreur lors de la suppression du service électromenager !');
         }
@@ -235,62 +233,52 @@ class ServiceAPIController extends Controller
 
     public function destroyService_agent($id_service)
     {
-        try{
+        try {
             Service::destroy($id_service); // Supprimer la service
             // Redirection avec un message de succès
             return redirect('listeServices_agent')->with('success', 'Suppression du service électromenager réussie !');
-        } catch (\Throwable $th){
+        } catch (\Throwable $th) {
             // Redirection en cas d'erreur avec un message d'erreur
             return redirect('error_agent')->with('error', 'Erreur lors de la suppression du service électromenager !');
         }
     }
 
-
-
-
-    
     // Fonctions de recherche du cote Administrateur
     public function searchService_administrateur(Request $request)
     {
         $keyword = $request->input('keyword');
-        $services = Service::where("id_service","like","%$request->keyword%")
-            ->orWhere("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
-        ->get();
+        $services = Service::where("id_service", "like", "%$request->keyword%")
+            ->orWhere("description_service", "like", "%$request->keyword%")
+            ->orWhere("prix_service", "like", "%$request->keyword%")
+            ->get();
         return view('authentification.administrateur.service.listeServices_administrateur', compact('services'));
     }
 
     public function searchService_agent(Request $request)
     {
         $keyword = $request->input('keyword');
-        $services = Service::where("id_service","like","%$request->keyword%")
-            ->orWhere("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
-        ->get();
+        $services = Service::where("id_service", "like", "%$request->keyword%")
+            ->orWhere("description_service", "like", "%$request->keyword%")
+            ->orWhere("prix_service", "like", "%$request->keyword%")
+            ->get();
         return view('authentification.utilisateur.agent.listes.listeServices_agent', compact('services'));
     }
 
     public function searchService_client(Request $request)
     {
         $keyword = $request->input('keyword');
-        $services = Service::where("description_service","like","%$request->keyword%")
-            ->orWhere("prix_service","like","%$request->keyword%")
-            ->orWhere("total_service","like","%$request->keyword%")
-        ->get();
-        return view('authentification.utilisateur.client.listeLocalisations_client', compact('services'));
+        $services = Service::where("description_service", "like", "%$request->keyword%")
+            ->orWhere("prix_service", "like", "%$request->keyword%")
+            ->get();
+        return view('authentification.utilisateur.client.listeServices_client', compact('services'));
     }
-
-
-
 
     // Pour les ouvertures des données détaillées
     public function OpenService_administrateur($id_service)
     {
         // Récupérer l'utilisateur avec le id_service spécifié et vérifier qu'il est un service
         $service = Service::where('id_service', $id_service)
-                    ->firstOrFail(); 
+            ->firstOrFail();
 
         // Passer l'utilisateur à la vue edit_administrateur
         return view('authentification.administrateur.service.OpenService_administrateur', ['service' => $service]);
@@ -300,8 +288,8 @@ class ServiceAPIController extends Controller
     {
         // Récupérer l'utilisateur avec le id_service spécifié et vérifier qu'il est un service
         $service = Service::where('id_service', $id_service)
-                    ->firstOrFail(); 
-                    
+            ->firstOrFail();
+
         // Passer l'utilisateur à la vue edit_administrateur
         return view('authentification.utilisateur.agent.opens.OpenService_agent', ['service' => $service]);
     }
@@ -310,11 +298,10 @@ class ServiceAPIController extends Controller
     {
         // Récupérer l'utilisateur avec le id_service spécifié et vérifier qu'il est un service
         $service = Service::where('id_service', $id_service)
-                    ->firstOrFail(); 
-                    
+            ->firstOrFail();
+
         // Passer l'utilisateur à la vue edit_administrateur
         return view('authentification.utilisateur.client.OpenService_client', ['service' => $service]);
     }
-
 
 }

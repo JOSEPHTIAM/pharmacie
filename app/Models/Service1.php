@@ -69,6 +69,32 @@ class Service1 extends Model
     ];
 
 
+    
+    // Mutateurs pour calculer automatiquement total_service
+    public function setPrixServiceAttribute($value)
+    {
+        $this->attributes['prix_service'] = $value;
+        $this->calculateTotalService();
+    }
+
+    public function setIdMagasinAttribute($value)
+    {
+        $this->attributes['id_magasin'] = $value;
+        $this->calculateTotalService();
+    }
+
+    protected function calculateTotalService()
+    {
+        if (isset($this->attributes['prix_service']) && isset($this->attributes['id_magasin'])) {
+            $magasin = Magasin::find($this->attributes['id_magasin']);
+            if ($magasin) {
+                $this->attributes['total_service'] = $this->attributes['prix_service'] * $magasin->stock_magasin;
+            }
+        }
+    }
+
+
+
     /**
      * Relation : Un service1 appartient à un magasin.
      */

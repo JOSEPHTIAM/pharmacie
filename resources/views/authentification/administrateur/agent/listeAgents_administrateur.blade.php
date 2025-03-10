@@ -179,7 +179,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -829,7 +829,7 @@
                                                 <tr>
                                                     <td>
                                                         @if($user->photo)
-                                                                <img src="{{ asset($user->photo) }}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$user->photo)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif
@@ -864,7 +864,7 @@
                                                 <tr>
                                                     <td>
                                                         @if($user->photo)
-                                                                <img src="{{ asset($user->photo) }}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$user->photo)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif

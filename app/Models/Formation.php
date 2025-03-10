@@ -17,10 +17,11 @@ use Laravel\Sanctum\HasApiTokens;
 *
 * @property string $id_formation
 * @property string $nom_formation
-* @property string|null $description_formation
-* @property string $categorie_formation
+* @property string|null $description_formation 
+* @property int $prix_formation
+* @property int $niveau_formation
+* @property int $total_formation
 * @property string|null $video_formation
-* @property string|null $pdf_formation
 * @property string $matricule
 * 
 * @property Carbon|null $created_at
@@ -34,7 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Formation extends Model
 {
-
+    
     use HasFactory, Notifiable, HasApiTokens;
 
     // Table associée
@@ -48,20 +49,30 @@ class Formation extends Model
 
     // Types des colonnes
     protected $casts = [
-        //
+        'prix_formation' => 'int',
+        'niveau_formation' => 'int',
+        'total_formation' => 'int',
     ];
 
     // Colonnes modifiables
     protected $fillable = [
         'id_formation',
         'nom_formation',
-        'description_formation',
-        'categorie_formation',
+        'description_formation',        
+        'prix_formation',
+        'niveau_formation',
+        'total_formation',
         'matricule',
-        'video_formation',
-        'pdf_formation',        
+        'video_formation',   
     ];
 
+
+    // Mutateur pour total_formation
+    public function setTotalFormationAttribute($value)
+    {
+        $this->attributes['total_formation'] = $this->attributes['prix_formation'] * $this->attributes['niveau_formation'];
+    }
+    
     // Pour recevoir la clé secondaire 'matricule' de la table user
     public function user()
     {

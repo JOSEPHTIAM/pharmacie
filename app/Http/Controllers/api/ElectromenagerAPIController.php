@@ -35,7 +35,7 @@ class ElectromenagerAPIController extends Controller
             $this->validate($request, $rules);
 
             DB::beginTransaction();
-
+            $name = '';
             if ($request->hasFile('image_electromenager')) {
                 $image = $request->file('image_electromenager');
                 $name = time().'.'.$image->getClientOriginalExtension();
@@ -46,7 +46,7 @@ class ElectromenagerAPIController extends Controller
                     
             // Génération du id_electromenager unique
             $id_electromenager = $this->generateUniqueCode();
-            $res = Electromenager::create(array_merge($request->all(), ['id_electromenager' => $id_electromenager]));
+            $res = Electromenager::create(array_merge($request->all(), ['id_electromenager' => $id_electromenager, 'image_electromenager'=> $name]));
             DB::commit();
             
             return redirect('listeElectromenagers_administrateur')->with('success', 'Electromenager enregistré avec success !');
@@ -91,7 +91,7 @@ class ElectromenagerAPIController extends Controller
                     
             // Génération du id_electromenager unique
             $id_electromenager = $this->generateUniqueCode();
-            $res = Electromenager::create(array_merge($request->all(), ['id_electromenager' => $id_electromenager]));
+            $res = Electromenager::create(array_merge($request->all(), ['id_electromenager' => $id_electromenager, 'image_electromenager'=> $name]));
             DB::commit();
             
             return redirect('listeElectromenagers_agent')->with('success', 'Electromenager enregistré avec success !');
@@ -153,16 +153,12 @@ class ElectromenagerAPIController extends Controller
         $electromenager = Electromenager::where('id_electromenager', $id_electromenager)->first();
 
         $request->validate([
-            'image_electromenager' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
             'nom_electromenager' => ['required', 'string', new NoScriptOrCode],
             'puissance_electromenager' => ['required', 'integer', new NoScriptOrCode],
             'tension_electromenager' => ['required', 'integer', new NoScriptOrCode],            
         ]);
 
-        if ($request->hasFile('image_electromenager')) {
-            $imagePath = $request->file('image_electromenager')->store('photos', 'public');
-            $user->image_electromenager = $imagePath;
-        }
         $electromenager->nom_electromenager = $request->nom_electromenager;
         $electromenager->puissance_electromenager = $request->puissance_electromenager;
         $electromenager->tension_electromenager = $request->tension_electromenager;
@@ -177,16 +173,12 @@ class ElectromenagerAPIController extends Controller
         $electromenager = Electromenager::where('id_electromenager', $id_electromenager)->first();
 
         $request->validate([
-            'image_electromenager' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
             'nom_electromenager' => ['required', 'string', new NoScriptOrCode],
             'puissance_electromenager' => ['required', 'integer', new NoScriptOrCode],
             'tension_electromenager' => ['required', 'integer', new NoScriptOrCode],            
         ]);
 
-        if ($request->hasFile('image_electromenager')) {
-            $imagePath = $request->file('image_electromenager')->store('photos', 'public');
-            $user->image_electromenager = $imagePath;
-        }
         $electromenager->nom_electromenager = $request->nom_electromenager;
         $electromenager->puissance_electromenager = $request->puissance_electromenager;
         $electromenager->tension_electromenager = $request->tension_electromenager;

@@ -16,7 +16,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('image/user.jpg') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -308,7 +309,7 @@
                                              <i class="fas fa-phone"></i>
                                              Contact <font color="red">*</font> :
                                         </label>
-                                        <input type="tel" id="contact" name="contact" class="form-control" value="{{ old('contact') }}" required>
+                                        <input type="tel" id="contact" name="contact" class="form-control" value="{{ old('contact') }}" required min="0">
                                    </div>                    
                               </div>
 
@@ -362,7 +363,7 @@
                                              <i class="fas fa-address-card"></i>
                                              Numéro de la société :
                                         </label>
-                                        <input type="number" id="numero_societe" name="numero_societe" class="form-control" value="{{ old('numero_societe') }}">
+                                        <input type="number" id="numero_societe" name="numero_societe" class="form-control" value="{{ old('numero_societe') }}" min="0">
                                    </div>
                                    <div class="form-group col-md-12">
                                         <label for="non_redevence">

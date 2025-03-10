@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Liste des electromenagers chez l'administrateur</title>
+        <title>Liste des electroniques chez l'administrateur</title>
         
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -180,7 +180,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -667,7 +667,7 @@
                             <span class="icon_actuellement">
                                 <ion-icon name="chatbubble-outline"></ion-icon>
                             </span>
-                            <span class="title_actuellement">Electromenagers</span>
+                            <span class="title_actuellement">Electroniques</span>
                         </a>
                     </li>
 
@@ -812,7 +812,7 @@
                 <div class="details">
                     <div class="recentOrders">
                         <div class="cardHeader">
-                            <h2 align="center"><font size="7">LISTE DES APPAREILS ELECTROMENAGERS</font></h2>
+                            <h2 align="center"><font size="7">LISTE DES APPAREILS ELECTRONIQUES</font></h2>
                             <a href="/nouveauElectromenager_administrateur" class="btn_nouveau">
                                 <i class="bi bi-person-plus"></i> Nouvel
                             </a>
@@ -846,15 +846,15 @@
                                              <tr>
                                                     <td>
                                                         @if($electromenager->image_electromenager)
-                                                            <img src="{{asset('image/'.$electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif
                                                     </td>
                                                     <td>{{$electromenager->id_electromenager}}</td>
                                                     <td>{{$electromenager->nom_electromenager}}</td>
-                                                    <td>{{$electromenager->puissance_electromenager}}</td>
-                                                    <td>{{$electromenager->tension_electromenager}}</td>
+                                                    <td>{{$electromenager->puissance_electromenager}} Watts</td>
+                                                    <td>{{$electromenager->tension_electromenager}} Volts</td>
                                                     <td>
                                                         <span class="status pending">
                                                             <a href="{{ route('editElectromenager_administrateur', $electromenager->id_electromenager) }}" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir modifier cet appareil électromenager ?');">
@@ -874,15 +874,15 @@
                                         <tr>
                                                     <td>
                                                         @if($electromenager->image_electromenager)
-                                                            <img src="{{asset('image/'.$electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$electromenager->image_electromenager)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif
                                                     </td>
                                                     <td>{{$electromenager->id_electromenager}}</td>
                                                     <td>{{$electromenager->nom_electromenager}}</td>
-                                                    <td>{{$electromenager->puissance_electromenager}}</td>
-                                                    <td>{{$electromenager->tension_electromenager}}</td>
+                                                    <td>{{$electromenager->puissance_electromenager}} Watts</td>
+                                                    <td>{{$electromenager->tension_electromenager}} Volts</td>
                                                     <td>
                                                         <span class="status pending">
                                                             <a href="{{ route('editElectromenager_administrateur', $electromenager->id_electromenager) }}" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir modifier cet appareil électromenager ?');">

@@ -13,7 +13,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('{{ asset('image/user.jpg') }}') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -264,14 +265,27 @@
                         @csrf
                         @method('POST')
 
-                        <div class="form-group>
-                            <label for="photo">Photo :</label>
-                            @if($user->photo)
-                                <img src="{{asset('image/'.$user->photo)}}" alt="Photo" width="800%" height="8000%">
-                            @else
-                                N/A
-                            @endif
-                        </div>
+                         <div class="form-group">
+                              <label for="photo">Photo :</label>
+                              @if($user->photo)
+                                   <div class="photo-container" style="width:450px; background-image: url('{{ asset('storage/images'.'/'.$user->photo) }}');"></div>
+                              @else
+                                   N/A
+                              @endif
+                         </div>
+
+                         <style>
+                              .photo-container {
+                                   width: 100%;
+                                   height: 300px; /* Adjust the height as needed */
+                                   background-size: cover;
+                                   background-position: center;
+                                   border: 1px solid #ccc;
+                                   border-radius: 10px;
+                              }
+                         </style>
+
+                         <br>
                 
                         <div class="form-group">
                             <label for="matricule">Matricule :</label> <strong> {{$user->matricule}} </strong>                        

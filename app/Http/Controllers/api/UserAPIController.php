@@ -79,7 +79,7 @@ class UserAPIController extends Controller
 
             // Gestion de l'upload des fichiers images
             $image = $request->file('photo')->store('uploads', 'public');
-            /*
+            
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $name = time().'.'.$image->getClientOriginalExtension();
@@ -87,7 +87,7 @@ class UserAPIController extends Controller
                 $image->move($destinationPath, $name);
                 $request->merge(['photo' => 'storage/images/'.$name]); // Assurez-vous que ce chemin est stocké
             }
-            */
+            
             if ($request->hasFile('non_redevence')) {
                 $document = $request->file('non_redevence');
                 $docName = time().'.'.$document->getClientOriginalExtension();
@@ -106,7 +106,8 @@ class UserAPIController extends Controller
 
             // Génération du matricule unique
             $matricule = $this->generateUniqueCode();
-            $res = User::create(array_merge($request->all(), ['matricule' => $matricule]));
+            $res = User::create(array_merge($request->all(), ['matricule' => $matricule, 'photo'=> $name]));
+            
             DB::commit();
 
             // Définit une période par défaut de 10 secondes
@@ -204,7 +205,7 @@ class UserAPIController extends Controller
 
             // Génération du matricule unique
             $matricule = $this->generateUniqueCode();
-            $res = User::create(array_merge($request->all(), ['matricule' => $matricule]));
+            $res = User::create(array_merge($request->all(), ['matricule' => $matricule, 'photo'=> $name]));
             DB::commit();
 
             // Définit une période par défaut de 10 secondes
@@ -302,7 +303,7 @@ class UserAPIController extends Controller
 
             // Génération du matricule unique
             $matricule = $this->generateUniqueCode();
-            $res = User::create(array_merge($request->all(), ['matricule' => $matricule]));
+            $res = User::create(array_merge($request->all(), ['matricule' => $matricule, 'photo'=> $name]));
             DB::commit();
 
             // Définit une période par défaut de 10 secondes
@@ -401,7 +402,7 @@ class UserAPIController extends Controller
 
             // Génération du matricule unique
             $matricule = $this->generateUniqueCode();
-            $res = User::create(array_merge($request->all(), ['matricule' => $matricule]));
+            $res = User::create(array_merge($request->all(), ['matricule' => $matricule, 'photo'=> $name]));
             DB::commit();
 
             // Définit une période par défaut de 10 secondes
@@ -581,7 +582,7 @@ class UserAPIController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', 'string', 'min:8', new PasswordUser, new NoScriptOrCode],
             'statut' => ['nullable', 'string', new NoScriptOrCode],
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
         ]);
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
@@ -591,10 +592,7 @@ class UserAPIController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->statut = $request->statut;
-        if ($request->hasFile('photo')) {
-            $imagePath = $request->file('photo')->store('photos', 'public');
-            $user->photo = $imagePath;
-        }
+        
         $user->save();
         return redirect()->route('listeAdministrateurs_administrateur')->with('success', 'Administrateur modifié avec succès !');
     }
@@ -608,7 +606,6 @@ class UserAPIController extends Controller
             'contact' => ['required', new ContactUser, new NoScriptOrCode],
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', 'string', 'min:8', new PasswordUser, new NoScriptOrCode],
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'statut' => ['nullable', 'string', new NoScriptOrCode],
         ]);
         $user->nom = $request->nom;
@@ -618,10 +615,6 @@ class UserAPIController extends Controller
         $user->statut = $request->statut;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
-        }
-        if ($request->hasFile('photo')) {
-            $imagePath = $request->file('photo')->store('photos', 'public');
-            $user->photo = $imagePath;
         }
         $user->save();
         return redirect()->route('listeClients_administrateur')->with('success', 'Client modifié avec succès !');
@@ -639,9 +632,6 @@ class UserAPIController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', 'string', 'min:8', new PasswordUser, new NoScriptOrCode],
             'statut' => ['nullable', 'string', new NoScriptOrCode],
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            //'latitude' => ['nullable', 'decimal', new NoScriptOrCode],
-            //'longitude' => ['nullable', 'decimal', new NoScriptOrCode],
             'nom_societe' => ['nullable', 'string', new NoScriptOrCode],
             'numero_societe' => ['nullable', 'integer', new NoScriptOrCode],
         ]);
@@ -654,12 +644,7 @@ class UserAPIController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->statut = $request->statut;
-        if ($request->hasFile('photo')) {
-            $imagePath = $request->file('photo')->store('photos', 'public');
-            $user->photo = $imagePath;
-        }
-        //$user->latitude = $request->latitude;
-        //$user->longitude = $request->longitude;
+        
         $user->nom_societe = $request->nom_societe;
         $user->numero_societe = $request->numero_societe;
 

@@ -143,6 +143,31 @@
             color: var(--blue);
             }
             
+            .cardBox .card .iconBx .cart-counter {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: fuchsia;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 10px;
+                font-size: 14px;              
+            }
+
+            .cardBox .card_actuellement .iconBx .transaction-total {
+                position: absolute;
+                top: 80px;
+                right: 20px;
+                background: green;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 100px;
+                font-size: 17px;              
+            }
+            
+
+
+
 
             /* --------- curve outside ---------- */
             .navigation ul li:hover a::before,
@@ -180,7 +205,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -616,6 +641,212 @@
                 text-align: right;
             }
 
+
+
+            /* ===================== CCA Bank Card ===================== */
+            /* Container for the cards */
+            .cca-cards-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: 20px 0;
+                gap: 20px; /* Add space between the cards */
+            }
+
+            /* CCA Bank Card - Front */
+            .cca-card {
+                width: 400px;
+                height: 250px;
+                background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
+                border-radius: 15px;
+                color: white;
+                padding: 30px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .cca-card__header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .cca-card__logo img {
+                height: 50px;
+            }
+            .cca-card__chip img {
+                height: 40px;
+            }
+            .cca-card__number {
+                font-size: 2em;
+                letter-spacing: 3px;
+                margin: 20px 0;
+            }
+            .cca-card__details {
+                display: flex;
+                justify-content: space-between;
+            }
+            .cca-card__holder, .cca-card__expiry {
+                text-align: left;
+            }
+            .cca-card__holder label, .cca-card__expiry label {
+                font-size: 1em;
+                color: #ccc;
+            }
+
+            /* CCA Bank Card - Back */
+            .cca-card-back {
+                width: 400px;
+                height: 250px;
+                background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
+                border-radius: 15px;
+                color: white;
+                padding: 30px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+            }
+            .cca-card-back__stripe {
+                width: 100%;
+                height: 50px;
+                background: black;
+                margin-bottom: 20px;
+            }
+            .cca-card-back__signature {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .cca-card-back__signature label {
+                font-size: 1em;
+                color: #ccc;
+            }
+            .cca-card-back__signature div {
+                background: white;
+                color: black;
+                padding: 5px;
+                border-radius: 5px;
+                width: 200px;
+                text-align: center;
+            }
+            .cca-card-back__cvv {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .cca-card-back__cvv label {
+                font-size: 1em;
+                color: #ccc;
+            }
+            .cca-card-back__cvv div {
+                background: white;
+                color: black;
+                padding: 5px;
+                border-radius: 5px;
+                width: 50px;
+                text-align: center;
+            }
+            .cca-card-back__logo {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+            .cca-card-back__logo img {
+                height: 50px;
+            }
+
+            .cca-card-middle {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                width: 40%;
+                padding: 20px;
+                background: #f5f5f5;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px #2989d8;
+            }
+            .total-amount {
+                font-size: 1.5em;
+                color: black;
+            }
+            .btn_nouveau {
+                padding: 10px 70px;
+                background: green;
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .btn_nouveau ion-icon {
+                font-size: 1.5em;
+            }
+
+            .cardBox .card_actuellement .iconBx .cart-counter-money {
+                position: absolute;
+                top: 80px;
+                right: 20px;
+                background: green;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 120px;
+                font-size: 17px;              
+            }
+
+            /* PopUp styles */
+            .popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;                
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                border-radius : 100px
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: left;
+                background : #2a2185;
+                color : "white";
+                width: 450px;
+            }
+            .popup-content input {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #0031f3;
+                border-radius: 5px;
+            }
+            .popup-buttons {
+                display: flex;
+                justify-content: space-between;
+            }
+            .popup-buttons button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            #confirmButton {
+                background: green;
+                color: white;
+            }
+            #clearButton {
+                background: orange;
+                color: white;
+            }
+            #closeButton {
+                background: red;
+                color: white;
+            }
+
+
         </style>
     </head>
 
@@ -686,7 +917,7 @@
                <!-- ========================= Main ==================== -->
                <div class="main">
                     
-                    <form action="/searchElectromenager_administrateur" class="form-inline">
+                    
                     <div class="topbar">
                         <div class="toggle">
                             <img src="{{ asset('image/logo_7.jpg') }}" alt="Logo" style="height: 40px;">                            
@@ -760,6 +991,151 @@
                     </a>
                 </div>
 
+                <!-- ======================= Outline ================== -->
+                <div class="details">
+                    <div class="recentOrders">
+                        
+                        @if(session('success'))
+                            <div id="successMessage" style="color: green;">{{ session('success') }}</div>
+                            <script>
+                                setTimeout(function(){
+                                    document.getElementById('successMessage').style.display = 'none';
+                                }, 3000);
+                            </script>
+                        @endif
+                        
+                        <!-- Section for displaying cart items -->
+                        <div class="cardHeader">
+                            <h2 align="center"><font size="7">MODE DE PAIEMENT BANCAIRE</font></h2>
+                            <button id="openPDF" class="btn btn-warning" style="display: none;">
+                                <font size="5">Ouvrir le PDF</font>
+                            </button>
+                        </div>
+
+
+                        <!-- Container for the cards -->
+                        <div class="cca-cards-container">
+                            
+                            <!-- CCA Bank Card - Front -->
+                            <div class="cca-card">
+                                <div class="cca-card__header">
+                                    <div class="cca-card__logo">
+                                        <img src="{{ asset('image/cca_2.jpg') }}" alt="CCA Logo">
+                                    </div>
+                                    <div class="cca-card__chip">
+                                        <img src="{{ asset('image/cameroun.jpg') }}" alt="Chip">
+                                    </div>
+                                </div>
+                                <div class="cca-card__number">
+                                    0000 0000 0000 0000
+                                </div>
+                                <div class="cca-card__details">
+                                    <div class="cca-card__holder">
+                                        <label>Propriétaire :</label>
+                                        <div>Aucun</div>
+                                    </div>
+                                    <div class="cca-card__expiry">
+                                        <label>Date expiration : </label>
+                                        <div>00/00/00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Middle div for total and button -->
+                            <div class="cca-card-middle">
+                                <div class="total-amount">
+                                    <strong><font color="green" size="5">Total : </font></strong>
+                                    <span id="transaction-total">
+                                        0 CFA
+                                    </span>
+                                </div>
+                                <a href="/" class="btn_nouveau" onclick="return confirm('Êtes-vous sûr de saisir vos coordonnées bancaires ?');">
+                                    <ion-icon name="cash-outline"></ion-icon> <font size="5">Payer</font>
+                                </a>
+                            </div>
+
+                            <!-- CCA Bank Card - Back -->
+                            <div class="cca-card-back">
+                                <div class="cca-card-back__stripe"></div>
+                                <div class="cca-card-back__signature">
+                                    <label>Signature :</label>
+                                    <div>Aucune</div>
+                                </div>
+                                <div class="cca-card-back__cvv">
+                                    <label>Mode de paiement :</label>
+                                    <div>Paypal</div>
+                                </div>
+                                <div class="cca-card-back__logo">
+                                    <img src="{{ asset('image/paypal.jpg') }}" alt="CCA Logo">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- PopUp for card details -->
+                        <div id="cardDetailsPopup" class="popup">
+                            <div class="popup-content">
+                                <h2><font color="white">Enregistrer les détails de votre carte bancaire</font></h2>
+                                
+                                <br><br>
+                                
+                                <label for="identifiant"><font color="white">Identifiant :</font></label>
+                                <input type="text" id="identifiant" placeholder="1234 5678 9012 3456">
+                                
+                                <label for="nomProprietaire"><font color="white">Nom du Propriétaire :</font></label>
+                                <input type="text" id="nomProprietaire" placeholder="DANIEL">
+                                
+                                <label for="dateExpiration"><font color="white">Date d'Expiration :</font></label>
+                                <input type="text" id="dateExpiration" placeholder="AA/MM/YYYY">
+                                
+                                <label for="prenom"><font color="white">Prénom du propriétaire :</font></label>
+                                <input type="text" id="prenom" placeholder="NGUEDJUI">
+
+                                <label for="gmail"><font color="white">Gmail du propriétaire :</font></label>
+                                <input type="email" id="gmail" placeholder="exemple@gmail.com">
+
+                                <br>
+                                
+                                <div class="popup-buttons">
+                                    <button id="confirmButton" class="btn btn-primary" onclick="listeTransactions_administrateur()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy2" viewBox="0 0 16 16">
+                                            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                                        </svg> 
+                                        <strong><font size="5">Confirmer</font></strong>
+                                    </button>
+                                    <script>
+                                            function listeTransactions_administrateur() {
+                                                    window.location.href = "{{ url('listeTransactions_administrateur') }}";
+                                            }
+                                    </script>
+
+                                    <button id="clearButton" type="reset" class="btn btn-warning">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                                                <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z"/>
+                                            </svg> 
+                                            <strong><font size="5">Effacer</font></strong>
+                                    </button>
+
+                                    <button id="closeButton" onclick="listeTransactions_administrateur()" type="reset" class="btn btn-danger">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                                                <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                                            </svg> 
+                                            <strong><font size="5">Retour</font></strong>
+                                    </button>
+                                <script>
+                                function listeTransactions_administrateur() {
+                                        window.location.href = "{{ url('listeTransactions_administrateur') }}";
+                                }
+                                </script>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+                
             </div>
         </div>
 
@@ -778,62 +1154,211 @@
           </footer>
 
 
-          <!-- JavaScript to change logos -->
-          <script>
-               // Array of logo paths
-               const logos = [
-                    "{{ asset('image/logo_1.jpg') }}",
-                    "{{ asset('image/logo_2.jpg') }}",
-                    "{{ asset('image/logo_3.jpg') }}",
-                    "{{ asset('image/logo_4.jpg') }}"
-               ];
+        <!-- ============= Bootstrap =============  -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const transactionTotal = document.getElementById('transaction-total');
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-               // Get the image element
-               const logoElement = document.getElementById('dynamic-logo');
-               let logoIndex = 0;
+                function updateTransactionTotal() {
+                    const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+                    transactionTotal.textContent = total.toFixed(2) + ' CFA';
+                }
 
-               // Function to change the logo
-               function changeLogo() {
-                    logoIndex = (logoIndex + 1) % logos.length; // Loop through the array
-                    logoElement.src = logos[logoIndex];
-               }
+                updateTransactionTotal();
 
-               // Change logo every 5 seconds (5000 milliseconds)
-               setInterval(changeLogo, 5000);
+                // PopUp elements
+                const cardDetailsPopup = document.getElementById('cardDetailsPopup');
+                const confirmButton = document.getElementById('confirmButton');
+                const clearButton = document.getElementById('clearButton');
+                const closeButton = document.getElementById('closeButton');
+                const openPDFButton = document.getElementById('openPDF');
 
-               function startTimer(duration, display) {
-                    let timer = duration, minutes, seconds;
-                    setInterval(function () {
-                         if (timer <= 0) {
-                         window.location.href = "{{ route('connexion') }}";
-                         }
-                         minutes = parseInt(timer / 60, 10);
-                         seconds = parseInt(timer % 60, 10);
+                // Show PopUp when clicking on "Payer" button
+                document.querySelector('.btn_nouveau').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    cardDetailsPopup.style.display = 'flex';
+                });
 
-                         minutes = minutes < 10 ? "0" + minutes : minutes;
-                         seconds = seconds < 10 ? "0" + seconds : seconds;
+                // Close PopUp
+                closeButton.addEventListener('click', function() {
+                    cardDetailsPopup.style.display = 'none';
+                });
 
-                         display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
+                // Clear inputs
+                clearButton.addEventListener('click', function() {
+                    document.getElementById('identifiant').value = '';
+                    document.getElementById('nomProprietaire').value = '';
+                    document.getElementById('dateExpiration').value = '';
+                    document.getElementById('prenom').value = '';
+                    document.getElementById('gmail').value = '';
+                });
 
-                         if (--timer < 0) {
-                         timer = duration;
-                         }
-                    }, 1000);
-               }
+                // Confirm and save to localStorage
+                confirmButton.addEventListener('click', function() {
+                    const identifiant = document.getElementById('identifiant').value;
+                    const nomProprietaire = document.getElementById('nomProprietaire').value;
+                    const dateExpiration = document.getElementById('dateExpiration').value;
+                    const prenom = document.getElementById('prenom').value;
+                    const gmail = document.getElementById('gmail').value;
 
-               window.onload = function () {
-                    const remainingTime = {{ session('remaining_time', time()) - time() }};
-                    const display = document.getElementById('timer');
-                    startTimer(remainingTime, display);
-               };
-          </script>
+                    localStorage.setItem('identifiant', identifiant);
+                    localStorage.setItem('nomProprietaire', nomProprietaire);
+                    localStorage.setItem('dateExpiration', dateExpiration);
+                    localStorage.setItem('prenom', prenom);
+                    localStorage.setItem('gmail', gmail);
 
-            <!-- =========== Scripts =========  -->
-            <script src="assets/js/main.js"></script>
+                    cardDetailsPopup.style.display = 'none';
+                    updateCardDetails();
+                    sendEmailNotification(gmail, cart);
+                    openPDFButton.style.display = 'block';
+                });
 
-            <!-- ====== ionicons ======= -->
-            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                // Update card details on the page
+                function updateCardDetails() {
+                    const identifiant = localStorage.getItem('identifiant');
+                    const nomProprietaire = localStorage.getItem('nomProprietaire');
+                    const dateExpiration = localStorage.getItem('dateExpiration');
+                    const prenom = localStorage.getItem('prenom');
+                    const gmail = localStorage.getItem('gmail');
+
+                    if (identifiant && nomProprietaire && dateExpiration && prenom && gmail) {
+                        document.querySelector('.cca-card__number').textContent = identifiant;
+                        document.querySelector('.cca-card__holder div').textContent = nomProprietaire;
+                        document.querySelector('.cca-card__expiry div').textContent = dateExpiration;
+                        document.querySelector('.cca-card-back__signature div').textContent = prenom;
+
+                        document.querySelector('.total-amount').innerHTML = '<font color="#0b840f" size="5">Paiement réussi avec succès ! Vous recevrez une notification Gmail !</font>';
+                        document.querySelector('.btn_nouveau').style.display = 'none';
+                        document.getElementById('openPDF').style.display = 'block';
+                    }
+                }
+
+                updateCardDetails();
+
+                // Clear localStorage when leaving the page
+                window.addEventListener('beforeunload', function() {
+                    localStorage.removeItem('identifiant');
+                    localStorage.removeItem('nomProprietaire');
+                    localStorage.removeItem('dateExpiration');
+                    localStorage.removeItem('prenom');
+                    localStorage.removeItem('gmail');
+                });
+
+                // Send email notification
+                function sendEmailNotification(gmail, cart) {
+                    const emailContent = `
+                        Bonjour à vous ! josephtiam8@gmail.com de l'entreprise MEMPHYS au (+237 655964653), vous remercie d'avoir effectué le payement en ligne du service sur notre plateforme avec succès.
+                        Votre liste contient :
+                        ${cart.map(item => `
+                            - Boutiques: ${item.id}
+                            - Responsables: ${item.id}
+                            - Identifiants: ${item.id}
+                            - Services: ${item.name}
+                            - Prix Unitaire: ${item.unitaire} CFA
+                            - Stock: ${item.stock}
+                            - Prix Total: ${item.price} CFA
+                        `).join('\n')}
+                        Le montant total de votre payement est de : ${transactionTotal.textContent} CFA avec succès.
+                        Merci de votre confiance !
+                    `;
+
+                    fetch('/send-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            to: gmail,
+                            subject: 'Confirmation de Payement',
+                            text: emailContent
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Email sent successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending email:', error);
+                    });
+                }
+
+                // Generate PDF
+                function generatePDF(gmail, cart) {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    const emailContent = `
+                        Bonjour à vous !
+                        josephtiam8@gmail.com de l'entreprise MEMPHYS au
+                        (+237 655964653), vous remercie d'avoir effectué le 
+                        payement en ligne du service sur notre plateforme.
+                        Votre liste contient :
+                        ${cart.map(item => `
+                            - Boutique: ${item.localisation}
+                            - Responsable: ${item.vendeurNom} ${item.vendeurPrenom}
+                            - Identifiant: ${item.id}
+                            - Service: ${item.name}
+                            - Prix Unitaire: ${item.unitaire} CFA
+                            - Stock: ${item.stock}
+                            - Prix Total: ${item.price} CFA
+                        `).join('\n')}
+                        Le montant total de votre payement est de : ${transactionTotal.textContent}.
+                        Merci de votre confiance !
+                    `;
+
+                    doc.text(emailContent, 10, 10);
+                    const pdfData = doc.output('datauristring');
+                    const pdfWindow = window.open();
+                    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+                }
+
+                // Open PDF in a new window
+                openPDFButton.addEventListener('click', function() {
+                    generatePDF(localStorage.getItem('gmail'), JSON.parse(localStorage.getItem('cart')));
+                });
+            });
+
+            
+            // Pour gérer le temps de connexion
+            function startTimer(duration, display) {
+                let timer = duration, minutes, seconds;
+                setInterval(function () {
+                    if (timer <= 0) {
+                        window.location.href = "{{ route('connexion') }}";
+                    }
+
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
+
+                    if (--timer < 0) {
+                        timer = duration;
+                    }
+                }, 1000);
+            }
+
+            window.onload = function () {
+                const remainingTime = {{ session('remaining_time', time()) - time() }};
+                const display = document.getElementById('timer');
+                startTimer(remainingTime, display);
+            };
+
+        </script>
+
+        <!-- =========== Scripts pour des asserts =========  -->
+        <script src="assets/js/main.js"></script>
+
+        <!-- =========== Scripts pour gérer des PDF =========  -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+        <!-- ====== ionicons ======= -->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     </body>
 

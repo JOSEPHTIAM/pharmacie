@@ -44,12 +44,12 @@ class OrdinateurAPIController extends Controller
                 $name = time().'.'.$image_ordinateur->getClientOriginalExtension();
                 $destinationPath = storage_path('app/public/images');
                 $image_ordinateur->move($destinationPath, $name);
-                $request->merge(['image_ordinateur' => 'storage/images/'.$name]); // Assurez-vous que ce chemin est stocké
+                $request->merge(['image_ordinateur' => 'storage/images/'.$name]);
             }
                     
             // Génération du id_ordinateur unique
             $id_ordinateur = $this->generateUniqueCode();
-            $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur]));
+            $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur, 'image_ordinateur'=> $name]));
             DB::commit();
             
             return redirect('listeOrdinateurs_administrateur')->with('success', 'Ordinateur enregistré avec success !');
@@ -96,7 +96,7 @@ class OrdinateurAPIController extends Controller
                     
             // Génération du id_ordinateur unique
             $id_ordinateur = $this->generateUniqueCode();
-            $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur]));
+            $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur, 'image_ordinateur'=> $name]));
             DB::commit();
             
             return redirect('listeOrdinateurs_agent')->with('success', 'Ordinateur enregistré avec success !');
@@ -158,7 +158,7 @@ class OrdinateurAPIController extends Controller
         $ordinateur = Ordinateur::where('id_ordinateur', $id_ordinateur)->first();
 
         $request->validate([
-            'image_ordinateur' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
             'nom_ordinateur' => ['required', 'string', new NoScriptOrCode],
             'processeur' => ['required', 'string', new NoScriptOrCode],  
             'disque' => ['required', 'string', new NoScriptOrCode],  
@@ -166,10 +166,6 @@ class OrdinateurAPIController extends Controller
             'core' => ['required', 'string', new NoScriptOrCode],                   
         ]);
 
-        if ($request->hasFile('image_ordinateur')) {
-            $imagePath = $request->file('image_ordinateur')->store('photos', 'public');
-            $user->image_ordinateur = $imagePath;
-        }
         $ordinateur->nom_ordinateur = $request->nom_ordinateur;
         $ordinateur->processeur = $request->processeur;
         $ordinateur->disque = $request->disque;
@@ -186,7 +182,7 @@ class OrdinateurAPIController extends Controller
         $ordinateur = Ordinateur::where('id_ordinateur', $id_ordinateur)->first();
 
         $request->validate([
-            'image_ordinateur' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
             'nom_ordinateur' => ['required', 'string', new NoScriptOrCode],
             'processeur' => ['required', 'string', new NoScriptOrCode],  
             'disque' => ['required', 'string', new NoScriptOrCode],  
@@ -194,10 +190,6 @@ class OrdinateurAPIController extends Controller
             'core' => ['required', 'string', new NoScriptOrCode],                   
         ]);
 
-        if ($request->hasFile('image_ordinateur')) {
-            $imagePath = $request->file('image_ordinateur')->store('photos', 'public');
-            $user->image_ordinateur = $imagePath;
-        }
         $ordinateur->nom_ordinateur = $request->nom_ordinateur;
         $ordinateur->processeur = $request->processeur;
         $ordinateur->disque = $request->disque;

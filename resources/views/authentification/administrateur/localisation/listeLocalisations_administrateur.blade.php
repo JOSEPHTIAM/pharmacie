@@ -180,7 +180,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -667,7 +667,7 @@
                             <span class="icon">
                                 <ion-icon name="chatbubble-outline"></ion-icon>
                             </span>
-                            <span class="title">Electromenagers</span>
+                            <span class="title">Electroniques</span>
                         </a>
                     </li>
 

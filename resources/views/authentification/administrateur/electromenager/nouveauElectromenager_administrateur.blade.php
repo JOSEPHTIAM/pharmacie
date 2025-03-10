@@ -3,7 +3,7 @@
      <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Page du nouvel appareil electromenager du coté administrateur</title>
+          <title>Page du nouvel appareil electronique du coté administrateur</title>
           
           <!-- Bootstrap CSS -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,7 +16,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('image/electromenager.jpg') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -252,7 +253,7 @@
 
                     <div class="form-left">                    
                          <h2 align="center">
-                              <font color="#000076"><b><strong>Nouvel appareil électromenager</strong></b></font>
+                              <font color="#000076"><b><strong>Nouvel appareil électronique</strong></b></font>
                          </h2>
                          @if(session('error'))
                               <div class="alert alert-danger">{{ session('error') }}</div>
@@ -282,7 +283,7 @@
                                              </svg>
                                              Nom de l'appareil <font color="red">*</font> :
                                         </label>
-                                        <input type="text" id="nom_electromenager" name="nom_electromenager" class="form-control" value="{{ old('nom_electromenager') }}" placeholder="Moulinex" required>
+                                        <input type="text" id="nom_electromenager" name="nom_electromenager" class="form-control" value="{{ old('nom_electromenager') }}" placeholder="Modem Wifi" required>
                                         @error('nom_electromenager')
                                              <div class="text-danger">{{ $message }}</div>
                                         @enderror

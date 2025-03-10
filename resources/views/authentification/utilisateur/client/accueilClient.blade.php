@@ -186,7 +186,7 @@
         <!-- Centered logo in the content and fullscreen -->
         <div class="content">
             <div class="center-logo">
-                <img id="dynamic-logo" src="{{ asset('image/logo_6.jpg') }}" alt="Logo plein écran">
+                <img id="dynamic-logo" src="{{ asset('image/logo_principal.jpg') }}" alt="Logo plein écran">
             </div>
         </div>
 
@@ -223,12 +223,15 @@
           <!-- JavaScript to change logos -->
           <script>
                // Array of logo paths
+
+               /*
                const logos = [
                     "{{ asset('image/logo_1.jpg') }}",
                     "{{ asset('image/logo_2.jpg') }}",
                     "{{ asset('image/logo_3.jpg') }}",
                     "{{ asset('image/logo_4.jpg') }}"
                ];
+               */
 
                // Get the image element
                const logoElement = document.getElementById('dynamic-logo');

@@ -180,7 +180,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -667,7 +667,7 @@
                             <span class="icon">
                                 <ion-icon name="chatbubble-outline"></ion-icon>
                             </span>
-                            <span class="title">Electromenagers</span>
+                            <span class="title">Electroniques</span>
                         </a>
                     </li>
 
@@ -848,7 +848,7 @@
                                              <tr>
                                                     <td>
                                                         @if($ordinateur->image_ordinateur)
-                                                            <img src="{{asset('image/'.$ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif
@@ -856,8 +856,8 @@
                                                     <td>{{$ordinateur->id_ordinateur}}</td>
                                                     <td>{{$ordinateur->nom_ordinateur}}</td>
                                                     <td>{{$ordinateur->processeur}}</td>
-                                                    <td>{{$ordinateur->disque}}</td>
-                                                    <td>{{$ordinateur->ram}}</td>
+                                                    <td>{{$ordinateur->disque}} GO</td>
+                                                    <td>{{$ordinateur->ram}} GO</td>
                                                     <td>{{$ordinateur->core}}</td>
                                                     <td>
                                                         <span class="status pending">
@@ -878,7 +878,7 @@
                                                 <tr>
                                                     <td>
                                                         @if($ordinateur->image_ordinateur)
-                                                            <img src="{{asset('image/'.$ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
+                                                            <img src="{{asset('storage/images'.'/'.$ordinateur->image_ordinateur)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                                 N/A
                                                         @endif
@@ -886,8 +886,8 @@
                                                     <td>{{$ordinateur->id_ordinateur}}</td>
                                                     <td>{{$ordinateur->nom_ordinateur}}</td>
                                                     <td>{{$ordinateur->processeur}}</td>
-                                                    <td>{{$ordinateur->disque}}</td>
-                                                    <td>{{$ordinateur->ram}}</td>
+                                                    <td>{{$ordinateur->disque}} GO</td>
+                                                    <td>{{$ordinateur->ram}} GO</td>
                                                     <td>{{$ordinateur->core}}</td>
                                                     <td>
                                                         <span class="status pending">

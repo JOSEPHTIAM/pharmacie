@@ -143,6 +143,27 @@
             color: var(--blue);
             }
             
+            .cardBox .card_actuellement .iconBx .cart-counter {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: fuchsia;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 10px;
+                font-size: 14px;              
+            }
+
+            .cardBox .card .iconBx .cart-counter-money {
+                position: absolute;
+                top: 80px;
+                right: 20px;
+                background: green;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 100px;
+                font-size: 17px;              
+            }
 
             /* --------- curve outside ---------- */
             .navigation ul li:hover a::before,
@@ -180,7 +201,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_0.jpg') }}");
+                background-image: url("{{ asset('image/logo_principal.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -410,7 +431,7 @@
             .cardHeader .btn_nouveau {
             position: relative;
             padding: 10px 130px;            
-            background: green;
+            background: fuchsia;
             text-decoration: none;
             color: var(--white);
             border-radius: 6px;
@@ -663,7 +684,7 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('listeTransactions_administrateur') }}">
+                        <a href="{{ route('listeTransactions_administrateur') }}" class="navigate-to-transactions">
                             <span class="icon">
                                 <ion-icon name="lock-closed-outline"></ion-icon>
                             </span>
@@ -731,7 +752,8 @@
                             </div>
                             <div class="iconBx">
                                 <ion-icon name="cart-outline"></ion-icon>
-                            </div>
+                                <span id="cart-counter" class="cart-counter">0</span>
+                            </div>                        
                         </div>
                     </a>
 
@@ -746,8 +768,8 @@
                             </div>
                         </div>
                     </a>
-
-                    <a href="{{ route('listeTransactions_administrateur') }}" style="text-decoration: none; color: inherit;">
+                    
+                    <a href="{{ route('listeTransactions_administrateur') }}" style="text-decoration: none; color: inherit;" class="navigate-to-transactions">
                         <div class="card">
                             <div>
                                 <div class="numbers">Transactions</div>
@@ -755,16 +777,60 @@
                             </div>
                             <div class="iconBx">
                                 <ion-icon name="cash-outline"></ion-icon>
+                                <span id="cart-counter-money" class="cart-counter-money">00</span>
                             </div>
                         </div>
                     </a>
                 </div>
 
+
+                <!-- ======================= Outline ================== -->
+                <div class="details">
+                    <div class="recentOrders">
+                        
+                        @if(session('success'))
+                            <div id="successMessage" style="color: green;">{{ session('success') }}</div>
+                            <script>
+                                setTimeout(function(){
+                                    document.getElementById('successMessage').style.display = 'none';
+                                }, 3000);
+                            </script>
+                        @endif
+                        
+                        <!-- Section for displaying cart items -->
+                        <div class="cardHeader">
+                            <h2 align="center"><font size="7">LISTE DES ARTICLES DANS LE PANIER</font></h2>
+                            <a href="/listeTransactions_administrateur" class="btn_nouveau" onclick="return confirm('Êtes-vous sûr pour effectuer le payement bancaire ?');">
+                                <ion-icon name="cart-outline"></ion-icon> Acheter
+                            </a>
+
+                            </td>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <td>BOUTIQUES</td>
+                                    <td>RESPONSABLES DES SERVICES</td>
+                                    <td>IDENTIFIANTS</td>
+                                    <td>NOMS DES SERVICES</td>
+                                    <td>PRIX UNITAIRES</td>
+                                    <td>STOCKS DES SERVICES</td>
+                                    <td>PRIX TOTAUX</td>
+                                    <td>ACTIONS</td>                                    
+                                </tr>
+                            </thead>
+                            <tbody id="cart-items">
+                                <!-- Cart items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
             </div>
         </div>
 
         <!-- Footer -->
-          <footer>
+        <footer>
                <div class="contact">
                     Joindre : <b><strong>+237659435256</strong></b>
                </div>
@@ -775,66 +841,120 @@
                <div class="author">
                     Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
                </div>
-          </footer>
+        </footer>
+
+        
+
+        <!-- ============= Bootstrap =============  -->
+        <script>
+
+            // Pour gérer le panier et les transactions
+            document.addEventListener('DOMContentLoaded', function() {
+                const cartItemsContainer = document.getElementById('cart-items');
+                const cartCounter = document.getElementById('cart-counter');
+                const cartCounterMoney = document.getElementById('cart-counter-money');
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                function updateCartCounter() {
+                    cartCounter.textContent = cart.length;
+                }
+
+                function updateCartTotal() {
+                    const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+                    cartCounterMoney.textContent = total.toFixed(2) + ' CFA';
+                }
+
+                function renderCartItems() {
+                    cartItemsContainer.innerHTML = '';
+                    cart.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.localisation}</td>
+                            <td>"${item.role}" : ${item.vendeurNom} ${item.vendeurPrenom}</td>
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.unitaire} CFA</td>
+                            <td>${item.stock}</td>
+                            <td>${item.price} CFA</td>
+                            <td>
+                                <a href="#" class="btn btn-danger remove-from-cart" data-index="${index}">
+                                    <font color="red"><i class="bi bi-trash"></i></font>
+                                </a>
+                            </td>
+                        `;
+                        cartItemsContainer.appendChild(row);
+                    });
+
+                    document.querySelectorAll('.remove-from-cart').forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const index = this.getAttribute('data-index');
+                            cart.splice(index, 1);
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            renderCartItems();
+                            updateCartCounter();
+                            updateCartTotal();
+                        });
+                    });
+                }
+
+                renderCartItems();
+                updateCartCounter();
+                updateCartTotal();
+
+                // Add event listeners to the navigation buttons
+                document.querySelectorAll('.navigate-to-transactions').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        window.location.href = "{{ route('listeTransactions_administrateur') }}";
+                    });
+                });
+            });
 
 
-          <!-- JavaScript to change logos -->
-          <script>
-               // Array of logo paths
-               const logos = [
-                    "{{ asset('image/logo_1.jpg') }}",
-                    "{{ asset('image/logo_2.jpg') }}",
-                    "{{ asset('image/logo_3.jpg') }}",
-                    "{{ asset('image/logo_4.jpg') }}"
-               ];
+            // Pour le remettre directement
+            document.addEventListener('DOMContentLoaded', function() {
+                const cartCounter = document.getElementById('cart-counter');
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cartCounter.textContent = cart.length;
+            });
+     
 
-               // Get the image element
-               const logoElement = document.getElementById('dynamic-logo');
-               let logoIndex = 0;
+            // Pour gérer le temps de connexion
+            function startTimer(duration, display) {
+                let timer = duration, minutes, seconds;
+                setInterval(function () {
+                    if (timer <= 0) {
+                        window.location.href = "{{ route('connexion') }}";
+                    }
 
-               // Function to change the logo
-               function changeLogo() {
-                    logoIndex = (logoIndex + 1) % logos.length; // Loop through the array
-                    logoElement.src = logos[logoIndex];
-               }
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-               // Change logo every 5 seconds (5000 milliseconds)
-               setInterval(changeLogo, 5000);
+                    display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
 
-               function startTimer(duration, display) {
-                    let timer = duration, minutes, seconds;
-                    setInterval(function () {
-                         if (timer <= 0) {
-                         window.location.href = "{{ route('connexion') }}";
-                         }
-                         minutes = parseInt(timer / 60, 10);
-                         seconds = parseInt(timer % 60, 10);
+                    if (--timer < 0) {
+                        timer = duration;
+                    }
+                }, 1000);
+            }
 
-                         minutes = minutes < 10 ? "0" + minutes : minutes;
-                         seconds = seconds < 10 ? "0" + seconds : seconds;
+            window.onload = function () {
+                const remainingTime = {{ session('remaining_time', time()) - time() }};
+                const display = document.getElementById('timer');
+                startTimer(remainingTime, display);
+            };
+        </script>
 
-                         display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
+        <!-- =========== Scripts =========  -->
+        <script src="assets/js/main.js"></script>
 
-                         if (--timer < 0) {
-                         timer = duration;
-                         }
-                    }, 1000);
-               }
-
-               window.onload = function () {
-                    const remainingTime = {{ session('remaining_time', time()) - time() }};
-                    const display = document.getElementById('timer');
-                    startTimer(remainingTime, display);
-               };
-          </script>
-
-            <!-- =========== Scripts =========  -->
-            <script src="assets/js/main.js"></script>
-
-            <!-- ====== ionicons ======= -->
-            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <!-- ====== ionicons ======= -->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     </body>
-
 </html>

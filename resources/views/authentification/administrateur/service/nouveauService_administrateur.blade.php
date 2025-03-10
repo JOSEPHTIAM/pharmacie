@@ -16,7 +16,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('image/electromenager.jpg') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -268,93 +269,98 @@
                               <!-- Localisation -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="id_localisation">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
-                                             <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
-                                             <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                                        </svg>
-                                        Boutique de l'entreprise <font color="red">*</font> :
-                                        </label>
-                                        <select name="id_localisation" id="id_localisation" class="form-control" required>
-                                             <option value="">Sélectionner la localisation de la boutique</option>
-                                             @foreach(\App\Models\Localisation::all() as $localisation)
-                                                  <option value="{{ $localisation->id_localisation }}">
-                                                      "" {{ $localisation->nom_localisation }} "" de {{ $localisation->quartier_localisation }}--{{ $localisation->ville_localisation }}
-                                                  </option>
-                                             @endforeach
-                                        </select>
+                                   <label for="id_localisation">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                        <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
+                                        <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                                   </svg>
+                                   Boutique de l'entreprise <font color="red">*</font> :
+                                   </label>
+                                   <select name="id_localisation" id="id_localisation" class="form-control" required>
+                                        <option value="">Sélectionner la localisation de la boutique</option>
+                                        @foreach(\App\Models\Localisation::all() as $localisation)
+                                             <option value="{{ $localisation->id_localisation }}">
+                                                  "" {{ $localisation->nom_localisation }} "" de {{ $localisation->quartier_localisation }}--{{ $localisation->ville_localisation }}
+                                             </option>
+                                        @endforeach
+                                   </select>
                                    </div>
                               </div>
+
 
                               <!-- User -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="matricule">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
-                                             <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
-                                             <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                                        </svg>
-                                        Responsable de l'appareil <font color="red">*</font> :
-                                        </label>
-                                        <select name="matricule" id="matricule" class="form-control" required>
-                                             <option value="">Sélectionner un administrateur ou un agent</option>                                             
-                                             @foreach(\App\Models\User::where('role', 'Administrateur')->orWhere('role', 'Agent')->paginate(1000) as $user)
-                                                  <option value="{{ $user->matricule }}">
-                                                      "" {{ $user->role }} "" : {{ $user->nom }} -- {{ $user->prenom }}
-                                                  </option>
-                                             @endforeach
-                                        </select>
+                                   <label for="matricule">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                        <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
+                                        <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                                   </svg>
+                                   Responsable de l'appareil <font color="red">*</font> :
+                                   </label>
+                                   <select name="matricule" id="matricule" class="form-control" required>
+                                        <option value="">Sélectionner un administrateur ou un agent</option>                                             
+                                        @foreach(\App\Models\User::where('role', 'Administrateur')->orWhere('role', 'Agent')->paginate(1000) as $user)
+                                             <option value="{{ $user->matricule }}">
+                                                  "{{ $user->role }}" : &nbsp;&nbsp;{{ $user->nom }} {{ $user->prenom }}
+                                             </option>
+                                        @endforeach
+                                   </select>
                                    </div>
                               </div>
-                 
-                              <!-- Champs Electroménager -->
+                    
+
+                              <!-- Champs Electronique -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="id_electromenager">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
-                                             <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
-                                             <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                                        </svg>
-                                        Appareils électromenagers <font color="red">*</font> :
-                                        </label>
-                                        <select name="id_electromenager" id="id_electromenager" class="form-control">
-                                             <option value="">Sélectionner un appareil électromenager</option>
-                                             @foreach(\App\Models\Electromenager::all() as $electromenager)
-                                                  <option value="{{ $electromenager->id_electromenager }}">
-                                                      "" {{ $electromenager->nom_electromenager }} "" de {{ $electromenager->puissance_electromenager }}Watts -- {{ $electromenager->tension_electromenager }}Volts
-                                                  </option>
-                                             @endforeach
-                                        </select>
+                                   <label for="id_electromenager">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                        <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
+                                        <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                                   </svg>
+                                   Appareils électroniques <font color="red">*</font> :
+                                   </label>
+                                   <select name="id_electromenager" id="id_electromenager" class="form-control">
+                                        <option value="">Sélectionner un appareil électronique</option>
+                                        @foreach(\App\Models\Electromenager::all() as $electromenager)
+                                             <option value="{{ $electromenager->id_electromenager }}">
+                                                  "" {{ $electromenager->nom_electromenager }} "" de {{ $electromenager->puissance_electromenager }}Watts -- {{ $electromenager->tension_electromenager }}Volts
+                                             </option>
+                                        @endforeach
+                                   </select>
                                    </div>
                               </div>
+
 
                               <!-- Description -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="description_service">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
-                                             <path d="M4 5h8V4H4v1zM4 7h8v1H4V7zM4 9h8v1H4V9z"/>
-                                             <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
-                                        </svg>
-                                        Description de l'appareil:
-                                        </label>
-                                        <input type="text" id="description_service" name="description_service" class="form-control" value="{{ old('description_service') }}" placeholder="Bonne qualité">
+                                   <label for="description_service">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                                        <path d="M4 5h8V4H4v1zM4 7h8v1H4V7zM4 9h8v1H4V9z"/>
+                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
+                                   </svg>
+                                   Description de l'appareil:
+                                   </label>
+                                   <input type="text" id="description_service" name="description_service" class="form-control" value="{{ old('description_service') }}" placeholder="Bonne qualité">
                                    </div>
                               </div>
+
 
                               <!-- Prix unitaire -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="prix_service">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                                             <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                                             <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
-                                        </svg>
-                                        Prix unitaire (en FCFA) <font color="red">*</font> :
-                                        </label>
-                                        <input type="number" id="prix_service" name="prix_service" class="form-control" value="{{ old('prix_service') }}" placeholder="Ex: 400" required>
+                                   <label for="prix_service">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                                        <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
+                                   </svg>
+                                   Prix unitaire (en FCFA) <font color="red">*</font> :
+                                   </label>
+                                   <input type="number" id="prix_service" name="prix_service" class="form-control" value="{{ old('prix_service') }}" placeholder="Ex: 400" required min="0" oninput="calculateTotal()">
                                    </div>
                               </div>
+
 
                               <!-- id_magasin -->
                               <div class="form-row">
@@ -366,11 +372,11 @@
                                         </svg>
                                         Stock en magasin <font color="red">*</font> :
                                         </label>
-                                        <select name="id_magasin" id="id_magasin" class="form-control" required>
+                                        <select name="id_magasin" id="id_magasin" class="form-control" required onchange="calculateTotal()">
                                              <option value="">Sélectionner la quantité</option>
                                              @foreach(\App\Models\Magasin::all() as $magasin)
-                                                  <option value="{{ $magasin->id_magasin }}">
-                                                      "" {{ $magasin->stock_magasin }} ""
+                                                  <option value="{{ $magasin->id_magasin }}" data-stock="{{ $magasin->stock_magasin }}">
+                                                       "" {{ $magasin->stock_magasin }} ""
                                                   </option>
                                              @endforeach
                                         </select>
@@ -387,32 +393,31 @@
                                         </svg>
                                         Prix total (en FCFA) <font color="red">*</font> :
                                         </label>
-                                        <input type="number" id="total_service" name="total_service" class="form-control" value="{{ old('total_service') }}" placeholder="Ex: 5000" required>
+                                        <input type="number" id="total_service" name="total_service" class="form-control" value="{{ old('total_service') }}" placeholder="Génération automatique du prix total" required min="0" readonly>
                                    </div>
                               </div>
-
 
                               <!-- Boutons -->
                               <div class="form-group text-center">
                                    <button type="submit" class="btn btn-primary">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy2" viewBox="0 0 16 16">
-                                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
-                                   </svg>
-                                   <strong>Soumettre</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy2" viewBox="0 0 16 16">
+                                             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                                        </svg>
+                                        <strong>Soumettre</strong>
                                    </button>
 
                                    <button type="reset" class="btn btn-warning">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
-                                        <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z"/>
-                                   </svg>
-                                   <strong>Effacer</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                                             <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z"/>
+                                        </svg>
+                                        <strong>Effacer</strong>
                                    </button>
 
                                    <button onclick="listeServices_administrateur()" type="reset" class="btn btn-danger">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                                   </svg>
-                                   <strong>Retour</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                                             <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                                        </svg>
+                                        <strong>Retour</strong>
                                    </button>
                                    <script>
                                    function listeServices_administrateur() {
@@ -445,6 +450,18 @@
           <!-- Du JS -->
           <script>
                
+               // Pour la gestion de calculs du prix_unitaire*stock_magasin=total_prix
+               function calculateTotal() {
+                    const prixService = document.getElementById('prix_service').value;
+                    const idMagasin = document.getElementById('id_magasin');
+                    const selectedMagasin = idMagasin.options[idMagasin.selectedIndex];
+                    const stockMagasin = selectedMagasin ? selectedMagasin.getAttribute('data-stock') : 0;
+
+                    const totalService = prixService * stockMagasin;
+                    document.getElementById('total_service').value = totalService;
+               }
+               
+
                // Pour la gestion du temps
                function startTimer(duration, display) {
                         let timer = duration, minutes, seconds;
@@ -462,9 +479,9 @@
 
                             if (--timer < 0) {
                             timer = duration;
-                            }
-                        }, 1000);
-                }
+                         }
+                    }, 1000);
+               }
 
                window.onload = function () {
                     const remainingTime = {{ session('remaining_time', time()) - time() }};

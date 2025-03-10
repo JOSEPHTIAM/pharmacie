@@ -13,7 +13,8 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_2.jpg') no-repeat center center;
+                    background: url('{{ asset('image/user.jpg') }}') no-repeat center center;
+                    background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
@@ -263,14 +264,6 @@
                     <form action="{{ route('updateAdministrateur_administrateur', $user->matricule) }}" method="POST" enctype="multipart/form-data">
                          @csrf
                          @method('POST')
-
-                         <div class="form-group>
-                              <label for="photo">Photo :</label>
-                              <input type="file" class="form-control" id="photo" name="photo">
-                              @error('photo')
-                              <div class="text-danger">{{ $message }}</div>
-                              @enderror
-                         </div>
 
                          <div class="form-group">
                               <label for="nom">Nom :</label>
