@@ -1,0 +1,20 @@
+---
+deployment:
+  tasks:
+    - export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/c2372176c/.composer/vendor/bin:$PATH
+
+    - cd /home/c2372176c/public_html/repos/pharmacie
+
+    - /usr/bin/git pull origin main
+
+    - /usr/local/bin/composer install --no-dev --optimize-autoloader
+
+    - /bin/chmod -R 775 storage bootstrap/cache
+    - /bin/chown -R c2372176c:c2372176cstorage bootstrap/cache
+
+    - /usr/local/bin/php artisan migrate --force
+
+    - /usr/local/bin/php artisan config:cache
+    - /usr/local/bin/php artisan route:cache
+    - /usr/local/bin/php artisan view:cache
+
