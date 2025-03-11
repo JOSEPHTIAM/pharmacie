@@ -77,7 +77,7 @@
 
             /* Footer styles */
             footer {
-                background-color: rgb(229, 0, 0);
+                background-color: rgb(156, 229, 0);
                 color: white;
                 position: fixed;
                 left: 0;
