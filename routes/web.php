@@ -38,7 +38,6 @@ Route::post('/send-email', function (Request $request) {
                 ->to($data['to'])
                 ->subject($data['subject']);
     });
-
     return response()->json(['message' => 'Gmail envoyé avec succès ! Bien vouloir le consulter dans votre boîte de réception !']);
 });
 //_______________________________________________________________________________-
