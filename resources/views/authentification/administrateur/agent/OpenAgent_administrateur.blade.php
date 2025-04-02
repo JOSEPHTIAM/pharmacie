@@ -229,7 +229,7 @@
           <div class="form-left"></div>
 
           <div class="logo">
-               <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+               <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
           </div>
 
           <div class="nav-buttons">
@@ -260,23 +260,22 @@
                          @method('POST')
 
                          <div class="form-group">
-                         <label for="photo">Photo :</label>
-                         @if($user->photo)
-                              <div class="photo-container" style="width:450px; background-image: url('{{ asset('storage/images'.'/'.$user->photo) }}');"></div>
-                         @else
-                              N/A
-                         @endif
+                              <label for="photo">Photo :</label>
+                              @if($user->photo)
+                                   <div class="photo-container" style="width:450px; background-image: url('{{ asset('storage/images'.'/'.$user->photo) }}');"></div>
+                              @else
+                                   N/A
+                              @endif
                          </div>
-
                          <style>
-                         .photo-container {
-                              width: 100%;
-                              height: 300px; /* Adjust the height as needed */
-                              background-size: cover;
-                              background-position: center;
-                              border: 1px solid #ccc;
-                              border-radius: 10px;
-                         }
+                              .photo-container {
+                                   width: 100%;
+                                   height: 300px; /* Adjust the height as needed */
+                                   background-size: cover;
+                                   background-position: center;
+                                   border: 1px solid #ccc;
+                                   border-radius: 10px;
+                              }
                          </style>
                
                          <br>
@@ -328,60 +327,61 @@
           </div>
      </div>
 
-     <!-- Footer -->
-     <footer>
-          <div class="contact">
-               Joindre : <b><strong>+237659435256</strong></b>
-          </div>
-          <div class="app-name">
-               <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-               <p id="timer"></p>
-          </div>
-          <div class="author">
-               Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
-          </div>
-     </footer>
+     
+          <!-- Footer -->
+          <footer>
+               <div class="contact">
+                         Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
+               </div>
+               <div class="app-name">
+                         <b>PUBLIZONE</b>
+                         <p id="timer"></p>
+               </div>
+               <div class="author">
+                         Société : <b><strong>MEMPHY.SARL</strong></b>
+               </div>
+          </footer>
 
-     <!-- Du JS -->
-     <script>
-          document.getElementById('role').addEventListener('change', function() {
-               const role = this.value;
-               document.getElementById('agentFields').classList.add('d-none');
-               document.getElementById('statut_administrateur').classList.add('d-none');
-               
-               if (role === 'Agent') {
-                    document.getElementById('agentFields').classList.remove('d-none');
-               } else if (role === 'Administrateur') {
-                    document.getElementById('statut_administrateur').classList.remove('d-none');
+          <!-- Du JS -->
+          <script>
+               document.getElementById('role').addEventListener('change', function() {
+                    const role = this.value;
+                    document.getElementById('agentFields').classList.add('d-none');
+                    document.getElementById('statut_administrateur').classList.add('d-none');
+                    
+                    if (role === 'Agent') {
+                         document.getElementById('agentFields').classList.remove('d-none');
+                    } else if (role === 'Administrateur') {
+                         document.getElementById('statut_administrateur').classList.remove('d-none');
+                    }
+               });
+
+               function startTimer(duration, display) {
+                    let timer = duration, minutes, seconds;
+                    setInterval(function () {
+                         if (timer <= 0) {
+                              window.location.href = "{{ route('connexion') }}";
+                         }
+                         minutes = parseInt(timer / 60, 10);
+                         seconds = parseInt(timer % 60, 10);
+
+                         minutes = minutes < 10 ? "0" + minutes : minutes;
+                         seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                         display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
+
+                         if (--timer < 0) {
+                              timer = duration;
+                         }
+                    }, 1000);
                }
-          });
 
-          function startTimer(duration, display) {
-               let timer = duration, minutes, seconds;
-               setInterval(function () {
-                    if (timer <= 0) {
-                         window.location.href = "{{ route('connexion') }}";
-                    }
-                    minutes = parseInt(timer / 60, 10);
-                    seconds = parseInt(timer % 60, 10);
-
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                    display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
-
-                    if (--timer < 0) {
-                         timer = duration;
-                    }
-               }, 1000);
-          }
-
-          window.onload = function () {
-               const remainingTime = {{ session('remaining_time', time()) - time() }};
-               const display = document.getElementById('timer');
-               startTimer(remainingTime, display);
-          };
-     </script>
+               window.onload = function () {
+                    const remainingTime = {{ session('remaining_time', time()) - time() }};
+                    const display = document.getElementById('timer');
+                    startTimer(remainingTime, display);
+               };
+          </script>
 
      </body>
 </html>

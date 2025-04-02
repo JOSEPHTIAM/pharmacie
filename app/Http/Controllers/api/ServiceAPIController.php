@@ -183,6 +183,7 @@ class ServiceAPIController extends Controller
         $service->id_electromenager = $request->id_electromenager;
 
         $service->save();
+        
         return redirect()->route('listeServices_administrateur')->with('success', 'Service électromenager modifié avec succès !');
     }
 
@@ -270,7 +271,7 @@ class ServiceAPIController extends Controller
         $services = Service::where("description_service", "like", "%$request->keyword%")
             ->orWhere("prix_service", "like", "%$request->keyword%")
             ->get();
-        return view('authentification.utilisateur.client.listeServices_client', compact('services'));
+        return view('authentification.utilisateur.client.service.listeServiceElectronique', compact('services'));
     }
 
     // Pour les ouvertures des données détaillées
@@ -301,7 +302,7 @@ class ServiceAPIController extends Controller
             ->firstOrFail();
 
         // Passer l'utilisateur à la vue edit_administrateur
-        return view('authentification.utilisateur.client.OpenService_client', ['service' => $service]);
+        return view('authentification.utilisateur.client.service.OpenService_client', ['service' => $service]);
     }
 
 }

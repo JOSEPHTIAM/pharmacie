@@ -3,7 +3,7 @@
      <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Page d'ouverture service électromenager du coté administrateur</title>
+          <title>Page d'ouverture de formation video du coté administrateur</title>
           
           <!-- Bootstrap CSS -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -229,7 +229,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -245,7 +245,7 @@
                <div class="form-container">
                     <div class="form-left">  
                          <h2 align="center">
-                              <font color="#000076"><b><strong>Détails électromenager</strong></b></font>
+                              <font color="#000076"><b><strong>Détails de formation vidéo</strong></b></font>
                          </h2>
                          @if(session('error'))
                               <div class="alert alert-danger">{{ session('error') }}</div>
@@ -255,88 +255,74 @@
                               <div class="alert alert-success">{{ session('success') }}</div>
                          @endif
 
-                         <form action="{{ route('updateService_administrateur', $service->id_service) }}" method="POST" enctype="multipart/form-data">
+                         <form action="{{ route('updateFormation_administrateur', $formation->id_formation) }}" method="POST" enctype="multipart/form-data">
                               @csrf
                               @method('POST')
 
 
                               <div class="form-group">
-                                   <label for="image_electromenager   ">Photo :</label>
-                                   @if($service->electromenager && $service->electromenager->image_electromenager)
-                                        <div class="photo-container" style="background-image: url('{{ asset('image/'.$service->electromenager->image_electromenager) }}');"></div>
+                                   <label for="video_formation">Vidéo de la formation :</label>
+                                   @if($formation->video_formation)
+                                        <video width="450" height="300" controls>
+                                             <source src="{{ asset($formation->video_formation) }}" type="video/mp4">
+                                             Votre navigateur ne supporte pas la lecture des vidéos.
+                                        </video>
                                    @else
                                         N/A
                                    @endif
-                                   </div>         
-                              <style>
-                                   .photo-container {
-                                        width: 200%;
-                                        height: 300px; /* Adjust the height as needed */
-                                        background-size: cover;
-                                        background-position: center;
-                                        border: 1px solid #ccc;
-                                        border-radius: 10px;
-                                   }
-                              </style>
-
+                              </div>
+                              
+                              <br>
+                              
                               <div class="form-group">
-                                   <label for="id_electromenager">Appareil électroménager :</label> 
-                                   <strong> {{$service->electromenager->nom_electromenager ?? 'N/A'}} </strong>                        
+                                   <label for="nom_formation">Nom de la formation :</label> 
+                                   <strong> {{$formation->nom_formation}} </strong>                        
                               </div>
 
                               <div class="form-group">
-                                   <label for="id_electromenager">Puissance :</label> 
-                                   <strong> {{$service->electromenager->puissance_electromenager}} </strong>Watts                        
+                                   <label for="description_formation">Description de la formation :</label> 
+                                   <strong> {{$formation->description_formation}} </strong>                        
                               </div>
 
-                              <div class="form-group">
-                                   <label for="id_electromenager">Tension :</label> 
-                                   <strong> {{$service->electromenager->tension_electromenager}} </strong>Volts                        
-                              </div>
 
                               <div class="form-group">
                                    <label for="id_localisation">Localisation :</label> 
-                                   <strong> {{$service->localisation->nom_localisation}} </strong>                        
+                                   <strong> {{$formation->localisation->nom_localisation}} </strong>                        
                               </div>
 
                               <div class="form-group">
-                                   <label for="description_service">Description :</label> 
-                                   <strong> {{$service->description_service}} </strong>                        
-                              </div>
-
-                              <div class="form-group">
-                                   <label for="prix_service">Prix unitaire :</label> 
-                                   <strong>{{$service->prix_service}} CFA</strong>                        
+                                   <label for="prix_formation">Prix unitaire :</label> 
+                                   <strong>{{$formation->prix_formation}} CFA</strong>                        
                               </div>
                               
                               <div class="form-group">
-                                   <label for="id_magasin">Stock en magasin :</label> 
-                                   <strong> {{$service->magasin->stock_magasin}} </strong>                        
+                                   <label for="id_magasin">Niveau de la formation vidéo :</label> 
+                                   <strong> {{$formation->magasin->stock_magasin}} </strong>                        
                               </div>
                               
                               <div class="form-group">
-                                   <label for="total_service">Prix total (en FCFA) :</label> 
-                                   <strong>{{$service->total_service}} CFA</strong>                        
+                                   <label for="total_formation">Prix total (en FCFA) :</label> 
+                                   <strong>{{$formation->total_formation}} CFA</strong>                        
                               </div>
 
                               <div class="form-group">
                                    <label for="matricule">Responsable :</label> 
-                                   <strong> "{{$service->user->role}}" : &nbsp;&nbsp;{{$service->user->nom}} {{$service->user->prenom}} </strong>                        
+                                   <strong> "{{$formation->user->role}}" : &nbsp;&nbsp;{{$formation->user->nom}} {{$formation->user->prenom}} </strong>                        
                               </div>
 
                          
                               <div class="form-group text-center">
-                              <button onclick="listeServices_administrateur()" type="reset" class="btn btn-danger">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                                   </svg>
-                                   <strong>Retour</strong>
-                              </button>
-                              <script>
-                                   function listeServices_administrateur() {
-                                        window.location.href = "{{ url('listeServices_administrateur') }}";
-                                   }
-                              </script>
+                                   <button onclick="listeFormations_administrateur()" type="reset" class="btn btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                                             <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                                        </svg>
+                                        <strong>Retour</strong>
+                                   </button>
+                                   <script>
+                                        function listeFormations_administrateur() {
+                                             window.location.href = "{{ url('listeFormations_administrateur') }}";
+                                        }
+                                   </script>
                               </div>
                          </form>
                     </div>
@@ -346,14 +332,14 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                         Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-                    <p id="timer"></p>
+                         <b>PUBLIZONE</b>
+                         <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                         Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

@@ -50,33 +50,41 @@ class Formation1APIController extends Controller
                 'nom_formation' => ['required', 'string', new NoScriptOrCode],
                 'description_formation' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-                'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-                'matricule' => 'required|string|exists:users,matricule',
-                'pdf_formation' => 'nullable|file|mimes:pdf|max:20480', // 20MB max
+                'id_magasin' => 'required|string|exists:magasin,id_magasin',
+                'matricule' => 'required|string|exists:user,matricule',
+                'id_localisation' => 'required|string|exists:localisation,id_localisation',
+                'pdf_formation' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ];
-
+            
             // Validation du formulaire
             $this->validate($request, $rules);
 
             DB::beginTransaction();
 
-            // Calculer le total_formation
-            $total_formation = $request->prix_formation * $request->niveau_formation;
-
-            // Génération du id_formation unique
-            $id_formation1 = $this->generateUniqueCode();
-
-            // Gestion du fichier PDF
-            $pdfPath = null;
+            // Conditions pour l'image
             if ($request->hasFile('pdf_formation')) {
-                $pdfPath = $request->file('pdf_formation')->store('pdfs', 'public');
+                $pdf_formation = $request->file('pdf_formation');
+                $name = time().'.'.$pdf_formation->getClientOriginalExtension();
+                $destinationPath = storage_path('app/public/images');
+                $pdf_formation->move($destinationPath, $name);
+                $request->merge(['pdf_formation' => 'storage/images/'.$name]);
             }
 
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
+            // Calculer le total_formation
+            $total_formation = $request->prix_formation * $stock_magasin;
+
+            // Génération du id_formation1 unique
+            $id_formation1 = $this->generateUniqueCode();
             $res = Formation1::create(array_merge($request->all(), [
                 'id_formation1' => $id_formation1,
                 'total_formation' => $total_formation,
-                'pdf_formation' => $pdfPath,
+                'pdf_formation'=> $name
             ]));
+
             DB::commit();
 
             return redirect('listeFormations_administrateur')->with('success', 'Formation PDF enregistrée avec succès !')->with('id_formation1', $id_formation1);
@@ -103,7 +111,7 @@ class Formation1APIController extends Controller
                 'prix_formation' => ['required', 'integer', new NoScriptOrCode],
                 'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
                 'matricule' => 'required|string|exists:users,matricule',
-                'pdf_formation' => 'nullable|file|mimes:pdf|max:20480', // 20MB max
+                'pdf_formation' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ];
 
             // Validation du formulaire
@@ -114,20 +122,23 @@ class Formation1APIController extends Controller
             // Calculer le total_formation
             $total_formation = $request->prix_formation * $request->niveau_formation;
 
+            // Conditions pour l'image
+            if ($request->hasFile('pdf_formation')) {
+                $image = $request->file('pdf_formation');
+                $name = time().'.'.$image->getClientOriginalExtension();
+                $destinationPath = storage_path('app/public/images');
+                $image->move($destinationPath, $name);
+                $request->merge(['pdf_formation' => 'storage/images/'.$name]); // Assurez-vous que ce chemin est stocké
+            }
+                    
             // Génération du id_formation unique
             $id_formation1 = $this->generateUniqueCode();
-
-            // Gestion du fichier PDF
-            $pdfPath = null;
-            if ($request->hasFile('pdf_formation')) {
-                $pdfPath = $request->file('pdf_formation')->store('pdfs', 'public');
-            }
-
             $res = Formation1::create(array_merge($request->all(), [
                 'id_formation1' => $id_formation1,
                 'total_formation' => $total_formation,
-                'pdf_formation' => $pdfPath,
-            ]));
+                'pdf_formation'=> $name
+            ]));            
+
             DB::commit();
 
             return redirect('listeFormations_agent')->with('success', 'Formation PDF enregistrée avec succès !')->with('id_formation1', $id_formation1);
@@ -167,33 +178,28 @@ class Formation1APIController extends Controller
             'nom_formation' => ['required', 'string', new NoScriptOrCode],
             'description_formation' => ['nullable', 'string', new NoScriptOrCode],
             'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-            'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-            'matricule' => 'required|string|exists:users,matricule',
-            'pdf_formation' => 'nullable|file|mimes:pdf|max:20480', // 20MB max
+            'id_magasin' => 'required|string|exists:magasin,id_magasin',
+            'matricule' => 'required|string|exists:user,matricule',
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
         ]);
 
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
         // Calculer le total_formation
-        $total_formation = $request->prix_formation * $request->niveau_formation;
+        $total_formation = $request->prix_formation * $stock_magasin;
 
-        // Gestion du fichier PDF
-        if ($request->hasFile('pdf_formation')) {
-            // Supprimer l'ancien PDF si elle existe
-            if ($formation1->pdf_formation) {
-                Storage::disk('public')->delete($formation1->pdf_formation);
-            }
-            $pdfPath = $request->file('pdf_formation')->store('pdfs', 'public');
-            $formation1->pdf_formation = $pdfPath;
-        }
-
-        $formation1->nom_formation = $request->nom_formation;
         $formation1->description_formation = $request->description_formation;
         $formation1->prix_formation = $request->prix_formation;
-        $formation1->niveau_formation = $request->niveau_formation;
         $formation1->total_formation = $total_formation;
+        $formation1->id_magasin = $request->id_magasin;
         $formation1->matricule = $request->matricule;
+        $formation1->id_localisation = $request->id_localisation;
 
         $formation1->save();
-        return redirect()->route('listeFormations_administrateur')->with('success', 'Formation PDF modifiée avec succès !');
+
+        return redirect()->route('listeFormations_administrateur')->with('success', 'Formation pdf modifiée avec succès !');
     }
 
     public function updateFormation1_agent(Request $request, $id_formation1)
@@ -204,103 +210,91 @@ class Formation1APIController extends Controller
             'nom_formation' => ['required', 'string', new NoScriptOrCode],
             'description_formation' => ['nullable', 'string', new NoScriptOrCode],
             'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-            'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-            'matricule' => 'required|string|exists:users,matricule',
-            'pdf_formation' => 'nullable|file|mimes:pdf|max:20480', // 20MB max
+            'id_magasin' => 'required|string|exists:magasin,id_magasin',
+            'matricule' => 'required|string|exists:user,matricule',
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
         ]);
 
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
         // Calculer le total_formation
-        $total_formation = $request->prix_formation * $request->niveau_formation;
+        $total_formation = $request->prix_formation * $stock_magasin;
 
-        // Gestion du fichier PDF
-        if ($request->hasFile('pdf_formation')) {
-            // Supprimer l'ancien PDF si elle existe
-            if ($formation1->pdf_formation) {
-                Storage::disk('public')->delete($formation1->pdf_formation);
-            }
-            $pdfPath = $request->file('pdf_formation')->store('pdfs', 'public');
-            $formation1->pdf_formation = $pdfPath;
-        }
-
-        $formation1->nom_formation = $request->nom_formation;
         $formation1->description_formation = $request->description_formation;
         $formation1->prix_formation = $request->prix_formation;
-        $formation1->niveau_formation = $request->niveau_formation;
         $formation1->total_formation = $total_formation;
+        $formation1->id_magasin = $request->id_magasin;
         $formation1->matricule = $request->matricule;
+        $formation1->id_localisation = $request->id_localisation;
 
         $formation1->save();
-        return redirect()->route('listeFormations_agent')->with('success', 'Formation PDF modifiée avec succès !');
+
+        return redirect()->route('listeFormations_agent')->with('success', 'Formation vidéo modifiée avec succès !');
     }
 
     // Pour supprimer les formations
     public function destroyFormation1_administrateur($id_formation1)
     {
         try {
-            $formation1 = Formation1::findOrFail($id_formation1);
-            // Supprimer le PDF associé si elle existe
-            if ($formation1->pdf_formation) {
-                Storage::disk('public')->delete($formation1->pdf_formation);
-            }
-            $formation1->delete(); // Supprimer la formation
+            Formation1::destroy($id_formation1); // Supprimer la service
             // Redirection avec un message de succès
-            return redirect('listeFormations_administrateur')->with('success', 'Suppression de la formation PDF réussie !');
+            return redirect('listeFormations_administrateur')->with('success', 'Suppression de la formation pdf réussie !');
         } catch (\Throwable $th) {
             // Redirection en cas d'erreur avec un message d'erreur
-            return redirect('error_administrateur')->with('error', 'Erreur lors de la suppression de la formation PDF !');
+            return redirect('error_administrateur')->with('error', 'Erreur lors de la suppression de la formation pdf !');
         }
     }
 
     public function destroyFormation1_agent($id_formation1)
     {
         try {
-            $formation1 = Formation1::findOrFail($id_formation1);
-            // Supprimer le PDF associé si elle existe
-            if ($formation1->pdf_formation) {
-                Storage::disk('public')->delete($formation1->pdf_formation);
-            }
-            $formation1->delete(); // Supprimer la formation
+            Formation1::destroy($id_formation1); // Supprimer la service
             // Redirection avec un message de succès
-            return redirect('listeFormations_agent')->with('success', 'Suppression de la formation PDF réussie !');
+            return redirect('listeFormations_agent')->with('success', 'Suppression de la formation pdf réussie !');
         } catch (\Throwable $th) {
             // Redirection en cas d'erreur avec un message d'erreur
-            return redirect('error_agent')->with('error', 'Erreur lors de la suppression de la formation PDF !');
+            return redirect('error_agent')->with('error', 'Erreur lors de la suppression de la formation pdf !');
         }
     }
 
     // Fonctions de recherche du côté Administrateur
     public function searchFormation1_administrateur(Request $request)
     {
-        $keyword1 = $request->input('keyword1');
-        $formations1 = Formation1::where("id_formation1", "like", "%$request->keyword1%")
-            ->orWhere("nom_formation", "like", "%$request->keyword1%")
-            ->orWhere("description_formation", "like", "%$request->keyword1%")
-            ->orWhere("prix_formation", "like", "%$request->keyword1%")
+        $keyword1 = $request->input('keyword');
+        $formations1 = Formation1::where("id_formation1", "like", "%$request->keyword%")
+            ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
+            ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.administrateur.Formation.listeFormations_administrateur', compact('formations1'));
     }
 
     public function searchFormation1_agent(Request $request)
     {
-        $keyword1 = $request->input('keyword1');
-        $formations1 = Formation1::where("id_formation1", "like", "%$request->keyword1%")
-            ->orWhere("nom_formation", "like", "%$request->keyword1%")
-            ->orWhere("description_formation", "like", "%$request->keyword1%")
-            ->orWhere("prix_formation", "like", "%$request->keyword1%")
+        $keyword1 = $request->input('keyword');
+        $formations1 = Formation1::where("id_formation1", "like", "%$request->keyword%")
+            ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
+            ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.utilisateur.agent.listes.listeFormations_agent', compact('formations1'));
     }
 
     public function searchFormation1_client(Request $request)
     {
-        $keyword1 = $request->input('keyword1');
-        $formations1 = Formation1::where("nom_formation", "like", "%$request->keyword1%")
-            ->orWhere("description_formation", "like", "%$request->keyword1%")
-            ->orWhere("prix_formation", "like", "%$request->keyword1%")
+        $keyword = $request->input('keyword');
+        $formations1 = Formation1::where("id_formation1", "like", "%$request->keyword%")
+            ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
+            ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.utilisateur.client.listeFormations_client', compact('formations1'));
     }
 
+
+    
     // Pour les ouvertures des données détaillées
     public function OpenFormation1_administrateur($id_formation1)
     {

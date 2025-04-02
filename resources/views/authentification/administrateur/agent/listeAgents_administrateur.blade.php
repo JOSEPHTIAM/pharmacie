@@ -179,7 +179,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_principal.jpg') }}");
+                background-image: url("{{ asset('image/Final_acteur.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -636,9 +636,9 @@
                     <li>
                         <a href="#">
                             <span class="icon">
-                                <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                                <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                             </span>
-                            <span class="title"><strong>Gestion de Plateforme d'Annonces</strong></span>
+                            <span class="title"><strong>PUBLIZONE</strong></span>
                         </a>
                     </li>
 
@@ -726,7 +726,7 @@
 
                     <button type="submit" class="acces"><strong>Rechercher</strong></button>
                     
-                    <font color="white" size="6">Administrateur: <strong><u>EVE JORDANIE</u></strong></font>
+                    <font color="#2a2185" size="6">Société : <strong><u>MEMPHY.SARL</u></strong></font>
                                                                
                     <div class="user">
                         <img src="{{ asset('image/logo_8.jpg') }}" alt="Logo" style="height: 40px;">                                                                           
@@ -904,18 +904,18 @@
 
 
         <!-- Footer -->
-          <footer>
-               <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
-               </div>
-               <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+        <footer>
+            <div class="contact">
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
+            </div>
+            <div class="app-name">
+                    <b>PUBLIZONE</b>
                     <p id="timer"></p>
-               </div>
-               <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
-               </div>
-          </footer>
+            </div>
+            <div class="author">
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
+            </div>
+        </footer>
 
 
           <!-- JavaScript to change logos -->

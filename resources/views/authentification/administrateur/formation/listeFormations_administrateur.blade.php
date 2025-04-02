@@ -180,26 +180,26 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_principal.jpg') }}");
+                background-image: url("{{ asset('image/Final_formation.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
-                align-items: center;
-                justify-content: center;
+                align-items: center; 
+                justify-content: center; 
             }
 
             .main.active {
-            width: calc(100% - 80px);
-            left: 80px;
+                width: calc(100% - 80px);
+                left: 80px;
             }
 
             .topbar {
-            width: 100%;
-            height: 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
+                width: 100%;
+                height: 60px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 10px;
             }
 
             .toggle {
@@ -341,6 +341,17 @@
             color: var(--black2);
             }
 
+            .cardBox .card .iconBx .cart-counter {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: fuchsia;
+                color: white;
+                border-radius: 70%;
+                padding: 5px 10px;
+                font-size: 14px;              
+            }
+
             .cardBox .card_actuellement .iconBx {
             font-size: 3.5rem;
             color: var(--white);
@@ -411,6 +422,15 @@
             .status.actuellement {
             padding: 2px 4px;
             background: green;
+            color: var(--white);
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            }
+
+            .status.actuellement_pink {
+            padding: 2px 4px;
+            background: fuchsia;
             color: var(--white);
             border-radius: 4px;
             font-size: 14px;
@@ -632,7 +652,6 @@
 
 
     <body>
-
         <!-- =============== Navigation ================ -->
         <div class="container">
             <div class="navigation">
@@ -640,9 +659,9 @@
                     <li>
                         <a href="#">
                             <span class="icon">
-                                <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                                <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                             </span>
-                            <span class="title"><strong>Gestion de Plateforme d'Annonces</strong></span>
+                            <span class="title"><strong>PUBLIZONE</strong></span>
                         </a>
                     </li>
 
@@ -780,7 +799,7 @@ x
                     </button>
                     
 
-                    <font color="white" size="6">Administrateur: <strong><u>EVE JORDANIE</u></strong></font>
+                    <font color="white" size="6">Société : <strong><u>MEMPHYS.SARL</u></strong></font>
                                                                
                     <div class="user">
                         <img src="{{ asset('image/logo_8.jpg') }}" alt="Logo" style="height: 40px;">                                                                           
@@ -812,6 +831,7 @@ x
                             </div>
                             <div class="iconBx">
                                 <ion-icon name="cart-outline"></ion-icon>
+                                <span id="cart-counter" class="cart-counter">0</span>
                             </div>
                         </div>
                     </a>
@@ -851,11 +871,11 @@ x
                             <form action="/searchFormation_administrateur" class="form-inline">
                             
                             <a href="/nouveauFormation_administrateur" class="btn_nouveau">
-                                <i class="bi bi-person-plus"></i> Nouvelle formation Vidéo
+                                <i class="bi bi-person-plus"></i> Nouvelle formation vidéo
                             </a>
                             
                             <a href="/nouveauFormation1_administrateur" class="btn_nouveau">
-                                <i class="bi bi-person-plus"></i> Nouvelle formation Pdf
+                                <i class="bi bi-person-plus"></i> Nouvelle formation pdf
                             </a>    
                         </div>
                         
@@ -873,7 +893,7 @@ x
                               <thead>
                                    <tr>
                                         <td><font color="#2a2185" size="4">Formations vidéos</font></td>
-                                        <td>Vidéos</td>
+                                        <td>Aperçus</td>
                                         <td>Noms</td>
                                         <td>Prix unitaires</td>
                                         <td>Niveaux</td>
@@ -888,26 +908,42 @@ x
                                    @if(isset($formations))
                                         @foreach($formations as $formation)
                                              <tr>
-                                                    <td>{{$formation->id_formation}}</td>   
+                                                    <td>{{$formation->id_formation}}</td>
+                                                    
                                                     <td>
                                                         @if($formation->video_formation)
-                                                            <video width="50" height="50" controls>
-                                                                <source src="{{asset('videos/'.$formation->video_formation)}}" type="video/mp4">
-                                                                Le fichier ne peut pas supporter les plus lourds.
+                                                            <video width="100" height="100" controls>
+                                                                <source src="{{asset('storage/videos'.'/'.$formation->video_formation)}}" type="video/mp4">
+                                                                Votre navigateur ne supporte pas la lecture des vidéos.
                                                             </video>
                                                         @else
                                                             N/A
                                                         @endif
-                                                    </td> 
+                                                    </td>                                                 
                                                     <td>{{$formation->nom_formation}}</td>
-                                                    <td>{{$formation->prix_formation}}</td>
-                                                    <td>{{$formation->niveau_formation}}</td>
-                                                    <td>{{$formation->total_formation}}</td>
+                                                    <td>{{$formation->prix_formation}} CFA</td>
+                                                    <td>{{$formation->magasin->stock_magasin}}</td>
+                                                    <td>{{$formation->total_formation}} CFA</td>
                                                     <td>{{$formation->description_formation}}</td>
-                                                    <td>"{{ $formation->user->role }}" : &nbsp;&nbsp;{{$formation->user->nom}} {{$formation->user->prenom}}</td>
-                                                    <td>
+                                                    <td>"{{$formation->user->role}}" : &nbsp;&nbsp;{{$formation->user->nom}} {{$formation->user->prenom}}</td>
+                                                    <td>                                                        
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $formation->id_formation }}" 
+                                                                data-service-name="{{ $formation->nom_formation }}"
+                                                                data-service-unitaire="{{ $formation->prix_formation }}"
+                                                                data-service-stock="{{ $formation->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $formation->total_formation }}"    
+                                                                data-service-vendeurNom="{{ $formation->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $formation->user->prenom }}"
+                                                                data-service-role="{{ $formation->user->role }}"
+                                                                data-service-localisation="{{ $formation->localisation->nom_localisation }}"                                                          
+                                                            >                                                                  
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>       
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
-                                                            <a href="{{ url('/OpenFormation_administrateur/' . $formation->id_formation) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette fomation vidéo ?');">
+                                                            <a href="{{ url('/OpenFormation_administrateur/' . $formation->id_formation) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette formation vidéo ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
                                                             </a>
                                                         </span> &nbsp;&nbsp;
@@ -927,26 +963,42 @@ x
                                    @else
                                         @foreach(\App\Models\Formation::all() as $formation)
                                              <tr>
-                                                    <td>{{$formation->id_formation}}</td>   
+                                                    <td>{{$formation->id_formation}}</td> 
+                                                    
                                                     <td>
                                                         @if($formation->video_formation)
-                                                            <video width="50" height="50" controls>
-                                                                <source src="{{asset('videos/'.$formation->video_formation)}}" type="video/mp4">
-                                                                Le fichier ne peut pas supporter les plus lourds.
+                                                            <video width="100" height="100" controls>
+                                                                <source src="{{asset('storage/videos'.'/'.$formation->video_formation)}}" type="video/mp4">
+                                                                Votre navigateur ne supporte pas la lecture des vidéos.
                                                             </video>
                                                         @else
                                                             N/A
                                                         @endif
-                                                    </td> 
+                                                    </td>                                                
                                                     <td>{{$formation->nom_formation}}</td>
-                                                    <td>{{$formation->prix_formation}}</td>
-                                                    <td>{{$formation->niveau_formation}}</td>
-                                                    <td>{{$formation->total_formation}}</td>
+                                                    <td>{{$formation->prix_formation}} CFA</td>
+                                                    <td>{{$formation->magasin->stock_magasin}}</td>
+                                                    <td>{{$formation->total_formation}} CFA</td>
                                                     <td>{{$formation->description_formation}}</td>
-                                                    <td>"{{ $formation->user->role }}" : &nbsp;&nbsp;{{$formation->user->nom}} {{$formation->user->prenom}}</td>
-                                                    <td>
+                                                    <td>"{{$formation->user->role}}" : &nbsp;&nbsp;{{$formation->user->nom}} {{$formation->user->prenom}}</td>
+                                                    <td>                                                        
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $formation->id_formation }}" 
+                                                                data-service-name="{{ $formation->nom_formation }}"
+                                                                data-service-unitaire="{{ $formation->prix_formation }}"
+                                                                data-service-stock="{{ $formation->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $formation->total_formation }}"    
+                                                                data-service-vendeurNom="{{ $formation->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $formation->user->prenom }}"
+                                                                data-service-role="{{ $formation->user->role }}"
+                                                                data-service-localisation="{{ $formation->localisation->nom_localisation }}"                                                          
+                                                            >                                                              
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>       
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
-                                                            <a href="{{ url('/OpenFormation_administrateur/' . $formation->id_formation) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette fomation vidéo ?');">
+                                                            <a href="{{ url('/OpenFormation_administrateur/' . $formation->id_formation) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette formation vidéo ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
                                                             </a>
                                                         </span> &nbsp;&nbsp;
@@ -966,46 +1018,59 @@ x
                                    @endif
                          </table>
 
-
+                        
                         <hr color="#2a2185" size="6">
                          <table class="table table-striped table-hover">
                               <thead>
                                    <tr>                                        
                                         <td><font color="#2a2185" size="4">Formations pdf</font></td>
-                                        <td>Pdf</td>
+                                        <td>Aperçus</td>
                                         <td>Noms</td>
                                         <td>Prix unitaires</td>
                                         <td>Niveaux</td>
                                         <td>Prix totaux</td>
                                         <td>Descriptions</td>
                                         <td>Auteurs</td>
-                                        <td><strong><font color="black">Actions</font></strong></td>                                                                                                                    
+                                        <td><strong><font color="black">Actions</font></strong></td>                                                                                                                  
                                    </tr>
                               </thead>
 
                               <tbody>
                                    @if(isset($formations1))
                                         @foreach($formations1 as $formation1)
-                                             <tr>
+                                                <tr>
                                                     <td>{{$formation1->id_formation1}}</td>   
                                                     <td>
                                                         @if($formation1->pdf_formation)
-                                                            <a href="{{ asset('storage/' . $formation1->pdf_formation) }}" target="_blank">
-                                                                <img src="{{ asset('images/pdf_icon.png') }}" alt="PDF" width="50" height="50">
-                                                            </a>
+                                                            <img src="{{asset('storage/images'.'/'.$formation1->pdf_formation)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
-                                                    </td>  
+                                                    </td>                                                  
                                                     <td>{{$formation1->nom_formation}}</td>
-                                                    <td>{{$formation1->prix_formation}}</td>
-                                                    <td>{{$formation1->niveau_formation}}</td>
-                                                    <td>{{$formation1->total_formation}}</td>
+                                                    <td>{{$formation1->prix_formation}} CFA</td>
+                                                    <td>{{$formation1->magasin->stock_magasin}}</td>
+                                                    <td>{{$formation1->total_formation}} CFA</td>
                                                     <td>{{$formation1->description_formation}}</td>
-                                                    <td>"{{ $formation1->user->role }}" : &nbsp;&nbsp;{{$formation1->user->nom}} {{$formation1->user->prenom}}</td>
-                                                    <td>
+                                                    <td>"{{$formation1->user->role}}" : &nbsp;&nbsp;{{$formation1->user->nom}} {{$formation1->user->prenom}}</td>
+                                                    <td>                                                        
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-service-id="{{ $formation1->id_formation1 }}" 
+                                                                data-service-name="{{ $formation1->nom_formation }}"
+                                                                data-service-unitaire="{{ $formation1->prix_formation }}"
+                                                                data-service-stock="{{ $formation1->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $formation1->total_formation }}"    
+                                                                data-service-vendeurNom="{{ $formation1->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $formation1->user->prenom }}"
+                                                                data-service-role="{{ $formation1->user->role }}"
+                                                                data-service-localisation="{{ $formation1->localisation->nom_localisation }}"                                                          
+                                                            >                                                              
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>       
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
-                                                            <a href="{{ url('/OpenFormation1_administrateur/' . $formation1->id_formation1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette fomation pdf ?');">
+                                                            <a href="{{ url('/OpenFormation1_administrateur/' . $formation1->id_formation1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette formation pdf ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
                                                             </a>
                                                         </span> &nbsp;&nbsp;
@@ -1025,25 +1090,38 @@ x
                                    @else
                                         @foreach(\App\Models\Formation1::all() as $formation1)
                                                 <tr>
-                                                    <td>{{$formation1->id_formation1}}</td>   
+                                                <td>{{$formation1->id_formation1}}</td>   
                                                     <td>
                                                         @if($formation1->pdf_formation)
-                                                            <a href="{{ asset('storage/' . $formation1->pdf_formation) }}" target="_blank">
-                                                                <img src="{{ asset('images/pdf_icon.png') }}" alt="PDF" width="50" height="50">
-                                                            </a>
+                                                            <img src="{{asset('storage/images'.'/'.$formation1->pdf_formation)}}" alt="Photo" width="50" height="50">
                                                         @else
                                                             N/A
                                                         @endif
-                                                    </td>  
+                                                    </td>                                                  
                                                     <td>{{$formation1->nom_formation}}</td>
-                                                    <td>{{$formation1->prix_formation}}</td>
-                                                    <td>{{$formation1->niveau_formation}}</td>
-                                                    <td>{{$formation1->total_formation}}</td>
+                                                    <td>{{$formation1->prix_formation}} CFA</td>
+                                                    <td>{{$formation1->magasin->stock_magasin}}</td>
+                                                    <td>{{$formation1->total_formation}} CFA</td>
                                                     <td>{{$formation1->description_formation}}</td>
-                                                    <td>"{{ $formation1->user->role }}" : &nbsp;&nbsp;{{$formation1->user->nom}} {{$formation1->user->prenom}}</td>
-                                                    <td>
+                                                    <td>"{{$formation1->user->role}}" : &nbsp;&nbsp;{{$formation1->user->nom}} {{$formation1->user->prenom}}</td>
+                                                    <td>                                                        
+                                                        <span class="status actuellement_pink">
+                                                            <a href="#" class="btn btn-success add-to-cart" 
+                                                                data-forservicemation-id="{{ $formation1->id_formation1 }}" 
+                                                                data-service-name="{{ $formation1->nom_formation }}"
+                                                                data-service-unitaire="{{ $formation1->prix_formation }}"
+                                                                data-service-stock="{{ $formation1->magasin->stock_magasin }}"
+                                                                data-service-price="{{ $formation1->total_formation }}"    
+                                                                data-service-vendeurNom="{{ $formation1->user->nom }}"
+                                                                data-service-vendeurPrenom="{{ $formation1->user->prenom }}"
+                                                                data-service-role="{{ $formation1->user->role }}"
+                                                                data-service-localisation="{{ $formation1->localisation->nom_localisation }}"                                                          
+                                                            >                                                              
+                                                                <font color="white"><ion-icon name="cart-outline"></ion-icon></font>
+                                                            </a>       
+                                                        </span> &nbsp;&nbsp;                                                        
                                                         <span class="status actuellement">
-                                                            <a href="{{ url('/OpenFormation1_administrateur/' . $formation1->id_formation1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette fomation pdf ?');">
+                                                            <a href="{{ url('/OpenFormation1_administrateur/' . $formation1->id_formation1) }}" class="btn btn-secondary" onclick="return confirm('Êtes-vous sûr de visualiser les détails de cette formation pdf ?');">
                                                                 <font color="white"><ion-icon name="eye-outline"></ion-icon></font>
                                                             </a>
                                                         </span> &nbsp;&nbsp;
@@ -1068,30 +1146,66 @@ x
             </div>
         </div>
 
+
         <!-- Footer -->
-          <footer>
-               <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
-               </div>
-               <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+        <footer>
+            <div class="contact">
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
+            </div>
+            <div class="app-name">
+                    <b>PUBLIZONE</b>
                     <p id="timer"></p>
-               </div>
-               <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
-               </div>
-          </footer>
+            </div>
+            <div class="author">
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
+            </div>
+        </footer>
 
 
           <!-- JavaScript to change logos -->
-          <script>
+           <script>            
+                document.addEventListener('DOMContentLoaded', function() {
+                    const cartCounter = document.getElementById('cart-counter');
+                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+                    // Load cart count from localStorage
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    cartCounter.textContent = cart.length;
+
+                    addToCartButtons.forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const serviceId = this.getAttribute('data-service-id');
+                            const serviceName = this.getAttribute('data-service-name');
+                            const serviceUnitaire = this.getAttribute('data-service-unitaire');
+                            const serviceStock = this.getAttribute('data-service-stock');
+                            const servicePrice = this.getAttribute('data-service-price');
+
+                            const serviceVendeurNom = this.getAttribute('data-service-vendeurNom');
+                            const serviceVendeurPrenom = this.getAttribute('data-service-vendeurPrenom');
+                            const serviceRole = this.getAttribute('data-service-role');
+                            const serviceLocalisation = this.getAttribute('data-service-localisation');
+                            
+                            // Add service to cart
+                            cart.push({ 
+                                id: serviceId, name: serviceName, stock: serviceStock, price: servicePrice, unitaire: serviceUnitaire, vendeurNom: serviceVendeurNom, vendeurPrenom: serviceVendeurPrenom, role: serviceRole, localisation: serviceLocalisation
+                            });
+                            localStorage.setItem('cart', JSON.stringify(cart));
+
+                            // Update cart counter
+                            cartCounter.textContent = cart.length;
+                        });
+                    });
+                });
+
+
                // Array of logo paths
-               const logos = [
-                    "{{ asset('image/logo_1.jpg') }}",
-                    "{{ asset('image/logo_2.jpg') }}",
-                    "{{ asset('image/logo_3.jpg') }}",
-                    "{{ asset('image/logo_4.jpg') }}"
-               ];
+                const logos = [
+                        "{{ asset('image/logo_1.jpg') }}",
+                        "{{ asset('image/logo_2.jpg') }}",
+                        "{{ asset('image/logo_3.jpg') }}",
+                        "{{ asset('image/logo_4.jpg') }}"
+                ];
 
                // Get the image element
                const logoElement = document.getElementById('dynamic-logo');

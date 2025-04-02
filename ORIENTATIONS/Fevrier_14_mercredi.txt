@@ -1,6 +1,5 @@
 
 
-
 	<< COMMANDES >>
 __ Pour voir la version du Composer :
 composer -V
@@ -16,7 +15,7 @@ laavel -V
 
 
 	<< LARAVEL >>
-__ Pour installer LARAVEL :
+__ Pour installer LARAVEL : 
 composer global required laravel/installer
 
 __ Pour créer une application ou projet LARAVEL :
@@ -98,5 +97,4 @@ php artisan test
 
 __ Pour générer les paniers dans l'application, il faudra la commande :
 php artisan tinker
-
 

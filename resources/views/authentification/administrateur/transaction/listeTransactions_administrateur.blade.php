@@ -205,7 +205,7 @@
                 min-height: 100vh;
                 background: var(--white);
                 transition: 0.5s;
-                background-image: url("{{ asset('image/logo_principal.jpg') }}");
+                background-image: url("{{ asset('image/Final_transaction.jpg') }}");
                 background-size: cover; /* Pour que l'image couvre tout le conteneur */
                 background-position: center; /* Pour centrer l'image */
                 background-repeat: no-repeat; /* Empêche la répétition de l'image */                
@@ -860,9 +860,9 @@
                     <li>
                         <a href="#">
                             <span class="icon">
-                                <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                                <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                             </span>
-                            <span class="title"><strong>Gestion de Plateforme d'Annonces</strong></span>
+                            <span class="title"><strong>PUBLIZONE</strong></span>
                         </a>
                     </li>
 
@@ -930,7 +930,7 @@
                             </label>
                         </div>
 
-                        <font color="white" size="6">Administrateur: <strong><u>EVE JORDANIE</u></strong></font>
+                        <font color="#2a2185" size="6">Société : <strong><u>MEMPHY.SARL</u></strong></font>
                                             
                         <div class="user">
                             <img src="{{ asset('image/logo_8.jpg') }}" alt="Logo" style="height: 40px;">                                                                           
@@ -1140,20 +1140,22 @@
         </div>
 
         <!-- Footer -->
-          <footer>
-               <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
-               </div>
-               <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+        <footer>
+            <div class="contact">
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
+            </div>
+            <div class="app-name">
+                    <b>PUBLIZONE</b>
                     <p id="timer"></p>
-               </div>
-               <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
-               </div>
-          </footer>
+            </div>
+            <div class="author">
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
+            </div>
+        </footer>
+            
 
 
+        <!-- ============= Bootstrap =============  -->
         <!-- ============= Bootstrap =============  -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -1289,26 +1291,49 @@
                     const { jsPDF } = window.jspdf;
                     const doc = new jsPDF();
 
-                    const emailContent = `
+                    // Contenu de l'email
+                    let emailContent = `
                         Bonjour à vous !
                         josephtiam8@gmail.com de l'entreprise MEMPHYS au
                         (+237 655964653), vous remercie d'avoir effectué le 
                         payement en ligne du service sur notre plateforme.
                         Votre liste contient :
-                        ${cart.map(item => `
-                            - Boutique: ${item.localisation}
-                            - Responsable: ${item.vendeurNom} ${item.vendeurPrenom}
-                            - Identifiant: ${item.id}
-                            - Service: ${item.name}
-                            - Prix Unitaire: ${item.unitaire} CFA
-                            - Stock: ${item.stock}
-                            - Prix Total: ${item.price} CFA
-                        `).join('\n')}
-                        Le montant total de votre payement est de : ${transactionTotal.textContent}.
+                    `;
+
+                    // Ajouter chaque élément du panier
+                    cart.forEach((item, index) => {
+                        emailContent += `
+                            ${index + 1}. Boutique: ${item.localisation}
+                            Responsable: ${item.vendeurNom} ${item.vendeurPrenom}
+                            Identifiant: ${item.id}
+                            Service: ${item.name}
+                            Prix Unitaire: ${item.unitaire} CFA
+                            Stock: ${item.stock}
+                            Prix Total: ${item.price} CFA
+                        `;
+                    });
+
+                    // Ajouter le message final
+                    emailContent += `
+                        Le montant total de votre payement est de : ${transactionTotal.textContent} CFA avec succès.
                         Merci de votre confiance !
                     `;
 
-                    doc.text(emailContent, 10, 10);
+                    // Diviser le contenu en lignes pour éviter les débordements
+                    const lines = doc.splitTextToSize(emailContent, 180); // 180 est la largeur maximale du texte dans le PDF
+                    let y = 10; // Position verticale initiale
+
+                    // Ajouter chaque ligne au PDF
+                    lines.forEach((line) => {
+                        if (y > 280) { // Si la position dépasse la hauteur de la page
+                            doc.addPage(); // Ajouter une nouvelle page
+                            y = 10; // Réinitialiser la position verticale
+                        }
+                        doc.text(line, 10, y); // Ajouter le texte à la position (10, y)
+                        y += 10; // Augmenter la position verticale pour la ligne suivante
+                    });
+
+                    // Générer et ouvrir le PDF
                     const pdfData = doc.output('datauristring');
                     const pdfWindow = window.open();
                     pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);

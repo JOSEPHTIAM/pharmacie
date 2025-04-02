@@ -289,7 +289,7 @@ class Service1APIController extends Controller
         $services1 = Service1::where("description_service","like","%$request->keyword1%")
             ->orWhere("prix_service","like","%$request->keyword1%")
         ->get();
-        return view('authentification.utilisateur.client.listeServices_client', compact('services1'));
+        return view('authentification.utilisateur.client.service.listeServiceOrdinateur', compact('services1'));
     }
 
 
@@ -324,7 +324,7 @@ class Service1APIController extends Controller
                     ->firstOrFail(); 
                     
         // Passer l'utilisateur à la vue edit_administrateur
-        return view('authentification.utilisateur.client.OpenService1_client', ['service1' => $service1]);
+        return view('authentification.utilisateur.client.service.OpenService1_client', ['service1' => $service1]);
     }
 
 

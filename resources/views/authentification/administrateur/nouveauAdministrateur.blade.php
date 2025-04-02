@@ -16,7 +16,7 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_principal.jpg') no-repeat center center;
+                    background: url('image/Final_login.jpg') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
@@ -56,7 +56,7 @@
                     border: 2px solid white;
                     border-radius: 5px;
                     padding: 5px 10px;
-                    margin: 0 5px;
+                    margin: 0 20px;
                     cursor: pointer;
                     transition: background-color 0.3s, color 0.3s;
                }
@@ -148,14 +148,17 @@
                     box-shadow: 0 0 10px rgb(0, 0, 118);
                     border-radius: 10px;
                     overflow: hidden;
-                    width: 40%;
-                    max-width: 500px;
+                    width: 90%;
+                    max-width: 1500px;
                     background-color: rgba(255, 255, 255, 0.914);
-               }
+               }               
                .form-right {
                     flex: 1;
-                    background: url('image/logo_5.jpg') no-repeat center center;                    
-                    justify-content: center;                    
+                    background: url('image/Final_publizone.jpg') no-repeat center center;                    
+                    justify-content: center;
+                    width: 10px;
+                    max-width: 565px;
+                    max-height: 700px;                  
                }
                .form-left {
                     //flex: 1;
@@ -233,19 +236,27 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
-                    <button>
+                    <button class="login-button" id="button1" onclick="connexion1()">
                          <b><strong>Accueil</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Catégories</strong></b>
+                    <script>
+                         function connexion1() {
+                         window.location.href = "{{ url('/') }}";
+                         }
+                    </script>
+                    
+                    <button class="login-button" id="button1" onclick="connexion()">
+                         <b><strong>Annonces</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Anonces</strong></b>
-                    </button>
+                    <script>
+                         function connexion() {
+                         window.location.href = "{{ url('/connexion') }}";
+                         }
+                    </script>
                </div>
                <div>
                     <button class="login-button" id="button1" onclick="connexion()">
@@ -268,7 +279,11 @@
 
                     <div class="form-left">                    
                          <h2>
-                              <font color="#000076"><b><strong>En tant qu'administrateur !</strong></b></font>
+                              <font color="#000076">
+                                   <b>
+                                        <strong>En tant qu'administrateur !</strong>
+                                   </b>
+                              </font>
                          </h2>
                          @if(session('error'))
                               <div class="alert alert-danger">{{ session('error') }}</div>
@@ -341,7 +356,7 @@
                                    <div class="form-group col-md-12">
                                         <label for="password">
                                              <i class="fas fa-lock"></i>
-                                             Mot de passe <font color="red">*</font> :
+                                             Mot de passe (EX: @12MemphysarlSociety) <font color="red">*</font> :
                                         </label>
                                         <input type="password" id="password" name="password" class="form-control" value="{{ old('password') }}" required>
                                         <input type="checkbox" id="togglePassword"> Afficher le mot de passe
@@ -385,7 +400,7 @@
                                    <div class="form-group col-md-12">
                                         <label for="non_redevence">
                                              <i class="fas fa-tag"></i>
-                                             Numéro de Redevence :
+                                             Cv en pdf :
                                         </label>
                                         <input type="file" id="non_redevence" name="non_redevence" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png" value="{{ old('non_redevence') }}">
                                    </div>
@@ -394,48 +409,48 @@
 
                               <div class="form-group text-center">
                                    <button type="submit" class="btn btn-primary">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy2" viewBox="0 0 16 16">
-                                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
-                                   </svg>
-                                   <strong>Soumettre</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy2" viewBox="0 0 16 16">
+                                             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                                        </svg>
+                                        <strong>Soumettre</strong>
                                    </button>
 
                                    <button type="reset" class="btn btn-warning">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
-                                        <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z"/>
-                                   </svg>
-                                   <strong>Effacer</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                                             <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z"/>
+                                        </svg>
+                                        <strong>Effacer</strong>
                                    </button>
 
                                    <button onclick="connexion()" type="reset" class="btn btn-danger">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                                   </svg>
-                                   <strong>Retour</strong>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                                             <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                                        </svg>
+                                        <strong>Retour</strong>
                                    </button>
                                    <script>
-                                   function connexion() {
-                                        window.location.href = "{{ url('connexion') }}";
-                                   }
+                                        function connexion() {
+                                             window.location.href = "{{ url('connexion') }}";
+                                        }
                                    </script>
                               </div>
-                         </form>
-                 
-               </div>
+                         </form>                                     
+                    </div>
+               <div class="form-right"></div>
           </div>
 
                
 
           <!-- Footer -->
-          <footer>
+          <footer>               
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

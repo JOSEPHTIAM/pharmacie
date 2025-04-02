@@ -13,14 +13,14 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/logo_principal.jpg') no-repeat center center;
+                    background: url('image/Final_accueil.jpg') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
                     display: flex;
                     flex-direction: column;
                     min-height: 100vh;
-                    font-family: Arial, sans-serif;
+                    font-family: Arial, sans-serif;    
                }
 
                /* Navbar styles */
@@ -53,7 +53,7 @@
                     border: 2px solid white;
                     border-radius: 5px;
                     padding: 5px 10px;
-                    margin: 0 5px;
+                    margin: 0 20px;
                     cursor: pointer;
                     transition: background-color 0.3s, color 0.3s;
                }
@@ -150,9 +150,12 @@
                     background-color: rgba(255, 255, 255, 0.914);
                }
                .form-right {
-                    flex: 1;
-                    background: url('image/logo_5.jpg') no-repeat center center;                    
-                    justify-content: center;                    
+                    flex: 1;                    
+                    background: url('image/Final_publizone.jpg') no-repeat center center;                    
+                    justify-content: center;
+                    width: 100px;
+                    max-width: 255px;
+                    max-height: 300px;                  
                }
                .form-left {
                     //flex: 1;
@@ -184,6 +187,69 @@
                     background-color: #000076;
                }
 
+               /* Responsive design */
+               @media (max-height: 768px) {
+                    /* Navbar styles for mobile */
+                    .navbar {
+                         flex-direction: row; /* Assure que les éléments restent alignés horizontalement */
+                         flex-wrap: wrap; /* Permet de gérer les débordements si nécessaire */
+                         justify-content: space-between; /* Espace entre les éléments */
+                         padding: 10px;
+                    }
+
+                    .navbar .nav-buttons {
+                         flex-direction: row; /* Les boutons restent alignés horizontalement */
+                         justify-content: center;
+                         flex-grow: 1;
+                    }
+
+                    .navbar .nav-buttons button {
+                         margin: 0 10px; /* Réduit les marges pour les petits écrans */
+                         width: auto; /* Empêche les boutons de prendre toute la largeur */
+                    }
+
+                    .navbar .logo {
+                         margin-bottom: 0; /* Supprime les marges inutiles */
+                    }
+
+
+                    /* Marquee text size and position for mobile */
+                    .marquee {
+                         bottom: 150px; /* Adjust position above the footer */
+                    }
+
+                    .marquee span {
+                         font-size: 45px; /* Smaller font size for mobile */
+                         font-weight: bold;
+                         color: rgb(0, 0, 118); /* Indigo color */
+                    }
+
+                    /* Footer styles for mobile */
+                    footer {
+                         flex-direction: column;
+                         text-align: center;
+                         height: auto;
+                         padding: 10px;
+                    }
+
+                    footer .contact,
+                    footer .app-name,
+                    footer .author {
+                         margin: 5px 0;
+                    }
+
+                    /* Marquee text size for mobile */
+                    .marquee span {
+                         font-size: 20px; /* Smaller font size for mobile */
+                    }
+
+                    /* Centered logo adjustments for mobile */
+                    .center-logo img {
+                         width: 100%;
+                         height: auto; /* Maintain aspect ratio */
+                    }
+               }
+
           </style>
 
      </head>
@@ -195,7 +261,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -209,16 +275,7 @@
                     </script> 
 
                     <button class="login-button" id="button1" onclick="connexion()">
-                         <b><strong>Catégories</strong></b>
-                    </button>
-                    <script>
-                         function connexion() {
-                         window.location.href = "{{ url('/connexion') }}";
-                         }
-                    </script> 
-
-                    <button class="login-button" id="button1" onclick="connexion()">
-                         <b><strong>Anonces</strong></b>
+                         <b><strong>Annonces</strong></b>
                     </button>
                     <script>
                          function connexion() {
@@ -282,13 +339,13 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

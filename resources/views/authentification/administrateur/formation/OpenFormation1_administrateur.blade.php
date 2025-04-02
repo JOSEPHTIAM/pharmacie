@@ -3,7 +3,7 @@
      <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Page d'ouverture service ordinateur du coté administrateur</title>
+          <title>Page d'ouverture de formation pdf du coté administrateur</title>
           
           <!-- Bootstrap CSS -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -229,7 +229,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -245,7 +245,7 @@
                <div class="form-container">
                     <div class="form-left">  
                          <h2 align="center">
-                              <font color="#000076"><b><strong>Détails ordinateur</strong></b></font>
+                              <font color="#000076"><b><strong>Détails de formation pdf</strong></b></font>
                          </h2>
                          @if(session('error'))
                               <div class="alert alert-danger">{{ session('error') }}</div>
@@ -255,22 +255,22 @@
                               <div class="alert alert-success">{{ session('success') }}</div>
                          @endif
 
-                         <form action="{{ route('updateService1_administrateur', $service1->id_service1) }}" method="POST" enctype="multipart/form-data">
+                         <form action="{{ route('updateFormation1_administrateur', $formation1->id_formation1) }}" method="POST" enctype="multipart/form-data">
                               @csrf
                               @method('POST')
 
 
                               <div class="form-group">
-                                   <label for="photo">Photo :</label>
-                                   @if($service1->ordinateur && $service1->ordinateur->image_ordinateur)
-                                        <div class="photo-container" style="background-image: url('{{ asset('image/'.$service1->ordinateur->image_ordinateur) }}');"></div>
+                                   <label for="formation1">Pdf de la formation :</label>
+                                   @if($formation1->pdf_formation)
+                                        <div class="photo-container" style="width:450px; background-image: url('{{ asset('storage/images'.'/'.$formation1->pdf_formation) }}');"></div>
                                    @else
                                         N/A
                                    @endif
-                                   </div>         
+                              </div>
                               <style>
                                    .photo-container {
-                                        width: 200%;
+                                        width: 100%;
                                         height: 300px; /* Adjust the height as needed */
                                         background-size: cover;
                                         background-position: center;
@@ -279,69 +279,55 @@
                                    }
                               </style>
 
+                              <br>
+                              
                               <div class="form-group">
-                                   <label for="id_ordinateur">Ordinateur :</label> 
-                                   <strong> {{$service1->ordinateur->nom_ordinateur ?? 'N/A'}} </strong>                        
+                                   <label for="nom_formation">Nom de la formation :</label> 
+                                   <strong> {{$formation1->nom_formation}} </strong>                        
                               </div>
 
                               <div class="form-group">
-                                   <label for="id_ordinateur">Processeur :</label> 
-                                   <strong> {{$service1->ordinateur->processeur ?? 'N/A'}} </strong>                        
+                                   <label for="description_formation">Description de la formation :</label> 
+                                   <strong> {{$formation1->description_formation}} </strong>                        
                               </div>
-                              <div class="form-group">
-                                   <label for="id_ordinateur">Capacité du disque dur :</label> 
-                                   <strong> {{$service1->ordinateur->disque ?? 'N/A'}} GO</strong>                        
-                              </div>
-                              <div class="form-group">
-                                   <label for="id_ordinateur">Capacité de la RAM :</label> 
-                                   <strong> {{$service1->ordinateur->ram ?? 'N/A'}} </strong>                        
-                              </div>
-                              <div class="form-group">
-                                   <label for="id_ordinateur">Génération :</label> 
-                                   <strong> {{$service1->ordinateur->core ?? 'N/A'}} </strong>                        
-                              </div>
-                                                            
+
+
                               <div class="form-group">
                                    <label for="id_localisation">Localisation :</label> 
-                                   <strong> {{$service1->localisation->nom_localisation}} </strong>                        
+                                   <strong> {{$formation1->localisation->nom_localisation}} </strong>                        
                               </div>
 
                               <div class="form-group">
-                                   <label for="description_service">Description :</label> 
-                                   <strong> {{$service1->description_service}} </strong>                        
-                              </div>
-
-                              <div class="form-group">
-                                   <label for="prix_service">Prix unitaire :</label> 
-                                   <strong> {{$service1->prix_service}} CFA</strong>                        
+                                   <label for="prix_formation">Prix unitaire :</label> 
+                                   <strong>{{$formation1->prix_formation}} CFA</strong>                        
                               </div>
                               
                               <div class="form-group">
-                                   <label for="id_magasin">Stock en magasin :</label> 
-                                   <strong> {{$service1->magasin->stock_magasin}} </strong>                        
+                                   <label for="id_magasin">Niveau de la formation pdf :</label> 
+                                   <strong> {{$formation1->magasin->stock_magasin}} </strong>                        
                               </div>
                               
                               <div class="form-group">
-                                   <label for="total_service">Prix total :</label> 
-                                   <strong> {{$service1->total_service}} CFA</strong>                        
+                                   <label for="total_formation">Prix total (en FCFA) :</label> 
+                                   <strong>{{$formation1->total_formation}} CFA</strong>                        
                               </div>
 
                               <div class="form-group">
                                    <label for="matricule">Responsable :</label> 
-                                   <strong> "{{$service1->user->role}}" : &nbsp;&nbsp;{{$service1->user->nom}} {{$service1->user->prenom}} </strong>                        
+                                   <strong> "{{$formation1->user->role}}" : &nbsp;&nbsp;{{$formation1->user->nom}} {{$formation1->user->prenom}} </strong>                        
                               </div>
 
-                         
+                              
                               <div class="form-group text-center">
-                              <button onclick="listeServices_administrateur()" type="reset" class="btn btn-danger">
+                              <button onclick="listeFormations_administrateur()" type="reset" class="btn btn-danger">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
                                         <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
                                    </svg>
                                    <strong>Retour</strong>
                               </button>
                               <script>
-                                   function listeServices_administrateur() {
-                                        window.location.href = "{{ url('listeServices_administrateur') }}";
+                                   function listeFormations_administrateur() {
+                                        window.location.href = "{{ url('listeFormations_administrateur') }}";
                                    }
                               </script>
                               </div>

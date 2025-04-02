@@ -39,6 +39,7 @@ class OrdinateurAPIController extends Controller
 
             DB::beginTransaction();
 
+            // Conditions pour l'image
             if ($request->hasFile('image_ordinateur')) {
                 $image_ordinateur = $request->file('image_ordinateur');
                 $name = time().'.'.$image_ordinateur->getClientOriginalExtension();
@@ -50,6 +51,7 @@ class OrdinateurAPIController extends Controller
             // Génération du id_ordinateur unique
             $id_ordinateur = $this->generateUniqueCode();
             $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur, 'image_ordinateur'=> $name]));
+            
             DB::commit();
             
             return redirect('listeOrdinateurs_administrateur')->with('success', 'Ordinateur enregistré avec success !');
@@ -86,17 +88,19 @@ class OrdinateurAPIController extends Controller
 
             DB::beginTransaction();
 
+            // Conditions pour l'image
             if ($request->hasFile('image_ordinateur')) {
                 $image = $request->file('image_ordinateur');
                 $name = time().'.'.$image->getClientOriginalExtension();
                 $destinationPath = storage_path('app/public/images');
                 $image->move($destinationPath, $name);
-                $request->merge(['image_ordinateur' => 'storage/images/'.$name]); // Assurez-vous que ce chemin est stocké
+                $request->merge(['image_ordinateur' => 'storage/images/'.$name]);     // Assurez-vous que ce chemin est stocké
             }
                     
             // Génération du id_ordinateur unique
             $id_ordinateur = $this->generateUniqueCode();
             $res = Ordinateur::create(array_merge($request->all(), ['id_ordinateur' => $id_ordinateur, 'image_ordinateur'=> $name]));
+            
             DB::commit();
             
             return redirect('listeOrdinateurs_agent')->with('success', 'Ordinateur enregistré avec success !');
@@ -157,8 +161,7 @@ class OrdinateurAPIController extends Controller
 
         $ordinateur = Ordinateur::where('id_ordinateur', $id_ordinateur)->first();
 
-        $request->validate([
-            
+        $request->validate([            
             'nom_ordinateur' => ['required', 'string', new NoScriptOrCode],
             'processeur' => ['required', 'string', new NoScriptOrCode],  
             'disque' => ['required', 'string', new NoScriptOrCode],  
@@ -182,7 +185,6 @@ class OrdinateurAPIController extends Controller
         $ordinateur = Ordinateur::where('id_ordinateur', $id_ordinateur)->first();
 
         $request->validate([
-            
             'nom_ordinateur' => ['required', 'string', new NoScriptOrCode],
             'processeur' => ['required', 'string', new NoScriptOrCode],  
             'disque' => ['required', 'string', new NoScriptOrCode],  

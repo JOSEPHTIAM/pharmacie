@@ -16,7 +16,7 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/electromenager.jpg') no-repeat center center;
+                    background: url('image/Final_formation.jpg') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
@@ -233,7 +233,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -265,6 +265,22 @@
 
                          <form action="{{ route('storeFormation_administrateur') }}" method="post" enctype="multipart/form-data">
                               @csrf
+                              
+
+                              <!-- Vidéo de la formation -->
+                              <div class="form-row">                              
+                                   <div class="form-group col-md-12">
+                                        <label for="video_formation">
+                                             <i class="fas fa-graduation-cap"></i> 
+                                             Vidéo (formats acceptés:mp4, mov, avi, flv Durée:1s à 5h) :
+                                        </label>
+                                        <input type="file" id="video_formation" name="video_formation" class="form-control" value="{{ old('video_formation') }}">
+                                        @error('video_formation')
+                                             <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                   </div>
+                              </div>
+                              
 
                               <!-- Nom de la formation -->
                               <div class="form-row">
@@ -300,22 +316,8 @@
                                         @endforeach
                                    </select>
                                    </div>
-                              </div>
-
+                              </div>                             
                               
-                              <!-- Vidéo de la formation -->
-                              <div class="form-row">
-                                   <div class="form-group col-md-12">
-                                        <label for="video_formation">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
-                                                  <path d="M0 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5zm11.5 1.5L16 4v8l-4.5-2.5v-3z"/>
-                                             </svg>
-                                             Vidéo de la formation :
-                                        </label>
-                                        <input type="file" id="video_formation" name="video_formation" class="form-control" accept="video/*">
-                                   </div>
-                              </div>
-                    
 
                               <!-- Description de la formation -->
                               <div class="form-row">
@@ -325,58 +327,85 @@
                                                   <path d="M4 5h8V4H4v1zM4 7h8v1H4V7zM4 9h8v1H4V9z"/>
                                                   <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
                                              </svg>
-                                             Description de la formation:
+                                             Description de la formation :
                                         </label>
                                         <input type="text" id="description_formation" name="description_formation" class="form-control" value="{{ old('description_formation') }}" placeholder="Compréhensif et instructif">
                                    </div>
                               </div>
 
 
-                              <!-- Prix de la formation -->
+                              <!-- Localisation -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="prix_formation">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                                                  <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                                                  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
-                                             </svg>
-                                             Prix de la formation (en FCFA) <font color="red">*</font> :
-                                        </label>
-                                        <input type="number" id="prix_formation" name="prix_formation" class="form-control" value="{{ old('prix_formation') }}" placeholder="Ex: 400" required min="0" oninput="calculateTotal()">
+                                   <label for="id_localisation">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                        <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
+                                        <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                                   </svg>
+                                   Boutique de l'entreprise <font color="red">*</font> :
+                                   </label>
+                                   <select name="id_localisation" id="id_localisation" class="form-control" required>
+                                        <option value="">Sélectionner la localisation de la boutique</option>
+                                        @foreach(\App\Models\Localisation::all() as $localisation)
+                                             <option value="{{ $localisation->id_localisation }}">
+                                                  "" {{ $localisation->nom_localisation }} "" de {{ $localisation->quartier_localisation }}--{{ $localisation->ville_localisation }}
+                                             </option>
+                                        @endforeach
+                                   </select>
+                                   </div>
+                              </div>
+
+                              
+                              <!-- Prix unitaire -->
+                              <div class="form-row">
+                                   <div class="form-group col-md-12">
+                                   <label for="prix_formation">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                                        <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
+                                   </svg>
+                                   Prix unitaire (en FCFA) <font color="red">*</font> :
+                                   </label>
+                                   <input type="number" id="prix_formation" name="prix_formation" class="form-control" value="{{ old('prix_formation') }}" placeholder="Ex: 400" required min="0" oninput="calculateTotal()">
                                    </div>
                               </div>
 
 
-                              <!-- Niveau de la formation -->
+                              <!-- id_magasin -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
-                                        <label for="niveau_formation">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
-                                                  <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
-                                                  <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                                             </svg>
-                                             Niveau de la formation <font color="red">*</font> :
+                                        <label for="id_magasin">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                             <path d="M3.5 3.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 7a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2zM3.5 10.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2z"/>
+                                             <path d="M5 3h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 7h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zM5 10.5h10.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                                        </svg>
+                                        Niveau de la formation vidéo<font color="red">*</font> :
                                         </label>
-                                        <input type="number" id="niveau_formation" name="niveau_formation" class="form-control" value="{{ old('niveau_formation') }}" placeholder="1" required min="0" oninput="calculateTotal()">
+                                        <select name="id_magasin" id="id_magasin" class="form-control" required onchange="calculateTotal()">
+                                             <option value="">Sélectionner le niveau de la formation</option>
+                                             @foreach(\App\Models\Magasin::all() as $magasin)
+                                                  <option value="{{ $magasin->id_magasin }}" data-stock="{{ $magasin->stock_magasin }}">
+                                                       "" {{ $magasin->stock_magasin }} ""
+                                                  </option>
+                                             @endforeach
+                                        </select>
                                    </div>
                               </div>
 
 
-                              <!-- Prix total de la formation -->
+                              <!-- Prix total -->
                               <div class="form-row">
                                    <div class="form-group col-md-12">
                                         <label for="total_formation">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                                                  <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                                                  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
-                                             </svg>
-                                             Prix total (en FCFA) <font color="red">*</font> :
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                                             <path d="M4 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                             <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5l3 3.5z"/>
+                                        </svg>
+                                        Prix total (en FCFA) <font color="red">*</font> :
                                         </label>
                                         <input type="number" id="total_formation" name="total_formation" class="form-control" value="{{ old('total_formation') }}" placeholder="Génération automatique du prix total" required min="0" readonly>
                                    </div>
                               </div>
-
-
 
 
 
@@ -396,15 +425,15 @@
                                         <strong>Effacer</strong>
                                    </button>
 
-                                   <button onclick="listeServices_administrateur()" type="reset" class="btn btn-danger">
+                                   <button onclick="listeFormations_administrateur()" type="reset" class="btn btn-danger">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
                                              <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
                                         </svg>
                                         <strong>Retour</strong>
                                    </button>
                                    <script>
-                                   function listeServices_administrateur() {
-                                        window.location.href = "{{ url('listeServices_administrateur') }}";
+                                   function listeFormations_administrateur() {
+                                        window.location.href = "{{ url('listeFormations_administrateur') }}";
                                    }
                                    </script>
                               </div>
@@ -418,14 +447,14 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                         Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-                    <p id="timer"></p>
+                         <b>PUBLIZONE</b>
+                         <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                         Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 
@@ -433,12 +462,14 @@
           <!-- Du JS -->
           <script>
                
-               // Pour la gestion de calculs du prix_formation * niveau_formation = total_formation
+               // Pour la gestion de calculs du prix_unitaire*stock_magasin=total_prix
                function calculateTotal() {
                     const prixFormation = document.getElementById('prix_formation').value;
-                    const niveauFormation = document.getElementById('niveau_formation').value;
+                    const idMagasin = document.getElementById('id_magasin');
+                    const selectedMagasin = idMagasin.options[idMagasin.selectedIndex];
+                    const stockMagasin = selectedMagasin ? selectedMagasin.getAttribute('data-stock') : 0;
 
-                    const totalFormation = prixFormation * niveauFormation;
+                    const totalFormation = prixFormation * stockMagasin;
                     document.getElementById('total_formation').value = totalFormation;
                }
                     

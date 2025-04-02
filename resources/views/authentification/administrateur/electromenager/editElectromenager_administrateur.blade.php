@@ -13,7 +13,7 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('{{ asset('image/electromenager.jpg') }}') no-repeat center center;
+                    background: url('{{ asset('image/Final_electronique.jpg') }}') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
@@ -230,7 +230,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -323,19 +323,19 @@
                </div>
         </div>
 
-               
-
+          
+        
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                         Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-                    <p id="timer"></p>
+                         <b>PUBLIZONE</b>
+                         <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                         Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 
@@ -354,25 +354,29 @@
                     }
                });
 
+               
+               // Change logo every 5 seconds (5000 milliseconds)
+               setInterval(changeLogo, 5000);
+
                function startTimer(duration, display) {
-                        let timer = duration, minutes, seconds;
-                        setInterval(function () {
-                            if (timer <= 0) {
-                            window.location.href = "{{ route('connexion') }}";
-                            }
-                            minutes = parseInt(timer / 60, 10);
-                            seconds = parseInt(timer % 60, 10);
+                    let timer = duration, minutes, seconds;
+                    setInterval(function () {
+                         if (timer <= 0) {
+                         window.location.href = "{{ route('connexion') }}";
+                         }
+                         minutes = parseInt(timer / 60, 10);
+                         seconds = parseInt(timer % 60, 10);
 
-                            minutes = minutes < 10 ? "0" + minutes : minutes;
-                            seconds = seconds < 10 ? "0" + seconds : seconds;
+                         minutes = minutes < 10 ? "0" + minutes : minutes;
+                         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                            display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
+                         display.textContent = "Temps restant :  " + minutes + " min " + seconds + " sec";
 
-                            if (--timer < 0) {
-                            timer = duration;
-                            }
-                        }, 1000);
-                }
+                         if (--timer < 0) {
+                         timer = duration;
+                         }
+                    }, 1000);
+               }
 
                window.onload = function () {
                     const remainingTime = {{ session('remaining_time', time()) - time() }};

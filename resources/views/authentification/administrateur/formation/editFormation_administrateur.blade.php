@@ -3,7 +3,7 @@
      <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Page de modification d'electromenager du coté administrateur</title>
+          <title>Page de modification de la formaion vidéo du coté administrateur</title>
           
           <!-- Bootstrap CSS -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -250,7 +250,7 @@
 
                 <div class="form-left">  
                     <h2 align="center">
-                        <font color="#000076"><b><strong>Modification du service électromenager</strong></b></font>
+                        <font color="#000076"><b><strong>Modification de la formation Vidéo</strong></b></font>
                     </h2>
                     @if(session('error'))
                          <div class="alert alert-danger">{{ session('error') }}</div>
@@ -262,30 +262,16 @@
 
 
 
-                    <form action="{{ route('updateService_administrateur', $service->id_service) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('updateFormation_administrateur', $formation->id_formation) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
 
-                        
-                        <div class="form-group">
-                            <label for="id_electromenager">Electroménager :</label>
-                            <select name="id_electromenager" id="id_electromenager" class="form-control">
-                                @foreach(\App\Models\Electromenager::all() as $electromenager)
-                                    <option value="{{ $electromenager->id_electromenager }}" {{ $service->id_electromenager == $electromenager->id_electromenager ? 'selected' : '' }}>
-                                        "" {{ $electromenager->nom_electromenager }} "" de {{ $electromenager->puissance_electromenager }}Watts -- {{ $electromenager->tension_electromenager }}Volts
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('id_electromenager')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
+                                                
                         <div class="form-group">
                             <label for="id_localisation">Localisation :</label>
                             <select name="id_localisation" id="id_localisation" class="form-control" required>
                                 @foreach(\App\Models\Localisation::all() as $localisation)
-                                    <option value="{{ $localisation->id_localisation }}" {{ $service->id_localisation == $localisation->id_localisation ? 'selected' : '' }}>
+                                    <option value="{{ $localisation->id_localisation }}" {{ $formation->id_localisation == $localisation->id_localisation ? 'selected' : '' }}>
                                         "" {{ $localisation->nom_localisation }} "" de {{ $localisation->quartier_localisation }}--{{ $localisation->ville_localisation }}
                                     </option>
                                 @endforeach
@@ -294,28 +280,36 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="form-group">
+                            <label for="nom_formation">Nom de la formation :</label>
+                            <input type="text" class="form-control" id="nom_formation" name="nom_formation" value="{{ old('nom_formation', $formation->nom_formation) }}">
+                                @error('nom_formation')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         
                         <div class="form-group">
-                            <label for="description_service">Description :</label>
-                            <input type="text" class="form-control" id="description_service" name="description_service" value="{{ old('description_service', $service->description_service) }}">
-                                @error('description_service')
+                            <label for="description_formation">Description :</label>
+                            <input type="text" class="form-control" id="description_formation" name="description_formation" value="{{ old('description_formation', $formation->description_formation) }}">
+                                @error('description_formation')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="prix_service">Prix unitaire (en FCFA) :</label>
-                            <input type="number" class="form-control" id="prix_service" name="prix_service" value="{{ old('prix_service', $service->prix_service) }}" required min="0" oninput="calculateTotal()">
-                            @error('prix_service')
+                            <label for="prix_formation">Prix unitaire (en FCFA) :</label>
+                            <input type="number" class="form-control" id="prix_formation" name="prix_formation" value="{{ old('prix_formation', $formation->prix_formation) }}" required min="0" oninput="calculateTotal()">
+                            @error('prix_formation')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         
                         <div class="form-group">
-                            <label for="id_magasin">Stock en magasin :</label>
+                            <label for="id_magasin">Formation de la formation :</label>
                             <select name="id_magasin" id="id_magasin" class="form-control" required onchange="calculateTotal()">
                                 @foreach(\App\Models\Magasin::all() as $magasin)
-                                    <option value="{{ $magasin->id_magasin }}" {{ $service->id_magasin == $magasin->id_magasin ? 'selected' : '' }}>
+                                    <option value="{{ $magasin->id_magasin }}" {{ $formation->id_magasin == $magasin->id_magasin ? 'selected' : '' }}>
                                         "" {{ $magasin->stock_magasin }} ""
                                     </option>
                                 @endforeach
@@ -329,7 +323,7 @@
                             <label for="matricule">Responsable :</label>
                             <select name="matricule" id="matricule" class="form-control" required>
                                 @foreach(\App\Models\User::where('role', 'Administrateur')->orWhere('role', 'Agent')->get() as $user)
-                                    <option value="{{ $user->matricule }}" {{ $service->matricule == $user->matricule ? 'selected' : '' }}>
+                                    <option value="{{ $user->matricule }}" {{ $formation->matricule == $user->matricule ? 'selected' : '' }}>
                                         "{{ $user->role }}" : &nbsp;&nbsp;{{ $user->nom }} {{ $user->prenom }}
                                     </option>
                                 @endforeach
@@ -356,15 +350,15 @@
                               <strong>Effacer</strong>
                               </button>
 
-                              <button onclick="listeAdministrateurs_administrateur()" type="reset" class="btn btn-danger">
+                              <button onclick="listeFormations_administrateur()" type="reset" class="btn btn-danger">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
                                    <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
                               </svg>
                               <strong>Retour</strong>
                               </button>
                               <script>
-                              function listeAdministrateurs_administrateur() {
-                                   window.location.href = "{{ url('listeAdministrateurs_administrateur') }}";
+                              function listeFormations_administrateur() {
+                                   window.location.href = "{{ url('listeFormations_administrateur') }}";
                               }
                               </script>
                          </div>
@@ -394,13 +388,13 @@
             <script>
                // Pour la gestion de calculs du prix_unitaire*stock_magasin=total_prix
                function calculateTotal() {
-                    const prixService = document.getElementById('prix_service').value;
+                    const prixFormation = document.getElementById('prix_formation').value;
                     const idMagasin = document.getElementById('id_magasin');
                     const selectedMagasin = idMagasin.options[idMagasin.selectedIndex];
                     const stockMagasin = selectedMagasin ? selectedMagasin.getAttribute('data-stock') : 0;
 
-                    const totalService = prixService * stockMagasin;
-                    document.getElementById('total_service').value = totalService;
+                    const totalFormation = prixFormation * stockMagasin;
+                    document.getElementById('total_Formation').value = totalFormation;
                }
                
 

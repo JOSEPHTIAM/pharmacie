@@ -41,6 +41,7 @@ use Laravel\Sanctum\HasApiTokens;
  * 
  * @property Collection|Service[] $services
  * @property Collection|Service1[] $services1
+ * 
  * @property Collection|Formation[] $formations
  * @property Collection|Formation1[] $formations1
  * 
@@ -116,6 +117,8 @@ class User extends Model
 		return $this->hasMany(Service1::class, 'matricule');
 	}
 
+
+    
     // Pour l'envoie de la clé secondaire 'matricule' dans la table formation
     public function formations()
 	{

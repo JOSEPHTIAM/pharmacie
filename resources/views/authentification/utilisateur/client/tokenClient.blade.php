@@ -53,7 +53,7 @@
                     border: 2px solid white;
                     border-radius: 5px;
                     padding: 5px 10px;
-                    margin: 0 5px;
+                    margin: 0 20px;
                     cursor: pointer;
                     transition: background-color 0.3s, color 0.3s;
                }
@@ -230,18 +230,15 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
                     <button>
                          <b><strong><del>Accueil</del></strong></b>
-                    </button>
+                    </button>                    
                     <button>
-                         <b><strong><del>Catégories</del></strong></b>
-                    </button>
-                    <button>
-                         <b><strong><del>Anonces</del></strong></b>
+                         <b><strong><del>Annonces</del></strong></b>
                     </button>
                </div>
                <div>
@@ -333,19 +330,16 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 
 
      </body>
 </html>
-
-
-               

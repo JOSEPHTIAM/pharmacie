@@ -230,7 +230,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -356,15 +356,15 @@
                               <strong>Effacer</strong>
                               </button>
 
-                              <button onclick="listeAdministrateurs_administrateur()" type="reset" class="btn btn-danger">
+                              <button onclick="listeServices_administrateur()" type="reset" class="btn btn-danger">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
                                    <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
                               </svg>
                               <strong>Retour</strong>
                               </button>
                               <script>
-                              function listeAdministrateurs_administrateur() {
-                                   window.location.href = "{{ url('listeAdministrateurs_administrateur') }}";
+                              function listeServices_administrateur() {
+                                   window.location.href = "{{ url('listeServices_administrateur') }}";
                               }
                               </script>
                          </div>
@@ -378,17 +378,16 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                     <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
-
 
           <!-- Du JS -->
             <script>

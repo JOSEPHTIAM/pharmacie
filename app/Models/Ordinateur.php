@@ -31,7 +31,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @package App\Models
  */
 
-
+ 
 
 class Ordinateur extends Model
 {
@@ -68,7 +68,6 @@ class Ordinateur extends Model
 	{
 		return $this->hasMany(Service1::class, 'id_ordinateur');
 	}
-
     
     /**
      * Accesseur pour le chemin complet de l'image (utilise le stockage Laravel).
@@ -77,7 +76,7 @@ class Ordinateur extends Model
      */
     public function getImageUrlAttribute()
     {
-        return $this->image_electromenager ? asset('storage/' . $this->image_electromenager) : asset('images/default.png');
+        return $this->image_ordinateur ? asset('storage/' . $this->image_ordinateur) : asset('images/default.png');
     }
     
 

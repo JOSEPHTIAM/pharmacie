@@ -26,6 +26,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Collection|Service[] $services
  * @property Collection|Service1[] $services1
  * 
+ * @property Collection|Formation[] $formations
+ * @property Collection|Formation1[] $formations1
+ * 
  * @package App\Models
  */
 
@@ -68,5 +71,20 @@ class Localisation extends Model
 	{
 		return $this->hasMany(Service1::class, 'id_localisation');
 	}
+
+
+
+    // Pour l'envoie de la clé secondaire 'id_localisation' dans la table formation
+    public function formations()
+	{
+		return $this->hasMany(Formation::class, 'id_localisation');
+	}
+
+    // Pour l'envoie de la clé secondaire 'id_localisation' dans la table formation1
+    public function formations1()
+	{
+		return $this->hasMany(Formation1::class, 'id_localisation');
+	}
+
     
 }

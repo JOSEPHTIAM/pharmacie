@@ -13,27 +13,25 @@ class PasswordUser implements Rule
 
     public function passes($attribute, $value)
     {
-        if (!preg_match('/[A-Z]/', $value)) {
-            $this->message = 'Veuillez inserer au moins une majuscule sur votre password !';
-            return false;
-        }
-
+        // Vérifier qu'il y a au moins une lettre minuscule
         if (!preg_match('/[a-z]/', $value)) {
-            $this->message = 'Veuillez inserer au moins une minuscule sur votre password !';
+            $this->message = 'Veuillez insérer au moins une lettre minuscule dans votre mot de passe !';
             return false;
         }
 
-        if (!preg_match('/\d/', $value)) {
-            $this->message = 'Veuillez inserer au moins un chiffre sur votre password !';
+        // Vérifier qu'il y a au moins 4 lettres minuscules
+        if (preg_match_all('/[a-z]/', $value) < 4) {
+            $this->message = 'Votre mot de passe doit contenir au moins 4 lettres minuscules !';
             return false;
         }
 
+        // Vérifier qu'il y a au moins un caractère spécial
         if (!preg_match('/[@$!%*?&]/', $value)) {
-            $this->message = 'Veuillez inserer au moins un caractere sur votre password !';
+            $this->message = 'Veuillez insérer au moins un caractère spécial dans votre mot de passe !';
             return false;
         }
 
-        return preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $value);
+        return true;
     }
 
     public function message()

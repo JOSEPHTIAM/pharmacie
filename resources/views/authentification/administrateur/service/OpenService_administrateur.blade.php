@@ -13,7 +13,7 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('{{ asset('image/electromenager.jpg') }}') no-repeat center center;
+                    background: url('{{ asset('image/Final_electronique.jpg') }}') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
@@ -229,7 +229,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -261,7 +261,7 @@
 
 
                               <div class="form-group">
-                                   <label for="image_electromenager   ">Photo :</label>
+                                   <label for="image_electromenager">Photo :</label>
                                    @if($service->electromenager && $service->electromenager->image_electromenager)
                                         <div class="photo-container" style="width:450px; background-image: url('{{ asset('storage/images'.'/'.$service->electromenager->image_electromenager) }}');"></div>
                                    @else
@@ -345,19 +345,22 @@
                </div>
           </div>
 
+          
+
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                     <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
+          
 
           
           <!-- Du JS -->

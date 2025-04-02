@@ -233,7 +233,7 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
@@ -324,7 +324,7 @@
                                    <div class="form-group col-md-12">
                                         <label for="password">
                                              <i class="fas fa-lock"></i>
-                                             Mot de passe <font color="red">*</font> :
+                                             Mot de passe (EX: @12MemphysarlSociety) <font color="red">*</font> :
                                         </label>
                                         <input type="password" id="password" name="password" class="form-control" value="{{ old('password') }}" required>
                                         <input type="checkbox" id="togglePassword"> Afficher le mot de passe
@@ -408,18 +408,17 @@
           </div>
 
                
-
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                         Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-                    <p id="timer"></p>
+                         <b>PUBLIZONE</b>
+                         <p id="timer"></p>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                         Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

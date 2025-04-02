@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Page d'accueil du client</title>
-        
+        <title>CLIENT: Page d'accueil </title>
+
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        
-        <!-- Style CSS -->        
+
+        <!-- Style CSS -->
         <style>
             body {
                 margin: 0;
@@ -51,7 +51,18 @@
                 border: 2px solid white;
                 border-radius: 5px;
                 padding: 5px 10px;
-                margin: 0 5px;
+                margin: 0 35px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .navbar .nav-buttons .login-button_actuellement {
+                background-color: white;
+                color: rgb(0, 0, 118);
+                border: 2px solid white;
+                border-radius: 5px;
+                padding: 5px 10px;
+                margin: 0 35px;
                 cursor: pointer;
                 transition: background-color 0.3s, color 0.3s;
             }
@@ -63,7 +74,7 @@
 
             .navbar .login-button {
                 background-color: white;
-                color: #cf0000; /* Indigo */
+                color: rgb(0, 0, 118); /* Indigo */
                 border: none;
                 padding: 5px 15px;
                 border-radius: 5px;
@@ -77,7 +88,7 @@
 
             /* Footer styles */
             footer {
-                background-color: rgb(12, 13, 13);
+                background-color: rgb(0, 0, 0);
                 color: white;
                 position: fixed;
                 left: 0;
@@ -123,25 +134,110 @@
                 left: 0;
                 width: 100vw;
                 height: 100vh;
-                object-fit: cover; /* Ensures the image fills the screen while maintaining aspect ratio */
-            }
-            
-            .fixed-button {
-                position: fixed;
-                bottom: 70px; /* Place le bouton juste au-dessus du footer */
-                right: 20px; /* Décalage à droite */
-                background-color: #cf0000;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                z-index: 1000;
+                /* Ensures the image fills the screen while maintaining aspect ratio */
             }
 
-            .fixed-button:hover {
-                background-color: #E6E6FA; /* Effet hover */
-                color: #cf0000;
+            /* Marquee styles */
+            .marquee1 {
+                position: absolute;
+                margin-top: 300px; /* Just above the footer */
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                z-index: 999; /* Ensure it appears above the background */
+                font-size: 80px;
+                font-weight: bold;
+                color: rgb(0, 0, 118); /* Indigo color */ 
+                background-color: rgba(253, 253, 253, 0.73);
+            }
+
+            .marquee0 {
+                position: absolute;
+                margin-top: 800px; /* Just above the footer */
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                z-index: 999; /* Ensure it appears above the background */
+                font-size: 30px;
+                font-weight: bold;
+                color: white; /* Indigo color */ 
+                background-color: rgb(0, 0, 118);
+            }
+
+            
+
+            /* Keyframes for scrolling effect */
+            @keyframes marquee {
+                0% {
+                    transform: translateX(100%); /* Start completely off-screen to the right */
+                }
+                100% {
+                    transform: translateX(-100%); /* End completely off-screen to the left */
+                }
+            }
+
+
+            /* Responsive design */
+            @media (max-height: 768px) {
+                /* Navbar styles for mobile */
+                .navbar {
+                    flex-direction: row; /* Assure que les éléments restent alignés horizontalement */
+                    flex-wrap: wrap; /* Permet de gérer les débordements si nécessaire */
+                    justify-content: space-between; /* Espace entre les éléments */
+                    padding: 10px;
+                }
+
+                .navbar .nav-buttons {
+                    flex-direction: row; /* Les boutons restent alignés horizontalement */
+                    justify-content: center;
+                    flex-grow: 1;
+                }
+
+                .navbar .nav-buttons button {
+                    margin: 0 10px; /* Réduit les marges pour les petits écrans */
+                    width: auto; /* Empêche les boutons de prendre toute la largeur */
+                }
+
+                .navbar .logo {
+                    margin-bottom: 0; /* Supprime les marges inutiles */
+                }
+
+
+                /* Marquee text size and position for mobile */
+                .marquee {
+                    bottom: 150px; /* Adjust position above the footer */
+                }
+
+                .marquee span {
+                    font-size: 45px; /* Smaller font size for mobile */
+                    font-weight: bold;
+                    color: rgb(0, 0, 118); /* Indigo color */
+                }
+
+                /* Footer styles for mobile */
+                footer {
+                    flex-direction: column;
+                    text-align: center;
+                    height: auto;
+                    padding: 10px;
+                }
+
+                footer .contact,
+                footer .app-name,
+                footer .author {
+                    margin: 5px 0;
+                }
+
+                /* Marquee text size for mobile */
+                .marquee span {
+                    font-size: 20px; /* Smaller font size for mobile */
+                }
+
+                /* Centered logo adjustments for mobile */
+                .center-logo img {
+                    width: 100%;
+                    height: auto; /* Maintain aspect ratio */
+                }
             }
 
         </style>
@@ -149,103 +245,77 @@
     </head>
 
     <body>
-        
+
         <!-- Navbar -->
         <nav class="navbar">
             <div class="form-left"></div>
 
             <div class="logo">
-                <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
-                Client: <strong><u>EVE JORDANIE</u></strong>
+                <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
             </div>
 
-            <div class="nav-buttons">
-                <button>
+            <div class="nav-buttons"> 
+                <button class="login-button" id="button1" onclick="accueilClient()">
                     <b><strong>Accueil</strong></b>
-                </button>
-                <button>
-                    <b><strong>Catégories</strong></b>
-                </button>
-                <button>
-                    <b><strong>Anonces</strong></b>
-                </button>
-            </div>
-            <div>
-                <button class="login-button" id="button1" onclick="connexion()">
-                    <b><strong>SE DÉCONNECTER</strong></b>
+                </button> 
+                <script>
+                    function accueilClient() {
+                        window.location.href = "{{ url('/accueilClient') }}";
+                    }
+                </script>  
+
+                <button class="login-button" id="button1" onclick="annonce()">
+                    <b><strong>Annonces</strong></b>
                 </button>
                 <script>
-                    function connexion() {
-                        window.location.href = "{{ url('/connexion') }}";
+                    function annonce() {
+                        window.location.href = "{{ url('/annonce') }}";
                     }
-                </script>               
+                </script>
             </div>
+
+            <button class="login-button" id="button1" onclick="connexion()">
+                <b><strong><font color="red">SE DÉCONNECTER</font></strong></b>
+            </button>
+            <script>
+                function connexion() {
+                    window.location.href = "{{ url('/connexion') }}";
+                }
+            </script>   
         </nav>
 
 
         <!-- Centered logo in the content and fullscreen -->
         <div class="content">
             <div class="center-logo">
-                <img id="dynamic-logo" src="{{ asset('image/logo_principal.jpg') }}" alt="Logo plein écran">
+                <img id="dynamic-logo" src="{{ asset('image/Final_client.jpg') }}" alt="Logo plein écran">
             </div>
         </div>
 
-
-        
-        <div>
-            <button class="fixed-button" onclick="listeDesClients()">
-                <b><strong>Liste des clients</strong></b>
-            </button>
+        <div align="center" class="marquee1">
+            Découvrez nos <br> différentes <br>annonces !
         </div>
+        <div align="center" class="marquee0">
+            Sur mobile de préférence
+        </div>
+
+
+        <!-- Footer -->
+        <footer>
+            <div class="contact">
+                Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
+            </div>
+            <div class="app-name">
+                <b>PUBLIZONE</b>
+            </div>
+            <div class="author">
+                Société : <b><strong>MEMPHYS.SARL</strong></b>
+            </div>
+        </footer>
+
+
+        <!-- JavaScript to change logos -->
         <script>
-            function listeDesClients() {
-                window.location.href = "{{ url('/listeDesClients') }}";
-            }
-        </script> 
-
-
-
-          <!-- Footer -->
-          <footer>
-               <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
-               </div>
-               <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
-                    <p id="timer"></p>
-               </div>
-               <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
-               </div>
-          </footer>
-
-
-          <!-- JavaScript to change logos -->
-          <script>
-               // Array of logo paths
-
-               /*
-               const logos = [
-                    "{{ asset('image/logo_1.jpg') }}",
-                    "{{ asset('image/logo_2.jpg') }}",
-                    "{{ asset('image/logo_3.jpg') }}",
-                    "{{ asset('image/logo_4.jpg') }}"
-               ];
-               */
-
-               // Get the image element
-               const logoElement = document.getElementById('dynamic-logo');
-               let logoIndex = 0;
-
-               // Function to change the logo
-               function changeLogo() {
-                    logoIndex = (logoIndex + 1) % logos.length; // Loop through the array
-                    logoElement.src = logos[logoIndex];
-               }
-
-               // Change logo every 5 seconds (5000 milliseconds)
-               setInterval(changeLogo, 5000);
-
                function startTimer(duration, display) {
                     let timer = duration, minutes, seconds;
                     setInterval(function () {
@@ -272,6 +342,13 @@
                     startTimer(remainingTime, display);
                };
           </script>
+
+            <!-- =========== Scripts =========  -->
+            <script src="assets/js/main.js"></script>
+
+            <!-- ====== ionicons ======= -->
+            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     </body>
 </html>

@@ -16,7 +16,7 @@
           <!-- Style CSS -->        
           <style>
                body {
-                    background: url('image/14.jpg') no-repeat center center;
+                    background: url('image/Final_login.jpg') no-repeat center center;
                     background-size: cover; /* This will make the background image cover the entire page */
                     margin: 0;
                     padding: 0;
@@ -56,7 +56,7 @@
                     border: 2px solid white;
                     border-radius: 5px;
                     padding: 5px 10px;
-                    margin: 0 5px;
+                    margin: 0 20px;
                     cursor: pointer;
                     transition: background-color 0.3s, color 0.3s;
                }
@@ -148,14 +148,17 @@
                     box-shadow: 0 0 10px rgb(0, 0, 118);
                     border-radius: 10px;
                     overflow: hidden;
-                    width: 40%;
-                    max-width: 500px;
+                    width: 90%;
+                    max-width: 1500px;
                     background-color: rgba(255, 255, 255, 0.914);
-               }
+               }               
                .form-right {
                     flex: 1;
-                    background: url('image/logo_5.jpg') no-repeat center center;                    
-                    justify-content: center;                    
+                    background: url('image/Final_publizone.jpg') no-repeat center center;                    
+                    justify-content: center;
+                    width: 10px;
+                    max-width: 565px;
+                    max-height: 700px;                  
                }
                .form-left {
                     //flex: 1;
@@ -233,19 +236,27 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
-                    <button>
+                    <button class="login-button" id="button1" onclick="connexion1()">
                          <b><strong>Accueil</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Catégories</strong></b>
+                    <script>
+                         function connexion1() {
+                         window.location.href = "{{ url('/') }}";
+                         }
+                    </script>
+                    
+                    <button class="login-button" id="button1" onclick="connexion()">
+                         <b><strong>Annonces</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Anonces</strong></b>
-                    </button>
+                    <script>
+                         function connexion() {
+                         window.location.href = "{{ url('/connexion') }}";
+                         }
+                    </script>
                </div>
                <div>
                     <button class="login-button" id="button1" onclick="connexion()">
@@ -341,7 +352,7 @@
                                    <div class="form-group col-md-12">
                                         <label for="password">
                                              <i class="fas fa-lock"></i>
-                                             Mot de passe <font color="red">*</font> :
+                                             Mot de passe (EX: @12MemphysarlSociety) <font color="red">*</font> :
                                         </label>
                                         <input type="password" id="password" name="password" class="form-control" value="{{ old('password') }}" required>
                                         <input type="checkbox" id="togglePassword"> Afficher le mot de passe
@@ -385,7 +396,7 @@
                                    <div class="form-group col-md-12">
                                         <label for="non_redevence">
                                              <i class="fas fa-tag"></i>
-                                             Numéro de Redevence :
+                                             Cv en Pdf :
                                         </label>
                                         <input type="file" id="non_redevence" name="non_redevence" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png" value="{{ old('non_redevence') }}">
                                    </div>
@@ -422,6 +433,7 @@
                          </form>                              
                     </div>              
                  
+                    <div class="form-right"></div>
                </div>
           </div>
 
@@ -430,13 +442,13 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

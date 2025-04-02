@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Rules\NoScriptOrCode;
 use Illuminate\Support\Facades\Storage;
 
+use FFMpeg\FFProbe;
+
 
 
 class FormationAPIController extends Controller
@@ -50,36 +52,65 @@ class FormationAPIController extends Controller
                 'nom_formation' => ['required', 'string', new NoScriptOrCode],
                 'description_formation' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-                'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-                'matricule' => 'required|string|exists:users,matricule',
-                'video_formation' => 'nullable|file|mimes:mp4,mov,avi,flv|max:20480', // 20MB max
+                'id_magasin' => 'required|string|exists:magasin,id_magasin',
+                'matricule' => 'required|string|exists:user,matricule',
+                'id_localisation' => 'required|string|exists:localisation,id_localisation',
+                'video_formation' => 'nullable|video|mimes:mp4,mov,avi,flv|max:20480', // Accepter uniquement les vidéos
             ];
             
             // Validation du formulaire
             $this->validate($request, $rules);
 
+
+            if ($request->hasFile('image_ordinateur')) {
+                $image_ordinateur = $request->file('image_ordinateur');
+                $name = time().'.'.$image_ordinateur->getClientOriginalExtension();
+                $destinationPath = storage_path('app/public/images');
+                $image_ordinateur->move($destinationPath, $name);
+                $request->merge(['image_ordinateur' => 'storage/images/'.$name]);
+            }
+
             DB::beginTransaction();
 
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+            
+            // Condition pour la vidéo compris enrte 01 seconde et 05 heures de temps
+            if ($request->hasFile('video_formation')) {
+                $video = $request->file('video_formation');
+                $name = time().'.'.$video->getClientOriginalExtension();
+                $destinationPath = storage_path('app/public/videos');
+                $video->move($destinationPath, $name);
+
+                // Vérification de la durée de la vidéo
+                $videoPath = $destinationPath.'/'.$name;
+                $ffprobe = FFProbe::create();
+                $duration = $ffprobe->format($videoPath)->get('duration');
+
+                // Condition de la Munitation
+                if ($duration < 1 || $duration > 18000) {
+                    throw new \Exception('La durée de la vidéo doit être comprise entre 1 seconde et 5 heures (18 000 secondes).');
+                }
+
+                $request->merge(['video_formation' => 'storage/videos/'.$name]);
+            }
+
+            
             // Calculer le total_formation
-            $total_formation = $request->prix_formation * $request->niveau_formation;
+            $total_formation = $request->prix_formation * $stock_magasin;
 
             // Génération du id_formation unique
             $id_formation = $this->generateUniqueCode();
-
-            // Gestion du fichier vidéo
-            $videoPath = null;
-            if ($request->hasFile('video_formation')) {
-                $videoPath = $request->file('video_formation')->store('videos', 'public');
-            }
-
             $res = Formation::create(array_merge($request->all(), [
                 'id_formation' => $id_formation,
-                'total_formation' => $total_formation,
-                'video_formation' => $videoPath,
+                'total_formation' => $total_formation, 
+                'video_formation'=> $name,
             ]));
+
             DB::commit();
 
-            return redirect('listeFormations_administrateur')->with('success', 'Formation vidéo enregistrée avec succès !')->with('id_formation', $id_formation);
+            return redirect('listeFormations_administrateur')->with('success', 'Formation vidéo enregistrée avec succès !');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -89,7 +120,7 @@ class FormationAPIController extends Controller
                 }
                 return redirect('error')->with('error', 'Problème de liaison à la base de données !');
             }
-            return redirect('error')->with('error', 'Problème de liaison à la base de données !');
+            return redirect('error')->with('error', 'Aucune connexion à la base de données !');
         }
     }
 
@@ -101,36 +132,56 @@ class FormationAPIController extends Controller
                 'nom_formation' => ['required', 'string', new NoScriptOrCode],
                 'description_formation' => ['nullable', 'string', new NoScriptOrCode],
                 'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-                'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-                'matricule' => 'required|string|exists:users,matricule',
-                'video_formation' => 'nullable|file|mimes:mp4,mov,avi|max:20480', // 20MB max
-            ];
-
+                'id_magasin' => 'required|string|exists:magasin,id_magasin',
+                'matricule' => 'required|string|exists:user,matricule',
+                'id_localisation' => 'required|string|exists:localisation,id_localisation',
+                'video_formation' => 'nullable|mimes:mp4,mov,avi,flv|max:20480', // Accepter uniquement les vidéos
+                ];
+            
             // Validation du formulaire
             $this->validate($request, $rules);
 
             DB::beginTransaction();
 
+            // Condition pour la vidéo compris enrte 01 seconde et 05 heures de temps
+            if ($request->hasFile('video_formation')) {
+                $video = $request->file('video_formation');
+                $name = time() . '.' . $video->getClientOriginalExtension();
+                $destinationPath = storage_path('app/public/videos');
+                $video->move($destinationPath, $name);
+
+                // Vérification de la durée de la vidéo
+                $videoPath = $destinationPath . '/' . $name;
+                $ffprobe = FFProbe::create();
+                $duration = $ffprobe->format($videoPath)->get('duration');
+
+                // Condition de la Munitation
+                if ($duration < 1 || $duration > 18000) {
+                    throw new \Exception('La durée de la vidéo doit être comprise entre 1 seconde et 5 heures (18 000 secondes).');
+                }
+
+                $request->merge(['video_formation' => 'storage/videos/' . $name]);
+            }
+
+            
+            // Récupérer le stock_magasin en fonction de id_magasin
+            $magasin = Magasin::findOrFail($request->id_magasin);
+            $stock_magasin = $magasin->stock_magasin;
+
             // Calculer le total_formation
-            $total_formation = $request->prix_formation * $request->niveau_formation;
+            $total_formation = $request->prix_formation * $stock_magasin;
 
             // Génération du id_formation unique
             $id_formation = $this->generateUniqueCode();
-
-            // Gestion du fichier vidéo --- Pour envoyer le chemin de la vidéo dans la base de données.
-            $videoPath = null;
-            if ($request->hasFile('video_formation')) {
-                $videoPath = $request->file('video_formation')->store('videos', 'public');
-            }
-
             $res = Formation::create(array_merge($request->all(), [
                 'id_formation' => $id_formation,
-                'total_formation' => $total_formation,
-                'video_formation' => $videoPath,
+                'total_formation' => $total_formation, 
+                'video_formation'=> $name,
             ]));
+
             DB::commit();
 
-            return redirect('listeFormations_agent')->with('success', 'Formation vidéo enregistrée avec succès !')->with('id_formation', $id_formation);
+            return redirect('listeFormations_agent')->with('success', 'Formation vidéo enregistrée avec succès !');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -167,32 +218,27 @@ class FormationAPIController extends Controller
             'nom_formation' => ['required', 'string', new NoScriptOrCode],
             'description_formation' => ['nullable', 'string', new NoScriptOrCode],
             'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-            'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-            'matricule' => 'required|string|exists:users,matricule',
-            'video_formation' => 'nullable|file|mimes:mp4,mov,avi|max:20480', // 20MB max
+            'id_magasin' => 'required|string|exists:magasin,id_magasin',
+            'matricule' => 'required|string|exists:user,matricule',
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
         ]);
 
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
         // Calculer le total_formation
-        $total_formation = $request->prix_formation * $request->niveau_formation;
+        $total_formation = $request->prix_formation * $stock_magasin;
 
-        // Gestion du fichier vidéo
-        if ($request->hasFile('video_formation')) {
-            // Supprimer l'ancienne vidéo si elle existe
-            if ($formation->video_formation) {
-                Storage::disk('public')->delete($formation->video_formation);
-            }
-            $videoPath = $request->file('video_formation')->store('videos', 'public');
-            $formation->video_formation = $videoPath;
-        }
-
-        $formation->nom_formation = $request->nom_formation;
         $formation->description_formation = $request->description_formation;
         $formation->prix_formation = $request->prix_formation;
-        $formation->niveau_formation = $request->niveau_formation;
         $formation->total_formation = $total_formation;
+        $formation->id_magasin = $request->id_magasin;
         $formation->matricule = $request->matricule;
+        $formation->id_localisation = $request->id_localisation;
 
         $formation->save();
+
         return redirect()->route('listeFormations_administrateur')->with('success', 'Formation vidéo modifiée avec succès !');
     }
 
@@ -204,32 +250,27 @@ class FormationAPIController extends Controller
             'nom_formation' => ['required', 'string', new NoScriptOrCode],
             'description_formation' => ['nullable', 'string', new NoScriptOrCode],
             'prix_formation' => ['required', 'integer', new NoScriptOrCode],
-            'niveau_formation' => ['required', 'integer', new NoScriptOrCode],
-            'matricule' => 'required|string|exists:users,matricule',
-            'video_formation' => 'nullable|file|mimes:mp4,mov,avi|max:20480', // 20MB max
+            'id_magasin' => 'required|string|exists:magasin,id_magasin',
+            'matricule' => 'required|string|exists:user,matricule',
+            'id_localisation' => 'required|string|exists:localisation,id_localisation',
         ]);
 
+        // Récupérer le stock_magasin en fonction de id_magasin
+        $magasin = Magasin::findOrFail($request->id_magasin);
+        $stock_magasin = $magasin->stock_magasin;
+
         // Calculer le total_formation
-        $total_formation = $request->prix_formation * $request->niveau_formation;
+        $total_formation = $request->prix_formation * $stock_magasin;
 
-        // Gestion du fichier vidéo
-        if ($request->hasFile('video_formation')) {
-            // Supprimer l'ancienne vidéo si elle existe
-            if ($formation->video_formation) {
-                Storage::disk('public')->delete($formation->video_formation);
-            }
-            $videoPath = $request->file('video_formation')->store('videos', 'public');
-            $formation->video_formation = $videoPath;
-        }
-
-        $formation->nom_formation = $request->nom_formation;
         $formation->description_formation = $request->description_formation;
         $formation->prix_formation = $request->prix_formation;
-        $formation->niveau_formation = $request->niveau_formation;
         $formation->total_formation = $total_formation;
+        $formation->id_magasin = $request->id_magasin;
         $formation->matricule = $request->matricule;
+        $formation->id_localisation = $request->id_localisation;
 
         $formation->save();
+
         return redirect()->route('listeFormations_agent')->with('success', 'Formation vidéo modifiée avec succès !');
     }
 
@@ -237,12 +278,7 @@ class FormationAPIController extends Controller
     public function destroyFormation_administrateur($id_formation)
     {
         try {
-            $formation = Formation::findOrFail($id_formation);
-            // Supprimer la vidéo associée si elle existe
-            if ($formation->video_formation) {
-                Storage::disk('public')->delete($formation->video_formation);
-            }
-            $formation->delete(); // Supprimer la formation
+            Formation::destroy($id_formation); // Supprimer la service
             // Redirection avec un message de succès
             return redirect('listeFormations_administrateur')->with('success', 'Suppression de la formation vidéo réussie !');
         } catch (\Throwable $th) {
@@ -254,17 +290,12 @@ class FormationAPIController extends Controller
     public function destroyFormation_agent($id_formation)
     {
         try {
-            $formation = Formation::findOrFail($id_formation);
-            // Supprimer la vidéo associée si elle existe
-            if ($formation->video_formation) {
-                Storage::disk('public')->delete($formation->video_formation);
-            }
-            $formation->delete(); // Supprimer la formation
+            Formation::destroy($id_formation); // Supprimer la service
             // Redirection avec un message de succès
             return redirect('listeFormations_agent')->with('success', 'Suppression de la formation vidéo réussie !');
         } catch (\Throwable $th) {
             // Redirection en cas d'erreur avec un message d'erreur
-            return redirect('error_agent')->with('error', 'Erreur lors de la suppression de la formation vidéo !');
+            return redirect('error_administrateur')->with('error', 'Erreur lors de la suppression de la formation vidéo !');
         }
     }
 
@@ -273,8 +304,8 @@ class FormationAPIController extends Controller
     {
         $keyword = $request->input('keyword');
         $formations = Formation::where("id_formation", "like", "%$request->keyword%")
-            ->orWhere("nom_formation", "like", "%$request->keyword%")
             ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
             ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.administrateur.Formation.listeFormations_administrateur', compact('formations'));
@@ -284,8 +315,8 @@ class FormationAPIController extends Controller
     {
         $keyword = $request->input('keyword');
         $formations = Formation::where("id_formation", "like", "%$request->keyword%")
-            ->orWhere("nom_formation", "like", "%$request->keyword%")
             ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
             ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.utilisateur.agent.listes.listeFormations_agent', compact('formations'));
@@ -294,13 +325,16 @@ class FormationAPIController extends Controller
     public function searchFormation_client(Request $request)
     {
         $keyword = $request->input('keyword');
-        $formations = Formation::where("nom_formation", "like", "%$request->keyword%")
+        $formations = Formation::where("id_formation", "like", "%$request->keyword%")
             ->orWhere("description_formation", "like", "%$request->keyword%")
+            ->orWhere("nom_formation", "like", "%$request->keyword%")
             ->orWhere("prix_formation", "like", "%$request->keyword%")
             ->get();
         return view('authentification.utilisateur.client.listeFormations_client', compact('formations'));
     }
 
+
+    
     // Pour les ouvertures des données détaillées
     public function OpenFormation_administrateur($id_formation)
     {

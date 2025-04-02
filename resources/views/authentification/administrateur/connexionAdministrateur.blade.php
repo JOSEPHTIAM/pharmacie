@@ -56,7 +56,7 @@
                     border: 2px solid white;
                     border-radius: 5px;
                     padding: 5px 10px;
-                    margin: 0 5px;
+                    margin: 0 20px;
                     cursor: pointer;
                     transition: background-color 0.3s, color 0.3s;
                }
@@ -148,14 +148,17 @@
                     box-shadow: 0 0 10px rgb(0, 0, 118);
                     border-radius: 10px;
                     overflow: hidden;
-                    width: 40%;
-                    max-width: 500px;
+                    width: 90%;
+                    max-width: 1500px;
                     background-color: rgba(255, 255, 255, 0.914);
-               }
+               }               
                .form-right {
                     flex: 1;
-                    background: url('image/logo_5.jpg') no-repeat center center;                    
-                    justify-content: center;                    
+                    background: url('image/Final_publizone.jpg') no-repeat center center;                    
+                    justify-content: center;
+                    width: 10px;
+                    max-width: 480px;
+                    max-height: 350px;                  
                }
                .form-left {
                     //flex: 1;
@@ -233,19 +236,27 @@
                <div class="form-left"></div>
 
                <div class="logo">
-                    <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                    <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
                </div>
 
                <div class="nav-buttons">
-                    <button>
+                    <button class="login-button" id="button1" onclick="connexion1()">
                          <b><strong>Accueil</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Catégories</strong></b>
+                    <script>
+                         function connexion1() {
+                         window.location.href = "{{ url('/') }}";
+                         }
+                    </script>
+                    
+                    <button class="login-button" id="button1" onclick="connexion()">
+                         <b><strong>Annonces</strong></b>
                     </button>
-                    <button>
-                         <b><strong>Anonces</strong></b>
-                    </button>
+                    <script>
+                         function connexion() {
+                         window.location.href = "{{ url('/connexion') }}";
+                         }
+                    </script>
                </div>
                <div>
                     <button class="login-button" id="button1" onclick="connexion()">
@@ -300,7 +311,6 @@
                                    <div class="form-group col-md-12">
                                         <label for="email"><i class="fas fa-envelope"></i> Email :</label>
                                         <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         Vous n'avez pas compte ?
                                         <a href="/nouveauAdministrateur">
                                         <strong>Créer un nouveau compte</strong>
@@ -342,6 +352,7 @@
                               
                     </div>
                  
+                    <div class="form-right"></div>
                </div>
           </div>
 
@@ -349,13 +360,13 @@
           <!-- Footer -->
           <footer>
                <div class="contact">
-                    Joindre : <b><strong>+237659435256</strong></b>
+                    Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
                </div>
                <div class="app-name">
-                    <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                    <b>PUBLIZONE</b>
                </div>
                <div class="author">
-                    Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                    Société : <b><strong>MEMPHY.SARL</strong></b>
                </div>
           </footer>
 

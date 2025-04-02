@@ -55,6 +55,15 @@ Route::get('accueilClient', function () { return view('authentification.utilisat
 Route::get('accueilAgent', function () { return view('authentification.utilisateur.agent.accueilAgent'); })->name('accueilAgent');
 Route::get('accueilAdministrateur', function () { return view('authentification.administrateur.accueilAdministrateur'); })->name('accueilAdministrateur');
 Route::get('listeDesClients', function () { return view('authentification.utilisateur.client.listeDesClients'); })->name('listeDesClients');
+
+Route::get('listeServiceElectronique', function () { return view('authentification.utilisateur.client.service.listeServiceElectronique'); })->name('listeServiceElectronique');
+Route::get('listeServiceOrdinateur', function () { return view('authentification.utilisateur.client.service.listeServiceOrdinateur'); })->name('listeServiceOrdinateur');
+Route::get('categorieService', function () { return view('authentification.utilisateur.client.service.categorieService'); })->name('categorieService');
+Route::get('categorieFormation', function () { return view('authentification.utilisateur.client.formation.categorieFormation'); })->name('categorieFormation');
+Route::get('annonce', function () { return view('authentification.utilisateur.client.annonce.annonce'); })->name('annonce');
+Route::get('panierClient', function () { return view('authentification.utilisateur.client.panier.panierClient'); })->name('panierClient');
+Route::get('transactionClient', function () { return view('authentification.utilisateur.client.transaction.transactionClient'); })->name('transactionClient');
+
 //_______________________________________________________________________________-
 
 
@@ -346,7 +355,7 @@ Route::get("/searchService_agent", [\App\Http\Controllers\api\ServiceAPIControll
 Route::get("/searchService_client", [\App\Http\Controllers\api\ServiceAPIController::class, 'searchService_client'])->name('searchService_client');
 Route::get("/searchService1_administrateur", [\App\Http\Controllers\api\Service1APIController::class, 'searchService1_administrateur'])->name('searchService1_administrateur');
 Route::get("/searchService1_agent", [\App\Http\Controllers\api\Service1APIController::class, 'searchService1_agent'])->name('searchService1_agent');
-Route::get("/searchService1_client", [\App\Http\Controllers\api\Service1APIController::class, 'searchService1_agent'])->name('searchService1_agent');
+Route::get("/searchService1_client", [\App\Http\Controllers\api\Service1APIController::class, 'searchService1_client'])->name('searchService1_client');
 //_______________________________________________________________________________-
 
 

@@ -51,7 +51,7 @@
                 border: 2px solid white;
                 border-radius: 5px;
                 padding: 5px 10px;
-                margin: 0 5px;
+                margin: 0 35px;
                 cursor: pointer;
                 transition: background-color 0.3s, color 0.3s;
             }
@@ -77,7 +77,7 @@
 
             /* Footer styles */
             footer {
-                background-color: rgb(255, 2, 217);
+                background-color: rgb(0, 0, 0);
                 color: white;
                 position: fixed;
                 left: 0;
@@ -123,7 +123,96 @@
                 left: 0;
                 width: 100vw;
                 height: 100vh;
-                object-fit: cover; /* Ensures the image fills the screen while maintaining aspect ratio */
+                /* Ensures the image fills the screen while maintaining aspect ratio */
+            }
+
+            /* Marquee styles */
+            .marquee1 {
+                position: absolute;
+                margin-top: 350px; /* Just above the footer */
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                z-index: 999; /* Ensure it appears above the background */
+                font-size: 80px;
+                font-weight: bold;
+                color: rgb(0, 0, 118); /* Indigo color */ 
+            }
+
+            
+
+            /* Keyframes for scrolling effect */
+            @keyframes marquee {
+                0% {
+                    transform: translateX(100%); /* Start completely off-screen to the right */
+                }
+                100% {
+                    transform: translateX(-100%); /* End completely off-screen to the left */
+                }
+            }
+
+
+            /* Responsive design */
+            @media (max-height: 768px) {
+                /* Navbar styles for mobile */
+                .navbar {
+                    flex-direction: row; /* Assure que les éléments restent alignés horizontalement */
+                    flex-wrap: wrap; /* Permet de gérer les débordements si nécessaire */
+                    justify-content: space-between; /* Espace entre les éléments */
+                    padding: 10px;
+                }
+
+                .navbar .nav-buttons {
+                    flex-direction: row; /* Les boutons restent alignés horizontalement */
+                    justify-content: center;
+                    flex-grow: 1;
+                }
+
+                .navbar .nav-buttons button {
+                    margin: 0 10px; /* Réduit les marges pour les petits écrans */
+                    width: auto; /* Empêche les boutons de prendre toute la largeur */
+                }
+
+                .navbar .logo {
+                    margin-bottom: 0; /* Supprime les marges inutiles */
+                }
+
+
+                /* Marquee text size and position for mobile */
+                .marquee {
+                    bottom: 150px; /* Adjust position above the footer */
+                }
+
+                .marquee span {
+                    font-size: 45px; /* Smaller font size for mobile */
+                    font-weight: bold;
+                    color: rgb(0, 0, 118); /* Indigo color */
+                }
+
+                /* Footer styles for mobile */
+                footer {
+                    flex-direction: column;
+                    text-align: center;
+                    height: auto;
+                    padding: 10px;
+                }
+
+                footer .contact,
+                footer .app-name,
+                footer .author {
+                    margin: 5px 0;
+                }
+
+                /* Marquee text size for mobile */
+                .marquee span {
+                    font-size: 20px; /* Smaller font size for mobile */
+                }
+
+                /* Centered logo adjustments for mobile */
+                .center-logo img {
+                    width: 100%;
+                    height: auto; /* Maintain aspect ratio */
+                }
             }
 
         </style>
@@ -137,7 +226,7 @@
             <div class="form-left"></div>
 
             <div class="logo">
-                <img src="{{ asset('image/logo_1.jpg') }}" alt="Logo" style="height: 40px;">
+                <img src="{{ asset('image/Final_publizone.jpg') }}" alt="Logo" style="height: 40px;">
             </div>
 
             <div class="nav-buttons">
@@ -149,18 +238,9 @@
                         window.location.href = "{{ url('/') }}";
                     }
                 </script>
-
+                
                 <button class="login-button" id="button1" onclick="connexion()">
-                    <b><strong>Catégories</strong></b>
-                </button>
-                <script>
-                    function connexion() {
-                        window.location.href = "{{ url('/connexion') }}";
-                    }
-                </script>
-
-                <button class="login-button" id="button1" onclick="connexion()">
-                    <b><strong>Anonces</strong></b>
+                    <b><strong>Annonces</strong></b>
                 </button>
                 <script>
                     function connexion() {
@@ -184,21 +264,25 @@
         <!-- Centered logo in the content and fullscreen -->
         <div class="content">
             <div class="center-logo">
-                <img id="dynamic-logo" src="{{ asset('image/logo_principal.jpg') }}" alt="Logo plein écran">
+                <img id="dynamic-logo" src="{{ asset('image/Final_accueil.jpg') }}" alt="Logo plein écran">
             </div>
+        </div>
+
+        <div align="center" class="marquee1">
+            Bienvenue sur PUBLIZONE !
         </div>
 
 
         <!-- Footer -->
         <footer>
             <div class="contact">
-                Joindre : <b><strong>+237659435256</strong></b>
+                Joindre : <b><strong>(+237) 659435256 / 655964653</strong></b>
             </div>
             <div class="app-name">
-                <b>GESTION DE LA PLATEFORME D'ANNONCES</b>
+                <b>PUBLIZONE</b>
             </div>
             <div class="author">
-                Admin : Mlle <b><strong>EVE_JORDANIE</strong></b>
+                Société : <b><strong>MEMPHYS.SARL</strong></b>
             </div>
         </footer>
 
